@@ -1,0 +1,9 @@
+
+a = 0
+b = 3
+
+division = int(input("Enter the division: "))
+
+delta = abs(a - b)/division
+
+print(delta)
