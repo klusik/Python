@@ -13,8 +13,8 @@ class Characters:
         self.characters = dict()
         self.url = "http://wikipedia.cz"
 
-    def notConsists(self, character):
-        return character not in self.characters
+    def isIn(self, character):
+        return character in self.characters
 
     def addNewCharacter(self, character):
         self.characters[character] = 1
@@ -38,10 +38,10 @@ def main():
 
     # Going through all the characters
     for character in webContent:
-        if characters.notConsists(character):
-            characters.addNewCharacter(character)
-        else:
+        if characters.isIn(character):
             characters.addExistingCharacter(character)
+        else:
+            characters.addNewCharacter(character)
 
     # Get all characters
     allCharacters = characters.getAllCharacters()
