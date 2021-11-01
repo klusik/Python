@@ -17,8 +17,8 @@ def dummyFunction(numberOfRepetitons):
     return sum
 
 def main():
-    with concurrent.futures.ThreadPoolExecutor(max_workers = 500) as executor:
-        executor.map(dummyFunction, range(11110, 11000, -1))
+    with concurrent.futures.ThreadPoolExecutor(max_workers = 100) as executor:
+        executor.map(dummyFunction, range(400, 300, -1))
     pass
 
 if __name__ == "__main__":
