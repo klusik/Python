@@ -1,30 +1,36 @@
 """Collatz conjecture with python objects"""
 
 class Numbers:
-
+    """ Class Numbers """
     def getLast(self):
+        """Returns the last of the list"""
         return self.allNumbers[-1]
 
     def isNotOne(self):
+        """Checks if the last is not one"""
         if self.allNumbers[-1] != 1:
             return True
         else:
             return False
 
     def isEven(self, testedValue):
+        """Returns true if is even"""
         if testedValue % 2 == 0:
             return True
         else:
             return False
 
     def add(self, addedValue):
+        """Adds to list"""
         self.allNumbers.append(int(addedValue))
 
     def avg(self):
+        """Returns an average value of list"""
         avg = sum(self.allNumbers)/len(self.allNumbers)
         return avg
 
     def view(self):
+        """Just runtime, noice prints and so on"""
         print(f"Value: {self.inputValue}")
         for value in self.allNumbers:
             print(value, end = ' ')
@@ -36,6 +42,7 @@ class Numbers:
         print('-'*60)
 
     def numOfOddsEvens(self):
+        """Returns a dict of odds & evens"""
         odds = 0
         evens = 0
 
@@ -49,6 +56,7 @@ class Numbers:
 
 
     def __init__(self, inputValue):
+        """Main init method"""
         self.inputValue = inputValue
         self.allNumbers = list()
 
@@ -76,8 +84,6 @@ def main():
 
     for number in numbers:
         number.view()
-
-
 
 
 if __name__ == "__main__":
