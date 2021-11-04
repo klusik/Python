@@ -8,17 +8,11 @@ class Numbers:
 
     def isNotOne(self):
         """Checks if the last is not one"""
-        if self.allNumbers[-1] != 1:
-            return True
-        else:
-            return False
+        return self.allNumbers[-1] != 1
 
     def isEven(self, testedValue):
         """Returns true if is even"""
-        if testedValue % 2 == 0:
-            return True
-        else:
-            return False
+        return testedValue % 2 == 0
 
     def add(self, addedValue):
         """Adds to list"""
