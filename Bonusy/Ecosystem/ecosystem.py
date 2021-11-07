@@ -6,6 +6,7 @@ import random
 
 from enum import Enum
 
+
 # CLASSES
 class Defaults:
     """Default values"""
@@ -15,7 +16,6 @@ class Defaults:
     # Number of trees
     trees = 100
     treeMaxAge = 100 * 365 # 100 years
-
 
     # Number of humans
     humans = 100
@@ -59,7 +59,7 @@ class Ecosystem:
                 else:
                     self.idSet.add(newId)
                     return newId
-                    break
+
 
     def getTrees(self, treeId = None):
         if treeId:
@@ -115,7 +115,7 @@ class sex(Enum):
     FEMALE = 2
 
 
-class Being():
+class Being:
     """Default class for every being in Ecosystem"""
 
     # Happiness ranges from 0 to 1, 0 totally sad, 1 totally happy
@@ -166,7 +166,7 @@ def main():
 
 
     except TypeError:
-        logging.INFO("e")
+        logging.info("e")
 
     finally:
         print("That's all :-)")
