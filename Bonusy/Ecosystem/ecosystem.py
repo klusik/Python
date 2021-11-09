@@ -19,6 +19,9 @@ class Defaults:
     trees = 100
     treeMaxAge = 100 * 365  # 100 years
     treeInitialFruits = 100 # 100 fruits for every tree
+    treeFruitDailyBase = 1 # One fruit each day
+
+
 
     # Number of humans
     humans = 100
@@ -43,10 +46,23 @@ class Defaults:
     separatorSymbol = '-'
 
     # Default number of simulated days
-    maxSimulatedDays = 1
+    maxSimulatedDays = 10
 
     # Default time delay between days
-    timeDelay = 0.01
+    timeDelay = 0.1
+
+    # Happiness default lenght in days
+    lengthOfHistory = 10
+
+    # Default happiness
+    happiness = 1.0
+
+    # Happiness triggers
+    superHappy = 0.8
+    normalHappy = 0.5
+    lessHappy = 0.3
+    reallyUnhappy = 0.1
+
 
 class Ecosystem:
     """Ecosystem playground"""
@@ -142,9 +158,6 @@ class Ecosystem:
     def nextDay(self):
         """Simulates next day"""
 
-        # Days counter incrementation
-        self.day += 1
-
         # Rules:
         #
         # PREGNANCY:
@@ -171,6 +184,18 @@ class Ecosystem:
         # Predators eat only alive omnivores, herbivores and other predators,
         # determined by happiness, if happiness very low, they eat
         # even other predators.
+
+        # Simulation goes through all beings
+        # feed them, change their happiness in once
+        # adds some 'randomization' to happiness and everything.
+
+        # Days counter incrementation
+        self.day += 1
+
+        for being in beings:
+            if being.getClass() == "Tree":
+                pass
+
 
     def getAllStats(self):
         """Returns a dict with alive & dead
@@ -260,7 +285,13 @@ class Being:
     """Default class for every being in Ecosystem"""
 
     # Happiness ranges from 0 to 1, 0 totally sad, 1 totally happy
-    happiness = 1.0
+    happiness = Defaults.happiness
+
+    # Fifo of happiness for last few days
+    happinessHistory = list()
+
+    # Lenght of happiness history
+    happinessHistoryLength = Defaults.lengthOfHistory
 
     # Age in days
     age = 0
@@ -297,22 +328,70 @@ class Being:
     def getClass(self):
         return str(type(self).__name__)
 
+    def generateSex(self, numberOfSexes = 2):
+        return random.randrange(1, numberOfSexes+1, 1)
+
 
 class Tree(Being):
     """Default tree with only general specifics"""
     def __init__(self, treeId):
+        # ID
         self.treeId = treeId
-        self.sex = random.randrange(1, 3, 1)
+
+        # Conception
+        self.sex = self.generateSex()
+
+
         self.canBePregnant = False # Trees somehow cannot be pregnant :-)
         self.maximalAge = Defaults.treeMaxAge
+
+        # Fruit stuff
         self.fruits = Defaults.treeInitialFruits
+        self.maxFruits = Defaults.treeInitialFruits
+
+    def growNewFruits(self):
+        if self.fruits < self.maxFruits:
+            # Growing new stuff
+            # Depends on happiness
+            if self.happiness >= Defaults.superHappy:
+                # If superhappy, tree grows all fruits available
+                self.fruits += Defaults.treeFruitDailyBase
+            else:
+                # If not superhappy, tree grows number of fruits
+                # in dependency on it's own happiness.
+                #
+                # If the happiness is in the between of
+                # lessHappy and superHappy, there's a linear
+                # dependency as the multiplier.
+                # If the happiness is below lessHappy,
+                # the tree won't grow new fruits
+                multiplierScale = Defaults.superHappy - Defaults.lessHappy
+                multiplierOffset = Defaults.lessHappy
+
+                if self.happiness >= Defaults.lessHappy:
+                    # In case of hapiness between reasonable values
+                    # just lower the fruit production
+                    happinesScaled = (self.happiness - multiplierOffset) / multiplierScale
+                else:
+                    # If the happiness is really bad, just don't produce
+                    # fruit at all.
+                    happinesScaled = 0
+
+                logging.info(f"Happines Scaled: {happinesScaled}")
+
+                self.fruits += Defaults.treeFruitDailyBase * happinesScaled
+
+
+
+        # randomize it always
+
 
 
 class Herbivore(Being):
     """Default herbivore with only general specifics"""
     def __init__(self, herbivoreId):
         self.herbivoreId = herbivoreId
-        self.sex = random.randrange(1, 3, 1)
+        self.sex = self.generateSex()
         self.maximalAge = Defaults.herbivoreMaxAge
 
 
@@ -320,7 +399,7 @@ class Omnivore(Being):
     """Default omnivore with only general specifics"""
     def __init__(self, omnivoreId):
         self.omnivoreId = omnivoreId
-        self.sex = random.randrange(1, 3, 1)
+        self.sex = self.generateSex()
         self.maximalAge = Defaults.omnivoreMaxAge
 
 
@@ -328,7 +407,7 @@ class Predator(Being):
     """Default predator with only general specifics"""
     def __init__(self, predatorId):
         self.predatorId = predatorId
-        self.sex = random.randrange(1, 3, 1)
+        self.sex = self.generateSex()
         self.maximalAge = Defaults.predatorMaxAge
 
 
@@ -336,7 +415,7 @@ class Human(Being):
     """Default human with only general specifics"""
     def __init__(self, humanId):
         self.humanId = humanId
-        self.sex = random.randrange(1, 3, 1)
+        self.sex = self.generateSex()
         self.maximalAge = Defaults.humanMaxAge
 
 
