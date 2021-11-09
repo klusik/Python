@@ -18,6 +18,7 @@ class Defaults:
     # Number of trees
     trees = 100
     treeMaxAge = 100 * 365  # 100 years
+    treeInitialFruits = 100 # 100 fruits for every tree
 
     # Number of humans
     humans = 100
@@ -42,7 +43,10 @@ class Defaults:
     separatorSymbol = '-'
 
     # Default number of simulated days
-    maxSimulatedDays = 1000
+    maxSimulatedDays = 1
+
+    # Default time delay between days
+    timeDelay = 0.01
 
 class Ecosystem:
     """Ecosystem playground"""
@@ -137,7 +141,36 @@ class Ecosystem:
 
     def nextDay(self):
         """Simulates next day"""
+
+        # Days counter incrementation
         self.day += 1
+
+        # Rules:
+        #
+        # PREGNANCY:
+        # If there's at least two of the same species,
+        # both having happines > 0.5
+        # for more than some days in row,
+        # having different genders and both are fertile,
+        # they can have an ancestor.
+        #
+        # FOOD:
+        # Happiness determines how much the being
+        # wants to eat. More happiness, less it
+        # wants to eat. Happiness at very low levels
+        # for a few days means death.
+        #
+        # Trees have 'fruits'. More of happiness means
+        # more fruits to be regenerated every day
+        #
+        # Herbivores eat fruits from trees, nothing else.
+        #
+        # Omnivores eat fruits and dead herbivores, omnivores and predators.
+        # More happier omnivore eats more fruits and less dead beings.
+        #
+        # Predators eat only alive omnivores, herbivores and other predators,
+        # determined by happiness, if happiness very low, they eat
+        # even other predators.
 
     def getAllStats(self):
         """Returns a dict with alive & dead
@@ -201,14 +234,19 @@ class Ecosystem:
         # Final prints
         Ecosystem.printHeader("Alive & dead")
 
-        print(f"There is {total} beings in total, {alive} beings alive and {dead} beings dead.")
+        print(f"There is {total} beings in total, "
+              f"{alive} beings alive and "
+              f"{dead} beings dead.")
 
         Ecosystem.printHeader("All beings alive & dead")
 
         maxBeingNameLength = len(max(list(allStats['allInEcosystem'].keys()), key=len))
 
         for beingTypeKey, beingTypeAlive in allStats['allInEcosystem'].items():
-            print(f"{beingTypeKey:{maxBeingNameLength+1}}: Alive: {beingTypeAlive['alive']} Dead: {beingTypeAlive['dead']}")
+            print(f"{beingTypeKey:{maxBeingNameLength+1}}: "
+                  f"Alive: {beingTypeAlive['alive']} "
+                  f"Dead: {beingTypeAlive['dead']}")
+
 
 
 
@@ -227,6 +265,9 @@ class Being:
     # Age in days
     age = 0
 
+    # Maximal age
+    maximalAge = 0
+
     # Birthday date (day in simulation)
     birthday = 0
 
@@ -242,6 +283,16 @@ class Being:
     # it dies
     alive = True
 
+    # If a being is a fertile
+    fertile = True
+
+    # Some creatures can be pregnant, some doesn't
+    canBePregnant = True
+
+    # Minimal age to be able to get pregnant
+    minimalPregnantAge = 0
+
+
     # Getter of the string of the class name
     def getClass(self):
         return str(type(self).__name__)
@@ -252,6 +303,9 @@ class Tree(Being):
     def __init__(self, treeId):
         self.treeId = treeId
         self.sex = random.randrange(1, 3, 1)
+        self.canBePregnant = False # Trees somehow cannot be pregnant :-)
+        self.maximalAge = Defaults.treeMaxAge
+        self.fruits = Defaults.treeInitialFruits
 
 
 class Herbivore(Being):
@@ -259,6 +313,7 @@ class Herbivore(Being):
     def __init__(self, herbivoreId):
         self.herbivoreId = herbivoreId
         self.sex = random.randrange(1, 3, 1)
+        self.maximalAge = Defaults.herbivoreMaxAge
 
 
 class Omnivore(Being):
@@ -266,6 +321,7 @@ class Omnivore(Being):
     def __init__(self, omnivoreId):
         self.omnivoreId = omnivoreId
         self.sex = random.randrange(1, 3, 1)
+        self.maximalAge = Defaults.omnivoreMaxAge
 
 
 class Predator(Being):
@@ -273,6 +329,7 @@ class Predator(Being):
     def __init__(self, predatorId):
         self.predatorId = predatorId
         self.sex = random.randrange(1, 3, 1)
+        self.maximalAge = Defaults.predatorMaxAge
 
 
 class Human(Being):
@@ -280,6 +337,7 @@ class Human(Being):
     def __init__(self, humanId):
         self.humanId = humanId
         self.sex = random.randrange(1, 3, 1)
+        self.maximalAge = Defaults.humanMaxAge
 
 
 # CONFIG
@@ -298,9 +356,16 @@ def main():
         # Ecosystem created, now it's time to simulate
         # days in the ecosystem
         for day in range(Defaults.maxSimulatedDays):
+            # clears the console output before rewriting
             clearScreen()
+
+            # displays results
             ecosystem.displayStats()
-            time.sleep(0.1)
+
+            # a small delay to prevent blinking
+            time.sleep(Defaults.timeDelay)
+
+            # simulate a next day
             ecosystem.nextDay()
 
 
