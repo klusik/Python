@@ -1,15 +1,20 @@
 """ Data generator for Michal """
 
+# IMPORTS
 import random
 import names
 from enum import Enum
 
 
+# CLASSES
+
 class Gender(Enum):
+    """Enum class for gender"""
     MALE = 0
     FEMALE = 1
 
 class Animal:
+    """ Class animal"""
 
     def __init__(self):
         self.weight = random.randrange(5, 25, 1)
