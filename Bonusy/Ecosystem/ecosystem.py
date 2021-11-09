@@ -3,6 +3,8 @@
 # IMPORTS
 import logging
 import random
+import time
+import os
 
 from enum import Enum
 
@@ -33,6 +35,14 @@ class Defaults:
     predators = 100
     predatorMaxAge = 20 * 360  # 20 years
 
+    # Default length of a separator
+    separatorLength = 80
+
+    # Default symbol for a separator
+    separatorSymbol = '-'
+
+    # Default number of simulated days
+    maxSimulatedDays = 1000
 
 class Ecosystem:
     """Ecosystem playground"""
@@ -43,6 +53,23 @@ class Ecosystem:
     # Actual date (day in simulation)
     day = 0
 
+    # Static methods
+    @staticmethod
+    def printSeparator(symbol = Defaults.separatorSymbol,
+                       number = Defaults.separatorLength):
+        print(symbol * number)
+
+    @staticmethod
+    def printHeader(text, firstSpace = True):
+        if firstSpace:
+            print("")
+
+        Ecosystem.printSeparator()
+        print(text)
+        Ecosystem.printSeparator()
+
+
+    # Instance methods
     def generateId(self):
         """Generate unique id not previously present at idSet"""
         if not len(self.idSet):
@@ -110,30 +137,79 @@ class Ecosystem:
 
     def nextDay(self):
         """Simulates next day"""
-        pass
+        self.day += 1
 
-    def getBeingsAlive(self):
-        """Returns a dict with alive & dead"""
-        currentAlive    = 0
-        currentDead     = 0
+    def getAllStats(self):
+        """Returns a dict with alive & dead
+            and all stats of all beings."""
+
+        # Compute all alive & dead beings
+
+        # Total numbers
+        allAliveDead = dict()
+        allAliveDead['alive'] = 0
+        allAliveDead['dead'] = 0
+
+        # Numbers for all Classes
+        allInEcosystem = dict()
 
         for being in self.beings:
+            # Alive counter
             if being.alive:
-                currentAlive += 1
+                allAliveDead['alive'] += 1
             else:
-                currentDead += 1
+                allAliveDead['dead'] += 1
 
-        return {"alive": currentAlive, "dead" : currentDead}
+            # All beings counter
+            if being.getClass() in allInEcosystem:
+                # If that class name exists in the dict,
+                # just iterrate
+                if being.alive:
+                    allInEcosystem[being.getClass()]['alive'] += 1
+                else:
+                    allInEcosystem[being.getClass()]['dead'] += 1
+            else:
+                # Create new key in dict, if
+                # the class name doesn't exist
+                allInEcosystem[being.getClass()] = dict()
+                if being.alive:
+                    allInEcosystem[being.getClass()]['alive'] = 1
+                    allInEcosystem[being.getClass()]['dead'] = 0
+                else:
+                    allInEcosystem[being.getClass()]['alive'] = 0
+                    allInEcosystem[being.getClass()]['dead'] = 1
+
+        return {'alivedead': allAliveDead,
+                'allInEcosystem': allInEcosystem}
 
     def displayStats(self):
         """Display statistics about current day"""
+        Ecosystem.printHeader("Simulation", False)
+
         print(f"This is the day {self.day} of the simulation.")
-        beingsAliveAndDead = self.getBeingsAlive()
+
+        # Read all statistics
+        allStats = self.getAllStats()
+
+        # Read just dead & alive
+        beingsAliveAndDead = allStats['alivedead']
+
         alive = beingsAliveAndDead['alive']
         dead = beingsAliveAndDead['dead']
         total = alive + dead
 
+        # Final prints
+        Ecosystem.printHeader("Alive & dead")
+
         print(f"There is {total} beings in total, {alive} beings alive and {dead} beings dead.")
+
+        Ecosystem.printHeader("All beings alive & dead")
+
+        maxBeingNameLength = len(max(list(allStats['allInEcosystem'].keys()), key=len))
+
+        for beingTypeKey, beingTypeAlive in allStats['allInEcosystem'].items():
+            print(f"{beingTypeKey:{maxBeingNameLength+1}}: Alive: {beingTypeAlive['alive']} Dead: {beingTypeAlive['dead']}")
+
 
 
 class Sex(Enum):
@@ -166,32 +242,41 @@ class Being:
     # it dies
     alive = True
 
+    # Getter of the string of the class name
+    def getClass(self):
+        return str(type(self).__name__)
+
 
 class Tree(Being):
+    """Default tree with only general specifics"""
     def __init__(self, treeId):
         self.treeId = treeId
         self.sex = random.randrange(1, 3, 1)
 
 
 class Herbivore(Being):
+    """Default herbivore with only general specifics"""
     def __init__(self, herbivoreId):
         self.herbivoreId = herbivoreId
         self.sex = random.randrange(1, 3, 1)
 
 
 class Omnivore(Being):
+    """Default omnivore with only general specifics"""
     def __init__(self, omnivoreId):
         self.omnivoreId = omnivoreId
         self.sex = random.randrange(1, 3, 1)
 
 
 class Predator(Being):
+    """Default predator with only general specifics"""
     def __init__(self, predatorId):
         self.predatorId = predatorId
         self.sex = random.randrange(1, 3, 1)
 
 
-class Human(Omnivore):
+class Human(Being):
+    """Default human with only general specifics"""
     def __init__(self, humanId):
         self.humanId = humanId
         self.sex = random.randrange(1, 3, 1)
@@ -203,18 +288,26 @@ logging.basicConfig(level=logging.INFO)
 
 # RUNTIME
 def main():
+    def clearScreen():
+        os.system('cls' if os.name == 'nt' else 'clear')
+
     try:
         # Creating an ecosystem playground
         ecosystem = Ecosystem()
 
         # Ecosystem created, now it's time to simulate
         # days in the ecosystem
-        while True:
+        for day in range(Defaults.maxSimulatedDays):
+            clearScreen()
             ecosystem.displayStats()
-            break
+            time.sleep(0.1)
+            ecosystem.nextDay()
+
+
 
     except TypeError:
         logging.info("e")
+        raise
 
     finally:
         print("That's all for today :-)")
