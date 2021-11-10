@@ -218,7 +218,8 @@ class Ecosystem:
         allInEcosystem = dict()
 
         # Average happiness
-        allAverageHappiness = dict()
+        allAverageHappiness = dict() # Average happiness for every class
+        allBeingsHappiness = dict()  # Every happiness for every class
 
         for being in self.beings:
             # Alive counter
@@ -246,10 +247,27 @@ class Ecosystem:
                     allInEcosystem[being.getClass()]['alive'] = 0
                     allInEcosystem[being.getClass()]['dead'] = 1
 
-            # Average happiness
+            # Log all beings happiness for later
+            # computation of average
+            if being.getClass() not in allBeingsHappiness:
+                # Creating a new list in dict, key is the name
+                # of the class (as a being species).
+                allBeingsHappiness[being.getClass()] = list()
+
+            # Insert a being happiness to list
+            allBeingsHappiness[being.getClass()].append(being.happiness)
+
+        # Averages counging
+        for species in allBeingsHappiness:
+            # Average is just a sum of all happinesses for
+            # given species divided by number of
+            # beings of that species (class)
+            allAverageHappiness[species] = sum(allBeingsHappiness[species])/len(allBeingsHappiness[species])
 
         return {'alivedead': allAliveDead,
-                'allInEcosystem': allInEcosystem}
+                'allInEcosystem': allInEcosystem,
+                'allAverageHappiness': allAverageHappiness
+                }
 
     def displayStats(self):
         """Display statistics about current day"""
@@ -258,6 +276,7 @@ class Ecosystem:
         print(f"This is the day {self.day} of the simulation.")
 
         # Read all statistics
+        # in allStats is stored the whole dict of a Ecosystem
         allStats = self.getAllStats()
 
         # Read just dead & alive
@@ -276,12 +295,15 @@ class Ecosystem:
 
         Ecosystem.printHeader("All beings alive & dead")
 
+        # Just a helper for formatting.
         maxBeingNameLength = len(max(list(allStats['allInEcosystem'].keys()), key=len))
 
+        # Print out the results table
         for beingTypeKey, beingTypeAlive in allStats['allInEcosystem'].items():
-            print(f"{beingTypeKey:{maxBeingNameLength+1}}: "
-                  f"Alive: {beingTypeAlive['alive']} "
-                  f"Dead: {beingTypeAlive['dead']}")
+            print(f"{beingTypeKey:{maxBeingNameLength+1}}| "
+                  f"Alive: {beingTypeAlive['alive']:5}, "
+                  f"Dead: {beingTypeAlive['dead']:5}, "
+                  f"Average happiness: {allStats['allAverageHappiness'][beingTypeKey]:5}")
 
 
 
