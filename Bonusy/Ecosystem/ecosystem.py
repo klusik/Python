@@ -192,7 +192,8 @@ class Ecosystem:
         # Days counter incrementation
         self.day += 1
 
-        for being in beings:
+        # Tending of trees
+        for being in self.beings:
             if being.getClass() == "Tree":
                 pass
 
@@ -331,16 +332,17 @@ class Being:
     def generateSex(self, numberOfSexes = 2):
         return random.randrange(1, numberOfSexes+1, 1)
 
+    def __init__(self):
+        self.sex = self.generateSex()
+
 
 class Tree(Being):
     """Default tree with only general specifics"""
     def __init__(self, treeId):
+        super().__init__()
+
         # ID
         self.treeId = treeId
-
-        # Conception
-        self.sex = self.generateSex()
-
 
         self.canBePregnant = False # Trees somehow cannot be pregnant :-)
         self.maximalAge = Defaults.treeMaxAge
@@ -390,32 +392,32 @@ class Tree(Being):
 class Herbivore(Being):
     """Default herbivore with only general specifics"""
     def __init__(self, herbivoreId):
+        super().__init__()
         self.herbivoreId = herbivoreId
-        self.sex = self.generateSex()
         self.maximalAge = Defaults.herbivoreMaxAge
 
 
 class Omnivore(Being):
     """Default omnivore with only general specifics"""
     def __init__(self, omnivoreId):
+        super().__init__()
         self.omnivoreId = omnivoreId
-        self.sex = self.generateSex()
         self.maximalAge = Defaults.omnivoreMaxAge
 
 
 class Predator(Being):
     """Default predator with only general specifics"""
     def __init__(self, predatorId):
+        super().__init__()
         self.predatorId = predatorId
-        self.sex = self.generateSex()
         self.maximalAge = Defaults.predatorMaxAge
 
 
 class Human(Being):
     """Default human with only general specifics"""
     def __init__(self, humanId):
+        super().__init__()
         self.humanId = humanId
-        self.sex = self.generateSex()
         self.maximalAge = Defaults.humanMaxAge
 
 
