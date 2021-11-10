@@ -192,10 +192,15 @@ class Ecosystem:
         # Days counter incrementation
         self.day += 1
 
-        # Tending of trees
+        # Let's go through all the beings and
+        # as we determine what class they're from
+        # we can co class-dependent stuff with them.
         for being in self.beings:
             if being.getClass() == "Tree":
-                pass
+                # Tending of trees
+
+                # Each tree must grow new fruits if possible
+                being.growNewFruits()
 
 
     def getAllStats(self):
@@ -211,6 +216,9 @@ class Ecosystem:
 
         # Numbers for all Classes
         allInEcosystem = dict()
+
+        # Average happiness
+        allAverageHappiness = dict()
 
         for being in self.beings:
             # Alive counter
@@ -237,6 +245,8 @@ class Ecosystem:
                 else:
                     allInEcosystem[being.getClass()]['alive'] = 0
                     allInEcosystem[being.getClass()]['dead'] = 1
+
+            # Average happiness
 
         return {'alivedead': allAliveDead,
                 'allInEcosystem': allInEcosystem}
