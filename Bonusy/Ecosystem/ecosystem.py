@@ -64,6 +64,22 @@ class Defaults:
     reallyUnhappy = 0.1
 
 
+class Render:
+    """Text renderer"""
+
+    # List of lines to render
+    _renderBuffer = list()
+
+    def addToRender(self, textToRender):
+        """Adds a string to the list to render"""
+        self._renderBuffer.append(str(textToRender))
+
+    def render(self):
+        """Rendering"""
+        renderedString = "".join(self._renderBuffer)
+        print(renderedString)
+
+
 class Ecosystem:
     """Ecosystem playground"""
 
@@ -296,6 +312,8 @@ class Ecosystem:
         Ecosystem.printHeader("All beings alive & dead")
 
         # Just a helper for formatting.
+        # Determines the maximal length of a key in dict allStats
+        # so then it can print the whitespaces accordingly
         maxBeingNameLength = len(max(list(allStats['allInEcosystem'].keys()), key=len))
 
         # Print out the results table
