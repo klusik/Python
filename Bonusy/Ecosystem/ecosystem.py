@@ -63,7 +63,6 @@ class Defaults:
     lessHappy = 0.3
     reallyUnhappy = 0.1
 
-
 class Render:
     """Text renderer"""
 
