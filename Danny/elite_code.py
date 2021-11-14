@@ -15,7 +15,9 @@ code = "61-76-126-67-99-74-71-113-81-41-96-103-51-117-55-103-91-69-104-117-84-11
        "73-99-126-106-118-144-97-83-123-104-75-78-90-49"
 
 codeList = code.split("-")
-codeList = map(int, codeList)
-ordList = map(chr, codeList)
+
+codeListInt = map(int, codeList)
+
+ordList = list(map(chr, codeListInt))
 
 print("".join(list(ordList)))
