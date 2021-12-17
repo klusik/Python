@@ -9,3 +9,23 @@
 # For n = 4, the output should be 2 because 4! = 24 has 2 digits;
 # For n = 10, the output should be 7 because 10! = 3628800 has 7 digits.
 #
+
+import numpy
+
+def main():
+    # User input
+    try:
+        numberInput = int((input("Input the 'n' value for n!: ")))
+    except ValueError:
+        print("That's not a good value, is it?")
+        return False
+
+    if numberInput < 0:
+        print("Number less than zero, bye.")
+        return False
+
+
+
+
+if __name__ == "__main__":
+    main()
