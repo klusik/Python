@@ -5,6 +5,7 @@
 
 # IMPORTS
 import numpy
+import matplotlib.pyplot as plot
 
 # FUNCTIONS
 def factorialLength(inputN):
@@ -34,10 +35,23 @@ def main():
         except Exception as exception:
             raise(exception)
 
-    # Output
+    # Text output
     print(factorialLenghts)
 
+    # Plotting the plot #
 
+    # Axes preparation
+    xAxis = list()
+    yAxis = list()
+
+    for factorial in factorialLenghts:
+        xAxis.append(factorial[0])
+        yAxis.append(factorial[2])
+
+    plot.plot(xAxis, yAxis)
+    plot.ylabel('Ratio between n and length(n!)')
+    plot.xlabel('n value for n!')
+    plot.show()
 
 if __name__ == "__main__":
     main()
