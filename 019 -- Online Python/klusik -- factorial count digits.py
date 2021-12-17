@@ -24,6 +24,14 @@ def main():
         print("Number less than zero, bye.")
         return False
 
+    # Computing a factorial
+    factorialOfNumber = numpy.math.factorial(numberInput)
+
+    lengthOfFactorial = len(str(factorialOfNumber))
+
+    # Output
+    print(f"Factorial of {numberInput} is {factorialOfNumber}.\nThis number has {lengthOfFactorial} digits.")
+
 
 
 
