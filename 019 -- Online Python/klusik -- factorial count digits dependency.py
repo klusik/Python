@@ -51,7 +51,11 @@ def main():
     plot.plot(xAxis, yAxis)
     plot.ylabel('Ratio between n and length(n!)')
     plot.xlabel('n value for n!')
+
+    # if I want to have a log scale, I need to do this
     plot.xscale('log')
+
+    # Showing the plot
     plot.show()
 
 if __name__ == "__main__":
