@@ -28,8 +28,24 @@ def main():
 
     fileStructure = readAllFiles()
     print(f"Found {len(fileStructure)} files.")
+
+    # New XML document
+    root = ElementTree.Element("files")
+
     for file in fileStructure:
-        print(file)
+    # Parse by '\'
+        pathElements = file.split("\\")
+        print(pathElements)
+
+        # How deep we need to go
+        elementsDepth = len(pathElements)
+
+        for depth, element in enumerate(pathElements):
+            if depth < (elementsDepth-1):
+                # If not last, it's folder
+                pass
+
+
 
 if __name__ == "__main__":
     main()
