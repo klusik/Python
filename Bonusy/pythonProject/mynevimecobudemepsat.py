@@ -23,7 +23,7 @@ so 440 Hz * 2^(11/12) = 830.61 Hz.
 Octaves of a pitch in this Kata range from -2 to 12, each starting on C and ending on B.
 '''
 
-
+# define all available notes
 def abc():
     available_letters = ['c', 'c#', 'd', 'd#',
                          'e', 'f', 'f#', 'g',
@@ -35,25 +35,56 @@ def abc():
     # and available octaves
     for octave in range(-2, 13):
         for letter in available_letters:
-            add_note = str(octave) + letter
+            add_note = letter + str(octave)
             available_notes.append(add_note)
 
     return available_notes
 
+# find distance between basic note and user selected note
+def find_dinstance(note, available_notes):
+    '''
+    :param note: note you are looking for
+    :return: distance (count of notes) from a0
+    '''
+    # find index of user note
+    if note in available_notes:
+        note_index = available_notes.index(note)
+    else:
+        print('note not availabe')
 
-class MusicalFreq:
+    # base note is a0
+    base_note = 'a0'
+    # index of base note
+    base_note_index = available_notes.index('a0')
 
-    def __init__(self):
-        pass
+    # calculate distance between notese using list slice
+    distance = len(available_notes[base_note_index: note_index])
+    # solution for notes lower than base note
+    if base_note_index > note_index:
+        distance = # 'offset' needed
 
-    def calcfreq(self):
-        basefreq = 440
-        distance = 0
-        # dict will combine name of the note with it's frequency
-        notesfreq = {}
+    return distance
 
-        # formula
-        f_unknown = basefreq * 2 ** (distance / 12)
-        
+def calcfreq(available_notes):
+    base_freq = 440
+    base_note = 'a0'
+
+    # dict will combine name of the note with it's frequency
+    notes_freq = {}
+
+    # fill dict of note/frequency pairs
+    for note in available_notes:
+        # calculate frequency of the note
+        f_unknown = base_freq * 2 ** (abs(find_dinstance(note, available_notes) / 12))
+        notes_freq[note] = f_unknown
+
+    return notes_freq
+
+# RUNTIME
+
+mynotes = abc()
+print(calcfreq(mynotes))
+
+
 
 
