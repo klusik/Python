@@ -41,27 +41,25 @@ def abc():
     return available_notes
 
 # find distance between basic note and user selected note
-def find_dinstance(note, available_notes):
+def find_distance(note, available_notes):
     '''
     :param note: note you are looking for
+    :param available_notes: list of all notes
     :return: distance (count of notes) from a0
     '''
     # find index of user note
-    if note in available_notes:
-        note_index = available_notes.index(note)
-    else:
-        print('note not availabe')
+    note_index = available_notes.index(note)
 
     # base note is a0
     base_note = 'a0'
     # index of base note
     base_note_index = available_notes.index('a0')
 
-    # calculate distance between notese using list slice
-    distance = len(available_notes[base_note_index: note_index])
+    # calculate distance between notes using list slice
+    distance = note_index-base_note_index
     # solution for notes lower than base note
-    if base_note_index > note_index:
-        distance = # 'offset' needed
+    # if base_note_index > note_index:
+        #distance = # 'offset' needed
 
     return distance
 
@@ -75,7 +73,7 @@ def calcfreq(available_notes):
     # fill dict of note/frequency pairs
     for note in available_notes:
         # calculate frequency of the note
-        f_unknown = base_freq * 2 ** (abs(find_dinstance(note, available_notes) / 12))
+        f_unknown = base_freq * 2 ** (find_distance(note, available_notes) / 12)
         notes_freq[note] = f_unknown
 
     return notes_freq
