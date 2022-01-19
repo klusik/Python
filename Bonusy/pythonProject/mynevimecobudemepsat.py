@@ -22,3 +22,19 @@ so 440 Hz * 2^(11/12) = 830.61 Hz.
 
 Octaves of a pitch in this Kata range from -2 to 12, each starting on C and ending on B.
 '''
+
+class MusicalFreq:
+    def __init__(self):
+        pass
+    def defABC(self):
+        available_letters = ['c', 'c#', 'd', 'd#',
+                             'e', 'f', 'f#', 'g',
+                             'g#', 'a', 'a#', 'b']
+        available_notes = []
+        listIndex = 0
+        # generate list of all available notes
+        for i in range(-2,12):
+            addNote = i + available_letters[listIndex]
+            available_notes.append[addNote]
+            listIndex += 1
+
