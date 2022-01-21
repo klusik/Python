@@ -20,6 +20,8 @@ class Dictionary:
         # ATTRIBUTES #
         self.dictionary = dict()    # Contains all words
 
+    def is_real_word(self, word):
+        pass
 
     def load_dictionary_from_file(self,
                                   file = Config.dictionary_path):
@@ -43,6 +45,9 @@ class Dictionary:
 
         # Some words contains only CAPITALLETTERS, these are not words,
         # these are headers of sections, like 'ABB'
+
+        for word in list_of_all_words_from_file:
+
 
 
 
