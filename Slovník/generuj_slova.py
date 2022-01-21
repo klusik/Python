@@ -27,7 +27,7 @@ def main():
         word_joined = "".join(word)
         for letter in letters:
             if word_joined.count(letter) > letters.count(letter):
-                print(f"{word_joined} and {letters} neobsahují stejný počet znaků.")
+                # print(f"{word_joined} and {letters} neobsahují stejný počet znaků.")
                 # not the right word
                 right_word = False
                 break
