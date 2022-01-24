@@ -42,8 +42,18 @@ class Dictionary:
     def __init__(self):
 
         # ATTRIBUTES #
-        self.dictionary = dict()    # Contains all words
+        #self.dictionary = dict()    # Contains all words
+        self.all_words = set()      # Contains all words
 
+
+    def print_words(self, filter = None):
+        if filter:
+            """ Display a words based on the filter """
+        else:
+            """ Display all words in dictionary """
+            for word_index, word in enumerate(self.all_words):
+                print(word_index, word)
+                pass
 
     def load_dictionary_from_file(self,
                                   file = Config.dictionary_path):
@@ -68,16 +78,19 @@ class Dictionary:
         # Some words contains only CAPITALLETTERS, these are not words,
         # these are headers of sections, like 'ABB'
 
-        all_words = set()
+
 
         for line_from_file in list_of_all_words_from_file:
             word = Word(line_from_file)
 
             if word.is_real_word():
-                all_words.add(word.get_word())
+                self.all_words.add(word.get_word())
 
             # Clear the memory
             del(word)
+
+        # Sorting alphabetically
+        self.all_words = sorted(self.all_words)
 
 # RUNTIME #
 def main():
@@ -85,6 +98,21 @@ def main():
     dictionary = Dictionary()
 
     dictionary.load_dictionary_from_file()
+
+    while True:
+        search_pattern = str(input("Zadejte množinu znaků, ze kterých čerpat. \n"
+                                   "Velkými písmeny označíte přímo pozici znaku, \n"
+                                   "např. Pabcd vyhledá všechny kombinace znaků 'pabcd' tak, \n"
+                                   "že znak 'p' bude na prvním místě. Pokud zadáte pouze prázdný řetězec, \n"
+                                   "zobrazí se seznam všech slov ve slovníku.\n\nZadejte množinu znaků: "))
+
+        if search_pattern.isalpha():
+            dictionary.print_words(filter=search_pattern)
+            break
+
+        if search_pattern == "":
+            dictionary.print_words()
+            break
 
 
 if __name__ == "__main__":
