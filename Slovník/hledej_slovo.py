@@ -5,6 +5,7 @@
 
 """
 
+
 # IMPORTS #
 
 # CLASSES #
@@ -29,7 +30,6 @@ class Word:
         if str(self.word).upper() == str(self.word):
             return False
 
-
         return True
 
     def get_word(self):
@@ -37,26 +37,26 @@ class Word:
             in that, so if that's the case, return just a word before that. """
         return str(self.word).split("/")[0]
 
+
 class Dictionary:
     """Class contains the dictionary stuff """
+
     def __init__(self):
 
         # ATTRIBUTES #
-        #self.dictionary = dict()    # Contains all words
-        self.all_words = set()      # Contains all words
+        # self.dictionary = dict()    # Contains all words
+        self.all_words = set()  # Contains all words
 
-
-    def print_words(self, filter = None):
+    def print_words(self, filter=None):
         if filter:
             """ Display a words based on the filter """
         else:
             """ Display all words in dictionary """
             for word_index, word in enumerate(self.all_words):
                 print(word_index, word)
-                pass
 
     def load_dictionary_from_file(self,
-                                  file = Config.dictionary_path):
+                                  file=Config.dictionary_path):
         """ Populates a dictionary from a file """
 
         with open(file, 'r', encoding='UTF-8') as f_dictionary:
@@ -78,8 +78,6 @@ class Dictionary:
         # Some words contains only CAPITALLETTERS, these are not words,
         # these are headers of sections, like 'ABB'
 
-
-
         for line_from_file in list_of_all_words_from_file:
             word = Word(line_from_file)
 
@@ -87,10 +85,11 @@ class Dictionary:
                 self.all_words.add(word.get_word())
 
             # Clear the memory
-            del(word)
+            del (word)
 
         # Sorting alphabetically
         self.all_words = sorted(self.all_words)
+
 
 # RUNTIME #
 def main():
