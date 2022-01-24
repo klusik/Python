@@ -2,7 +2,8 @@
     Seach is based on a letters given as an input
     by user (e.g. 'klsuta' will make words like 'klus', 'lusk' etc.)
 
-
+    @author:    klusik@klusik.cz
+    @year:      2022
 """
 
 
@@ -11,7 +12,12 @@
 # CLASSES #
 class Config:
     """ Defaults """
+
+    # Path to dictionary
     dictionary_path = "cs_CZ.dic"
+
+    # Default minimal lenght of a word
+    word_min_length = 3
 
 
 class Word:
@@ -49,9 +55,39 @@ class Dictionary:
 
     def print_words(self, filter=None):
         if filter:
-            """ Display a words based on the filter """
+            # Display a words based on the filter
+            if filter.isalpha():
+                # We're in
+
+                # In these fixed_positions there'll be (if any)
+                # indexes of final word, where the fixed letters
+                # would be. This list can be empty, if no capital
+                # letters will be provided.
+                fixed_positions = list()
+
+                # Find capital letters, other letters and make a filter from them
+                for filter_char_index, filter_char in enumerate(filter):
+                    if str(filter_char).isupper():
+                        # Save a position
+                        # It's not necessary to save the letter, the index
+                        # is enough.
+                        fixed_positions.append(filter_char_index)
+
+                # Guessing the minimal lenght of a word from the saved indexes
+                # If no saved or only on the first position, assuming minimal
+                # length of 3 letters for a word
+
+                if fixed_positions.count() > 0:
+                    # guessing from the indeces
+                else:
+                    # setting the default vaule
+                    word_min_length = Config.word_min_length
+
+            else:
+                # It shouldn't happen, but here we are :-)
+                print("Špatný formát filtru.")
         else:
-            """ Display all words in dictionary """
+            # Display all words in dictionary
             for word_index, word in enumerate(self.all_words):
                 print(word_index, word)
 
