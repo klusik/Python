@@ -79,9 +79,10 @@ class Dictionary:
 
                 if fixed_positions.count() > 0:
                     # guessing from the indeces
+                    self.word_min_length = max(fixed_positions) + 1
                 else:
                     # setting the default vaule
-                    word_min_length = Config.word_min_length
+                    self.word_min_length = Config.word_min_length
 
             else:
                 # It shouldn't happen, but here we are :-)
