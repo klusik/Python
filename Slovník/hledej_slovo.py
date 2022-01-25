@@ -53,6 +53,18 @@ class Dictionary:
         # self.dictionary = dict()    # Contains all words
         self.all_words = set()  # Contains all words
 
+    def get_min_length(self, fixed_positions):
+        # Guessing the minimal lenght of a word from the saved indexes
+        # If no saved or only on the first position, assuming minimal
+        # length of 3 letters for a word
+
+        if len(fixed_positions) > 0:
+            # guessing from the indeces
+            return max(fixed_positions) + 1
+        else:
+            # setting the default vaule
+            return Config.word_min_length
+
     def print_words(self, filter=None):
         if filter:
             # Display a words based on the filter
@@ -73,16 +85,8 @@ class Dictionary:
                         # is enough.
                         fixed_positions.append(filter_char_index)
 
-                # Guessing the minimal lenght of a word from the saved indexes
-                # If no saved or only on the first position, assuming minimal
-                # length of 3 letters for a word
-
-                if fixed_positions.count() > 0:
-                    # guessing from the indeces
-                    self.word_min_length = max(fixed_positions) + 1
-                else:
-                    # setting the default vaule
-                    self.word_min_length = Config.word_min_length
+                # Set the minimal length of the word
+                self.word_min_length = self.get_min_length(fixed_positions)
 
             else:
                 # It shouldn't happen, but here we are :-)
