@@ -50,8 +50,12 @@ class Dictionary:
     def __init__(self):
 
         # ATTRIBUTES #
+
         # self.dictionary = dict()    # Contains all words
         self.all_words = set()  # Contains all words
+
+        # minimal word length
+        self.word_min_length = Config.word_min_length
 
     def get_min_length(self, fixed_positions):
         # Guessing the minimal lenght of a word from the saved indexes
@@ -64,6 +68,11 @@ class Dictionary:
         else:
             # setting the default vaule
             return Config.word_min_length
+
+    def generate_words(self, filter, fixed_positions):
+        """ Geenerates words based on filter """
+        generated_words = set()
+        return generated_words
 
     def print_words(self, filter=None):
         if filter:
@@ -87,6 +96,15 @@ class Dictionary:
 
                 # Set the minimal length of the word
                 self.word_min_length = self.get_min_length(fixed_positions)
+
+                # Generating words
+                generated_words = self.generate_words(filter            = filter,
+                                                      fixed_positions   = fixed_positions)
+
+                print("Nalezena následující slova:")
+                for word in generated_words:
+                    print(word)
+
 
             else:
                 # It shouldn't happen, but here we are :-)
