@@ -50,8 +50,29 @@ class Dictionary:
     def __init__(self):
 
         # ATTRIBUTES #
+
         # self.dictionary = dict()    # Contains all words
         self.all_words = set()  # Contains all words
+
+        # minimal word length
+        self.word_min_length = Config.word_min_length
+
+    def get_min_length(self, fixed_positions):
+        # Guessing the minimal lenght of a word from the saved indexes
+        # If no saved or only on the first position, assuming minimal
+        # length of 3 letters for a word
+
+        if len(fixed_positions) > 0:
+            # guessing from the indeces
+            return max(fixed_positions) + 1
+        else:
+            # setting the default vaule
+            return Config.word_min_length
+
+    def generate_words(self, filter, fixed_positions):
+        """ Geenerates words based on filter """
+        generated_words = set()
+        return generated_words
 
     def print_words(self, filter=None):
         if filter:
@@ -73,16 +94,17 @@ class Dictionary:
                         # is enough.
                         fixed_positions.append(filter_char_index)
 
-                # Guessing the minimal lenght of a word from the saved indexes
-                # If no saved or only on the first position, assuming minimal
-                # length of 3 letters for a word
+                # Set the minimal length of the word
+                self.word_min_length = self.get_min_length(fixed_positions)
 
-                if fixed_positions.count() > 0:
-                    # guessing from the indeces
-                    self.word_min_length = max(fixed_positions) + 1
-                else:
-                    # setting the default vaule
-                    self.word_min_length = Config.word_min_length
+                # Generating words
+                generated_words = self.generate_words(filter            = filter,
+                                                      fixed_positions   = fixed_positions)
+
+                print("Nalezena následující slova:")
+                for word in generated_words:
+                    print(word)
+
 
             else:
                 # It shouldn't happen, but here we are :-)
