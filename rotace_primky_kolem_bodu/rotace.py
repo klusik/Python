@@ -72,7 +72,7 @@ def main():
 
     print(f"Length of an abscisse is: {abscisse.get_length()}")
 
-    print(abscisse.rotate(angle_rot, (x_rot,y_rot)))
+    print(abscisse.rotate(angle_rot, (x_rot, y_rot)))
 
 
 if __name__ == "__main__":
