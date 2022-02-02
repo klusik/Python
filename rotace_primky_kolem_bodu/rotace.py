@@ -38,8 +38,14 @@ class Abscisse:
             # p'x = cos(theta) * (px-ox) - sin(theta) * (py-oy) + ox
             # p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
 
-            new_x = math.cos(math.radians(angle)) * (point[0] - point_of_rotation[0]) - math.sin(math.radians(angle)) * (point[1] - point_of_rotation[1]) + point_of_rotation[0]
-            new_y = math.sin(math.radians(angle)) * (point[0] - point_of_rotation[0]) - math.cos(math.radians(angle)) * (point[1] - point_of_rotation[1]) + point_of_rotation[1]
+            new_x = math.cos(math.radians(angle)) \
+                    * (point[0] - point_of_rotation[0]) - math.sin(math.radians(angle)) \
+                    * (point[1] - point_of_rotation[1]) \
+                    + point_of_rotation[0]
+            new_y = math.sin(math.radians(angle)) \
+                    * (point[0] - point_of_rotation[0]) - math.cos(math.radians(angle)) \
+                    * (point[1] - point_of_rotation[1]) \
+                    + point_of_rotation[1]
 
             return (new_x, new_y)
 
