@@ -27,7 +27,8 @@ class Abscisse:
                angle,               # an angle of rotation in degrees
                point_of_rotation,   # rotate around this point
                ):
-        """ Rotate an abscisse around a point with given angle """
+        """ Rotate an abscisse around a point with given angle.
+            Returns 4 points after rotation."""
         pass
 
 
@@ -40,9 +41,16 @@ def main():
     x2 = float(input("Enter the X coordinate of the 2nd point: "))
     y2 = float(input("Enter the Y coordinate of the 2nd point: "))
 
+    print("Rotation point:")
+    x_rot = float(input("Enter the X coordinate of the point of rotation: "))
+    y_rot = float(input("Enter the Y coordinate of the point of rotation: "))
+    angle_rot = float(input("Enter the angle in degrees: "))
+
     abscisse = Abscisse((x1,y1), (x2,y2))
 
     print(f"Length of an abscisse is: {abscisse.get_length()}")
+
+
 
 if __name__ == "__main__":
     main()
