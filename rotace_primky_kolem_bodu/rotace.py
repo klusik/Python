@@ -33,7 +33,15 @@ class Abscisse:
 
         def rotate_point(point, point_of_rotation, angle):
             """ Rotates a point around an angle and point"""
-            pass
+
+            # Rotation is done as follows:
+            # p'x = cos(theta) * (px-ox) - sin(theta) * (py-oy) + ox
+            # p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
+
+            new_x = math.cos(math.radians(angle)) * (point[0] - point_of_rotation[0]) - math.sin(math.radians(angle)) * (point[1] - point_of_rotation[1]) + point_of_rotation[0]
+            new_y = math.sin(math.radians(angle)) * (point[0] - point_of_rotation[0]) - math.cos(math.radians(angle)) * (point[1] - point_of_rotation[1]) + point_of_rotation[1]
+
+            return (new_x, new_y)
 
         point_1_rotated = rotate_point(self.point_1, point_of_rotation, angle)
         point_2_rotated = rotate_point(self.point_2, point_of_rotation, angle)
@@ -57,6 +65,8 @@ def main():
     abscisse = Abscisse((x1, y1), (x2, y2))
 
     print(f"Length of an abscisse is: {abscisse.get_length()}")
+
+    print(abscisse.rotate(angle_rot, (x_rot,y_rot)))
 
 
 if __name__ == "__main__":
