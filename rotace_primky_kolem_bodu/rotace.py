@@ -1,5 +1,6 @@
 """
     Rotate an abscisse around a point
+    abscisse je usecka, vole
 
     Author:     Rudolf Klusal
     Year:       2022
