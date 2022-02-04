@@ -1,6 +1,7 @@
 """
     Rotate an abscisse around a point
     abscisse je usecka, vole
+        voe vim, ne :-D 
 
     Author:     Rudolf Klusal
     Year:       2022
