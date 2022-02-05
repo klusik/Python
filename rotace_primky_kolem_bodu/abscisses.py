@@ -56,6 +56,22 @@ class Abscisse:
 
         return point_1_rotated, point_2_rotated
 
+    def rotate_self(self,
+                    angle, # Angle of rotation
+                    point, # Point around
+                    ):
+        """ Rotates an abscisse around a point and saves new points as abscisse points """
+        pass
+
+    def get_points(self):
+        """ Get two points of abscisse """
+        pass
+
+    def is_point_on_abscisse(self,
+                             point, # A point on which we can decide if it's on or it's not on self abscisse
+                             ):
+        pass
+
 
 # RUNTIME #
 def main():
