@@ -1,5 +1,5 @@
 """
-    Rotate an abscisse around a point
+    Geometry library
     abscisse je usecka, vole
         voe vim, ne :-D 
 
