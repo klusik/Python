@@ -23,15 +23,34 @@ class Point:
         self.x = x
         self.y = y
         
-class Square:
+class Rectangle:
     """ Square class"""
-    def __init__(self):
-        pass
+    def __init__(self,
+                 point_0,
+                 point_1,
+                 point_2,
+                 point_3,
+                 square = False,
+                 ):
+
+        self.square = square
+
+    def is_square(self,
+                  forced = False,  # If flagged as True, it computes it's 'squareness'
+                  ):
+        """ Returns if the shape is a rectangle """
+        if forced:
+            return False
+        else:
+            return self.square
 
 
 class Circle:
     """ Circle class """
-    def __init__(self):
+    def __init__(self,
+                 point_center,
+                 radius,
+                 ):
         pass
 
 
