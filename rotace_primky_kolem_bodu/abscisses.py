@@ -25,7 +25,7 @@ class Point:
         
 
 class Abscisse:
-    """ Abscise class """
+    """ Abscisse class """
     def __init__(self,
                  point_1,  # a touple with x coordinates
                  point_2,  # a touple with y coordinates
