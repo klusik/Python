@@ -1,7 +1,7 @@
 """ Test of import a module """
 
 # IMPORTS #
-import abscisses
+import geometry
 
 # RUNTIME #
 def main():

@@ -1,5 +1,5 @@
 """
-    Rotate an abscisse around a point
+    Geometry library
     abscisse je usecka, vole
         voe vim, ne :-D 
 
@@ -25,7 +25,7 @@ class Point:
         
 
 class Abscisse:
-    """ Abscise class """
+    """ Abscisse class """
     def __init__(self,
                  point_1,  # a touple with x coordinates
                  point_2,  # a touple with y coordinates
