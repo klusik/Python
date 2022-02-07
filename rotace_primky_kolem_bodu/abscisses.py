@@ -13,10 +13,16 @@ import math
 
 
 # CLASSES #
-from typing import Dict, Any
-
 class Point:
     """ Point class """
+    def __init__(self,
+                 x, # X coordinate of a point
+                 y, # Y coordinate of a point
+                    ):
+        """ Init """
+        self.x = x
+        self.y = y
+        
 
 class Abscisse:
     """ Abscise class """
