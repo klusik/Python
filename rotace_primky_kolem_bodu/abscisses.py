@@ -63,6 +63,14 @@ class Abscisse:
         """ Rotates an abscisse around a point and saves new points as abscisse points """
         pass
 
+    def rotate_around_center(self,
+                             angle, # Angle of rotation
+                             ):
+        """ Rotates an abscisse around it's center point """
+
+    def get_center_point(self):
+        """ Returns a center point of an abscisse """
+
     def get_points(self):
         """ Get two points of abscisse """
         pass
