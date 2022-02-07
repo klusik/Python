@@ -13,18 +13,39 @@ import math
 
 
 # CLASSES #
+from typing import Dict, Any
+
+
 class Abscisse:
+    """ Abscise class """
     def __init__(self,
                  point_1,  # a touple with x coordinates
                  point_2,  # a touple with y coordinates
                  ):
         """ Init method """
-        self.point_1 = point_1
-        self.point_2 = point_2
+        self.point_1 = dict()
+        self.point_2 = dict()
+
+        # setting
+        self.point_1['x'] = point_1[0]
+        self.point_1['y'] = point_1[1]
+
+        self.point_2['x'] = point_2[0]
+        self.point_2['y'] = point_2[1]
+
+        #self.point_1 = point_1
+        #self.point_2 = point_2
+
+    def set_new_coords(self,
+                       point_1,
+                       point_2,
+                       ):
+        """ Sets new coordinates """
+
 
     def get_length(self):
         """ Returns a length of an abscisse """
-        return math.sqrt((self.point_1[0] - self.point_2[0]) ** 2 + (self.point_1[1] - self.point_2[1]) ** 2)
+        return math.sqrt((self.point_1['x'] - self.point_2['x']) ** 2 + (self.point_1['y'] - self.point_2['y']) ** 2)
 
     def rotate(self,
                angle,  # an angle of rotation in degrees
@@ -41,12 +62,12 @@ class Abscisse:
             # p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
 
             new_x = math.cos(math.radians(angle)) \
-                    * (point[0] - point_of_rotation[0]) - math.sin(math.radians(angle)) \
-                    * (point[1] - point_of_rotation[1]) \
+                    * (point['x'] - point_of_rotation[0]) - math.sin(math.radians(angle)) \
+                    * (point['y'] - point_of_rotation[1]) \
                     + point_of_rotation[0]
             new_y = math.sin(math.radians(angle)) \
-                    * (point[0] - point_of_rotation[0]) + math.cos(math.radians(angle)) \
-                    * (point[1] - point_of_rotation[1]) \
+                    * (point['x'] - point_of_rotation[0]) + math.cos(math.radians(angle)) \
+                    * (point['y'] - point_of_rotation[1]) \
                     + point_of_rotation[1]
 
             return (new_x, new_y)
