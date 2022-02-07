@@ -13,18 +13,38 @@ import math
 
 
 # CLASSES #
+from typing import Dict, Any
+
+class Point:
+    """ Point class """
+
 class Abscisse:
+    """ Abscise class """
     def __init__(self,
                  point_1,  # a touple with x coordinates
                  point_2,  # a touple with y coordinates
                  ):
         """ Init method """
-        self.point_1 = point_1
-        self.point_2 = point_2
+        self.point_1 = dict()
+        self.point_2 = dict()
+
+        # setting
+        self.point_1['x'] = point_1[0]
+        self.point_1['y'] = point_1[1]
+
+        self.point_2['x'] = point_2[0]
+        self.point_2['y'] = point_2[1]
+
+    def set_new_coords(self,
+                       point_1,
+                       point_2,
+                       ):
+        """ Sets new coordinates """
+
 
     def get_length(self):
         """ Returns a length of an abscisse """
-        return math.sqrt((self.point_1[0] - self.point_2[0]) ** 2 + (self.point_1[1] - self.point_2[1]) ** 2)
+        return math.sqrt((self.point_1['x'] - self.point_2['x']) ** 2 + (self.point_1['y'] - self.point_2['y']) ** 2)
 
     def rotate(self,
                angle,  # an angle of rotation in degrees
@@ -41,13 +61,13 @@ class Abscisse:
             # p'y = sin(theta) * (px-ox) + cos(theta) * (py-oy) + oy
 
             new_x = math.cos(math.radians(angle)) \
-                    * (point[0] - point_of_rotation[0]) - math.sin(math.radians(angle)) \
-                    * (point[1] - point_of_rotation[1]) \
-                    + point_of_rotation[0]
+                    * (point['x'] - point_of_rotation['x']) - math.sin(math.radians(angle)) \
+                    * (point['y'] - point_of_rotation['y']) \
+                    + point_of_rotation['x']
             new_y = math.sin(math.radians(angle)) \
-                    * (point[0] - point_of_rotation[0]) + math.cos(math.radians(angle)) \
-                    * (point[1] - point_of_rotation[1]) \
-                    + point_of_rotation[1]
+                    * (point['x'] - point_of_rotation['x']) + math.cos(math.radians(angle)) \
+                    * (point['y'] - point_of_rotation['y']) \
+                    + point_of_rotation['y']
 
             return (new_x, new_y)
 
@@ -98,7 +118,7 @@ def main():
 
     print(f"Length of an abscisse is: {abscisse.get_length()}")
 
-    print(abscisse.rotate(angle_rot, (x_rot, y_rot)))
+    print(abscisse.rotate(angle_rot, {'x' : x_rot, 'y' : y_rot}))
 
 
 if __name__ == "__main__":
