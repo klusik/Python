@@ -1,8 +1,8 @@
 """
     Geometry library
-    abscisse je usecka, vole
-        voe vim, ne :-D 
 
+    Shapes, points, abscisses
+    
     Author:     Rudolf Klusal
     Year:       2022
 
