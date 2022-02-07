@@ -23,6 +23,17 @@ class Point:
         self.x = x
         self.y = y
         
+class Square:
+    """ Square class"""
+    def __init__(self):
+        pass
+
+
+class Circle:
+    """ Circle class """
+    def __init__(self):
+        pass
+
 
 class Abscisse:
     """ Abscisse class """
