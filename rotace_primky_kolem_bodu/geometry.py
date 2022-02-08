@@ -28,19 +28,19 @@ class Point:
 class Rectangle:
     """ Square class"""
     # Default attributes
-    point_0 = point_1 =  None
+    point_0 = point_1 = None
 
     # Init
     def __init__(self,
                  point_0,
                  point_1,
-                 square = False,
+                 square=False,
                  ):
 
         self.square = square
         if isinstance(point_0, Point) \
                 and isinstance(point_1, Point):
-          # Sets the points
+            # Sets the points
             self.set_points(point_0, point_1)
         else:
             raise TypeError
@@ -53,7 +53,7 @@ class Rectangle:
         self.point_1 = point_1
 
     def is_square(self,
-                  forced = False,  # If flagged as True, it computes it's 'squareness'
+                  forced=False,  # If flagged as True, it computes it's 'squareness'
                   ):
         """ Returns if the shape is a rectangle """
         if forced:
