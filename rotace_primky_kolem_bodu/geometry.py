@@ -15,28 +15,45 @@ import math
 # CLASSES #
 class Point:
     """ Point class """
+
     def __init__(self,
-                 x, # X coordinate of a point
-                 y, # Y coordinate of a point
-                    ):
+                 x,  # X coordinate of a point
+                 y,  # Y coordinate of a point
+                 ):
         """ Init """
         self.x = x
         self.y = y
-        
+
+
 class Rectangle:
     """ Square class"""
+    # Default attributes
+    point_0 = point_1 =  None
+
+    # Init
     def __init__(self,
                  point_0,
                  point_1,
-                 point_2,
-                 point_3,
-                 square = False,
+                square=False,
                  ):
 
         self.square = square
+        if isinstance(point_0, Point) \
+                and isinstance(point_1, Point):
+          # Sets the points
+            self.set_points(point_0, point_1)
+        else:
+            raise TypeError
+
+    def set_points(self,
+                   point_0,
+                   point_1,
+                   ):
+        self.point_0 = point_0
+        self.point_1 = point_1
 
     def is_square(self,
-                  forced = False,  # If flagged as True, it computes it's 'squareness'
+                  forced=False,  # If flagged as True, it computes it's 'squareness'
                   ):
         """ Returns if the shape is a rectangle """
         if forced:
@@ -47,6 +64,7 @@ class Rectangle:
 
 class Circle:
     """ Circle class """
+
     def __init__(self,
                  point_center,
                  radius,
@@ -56,6 +74,7 @@ class Circle:
 
 class Abscisse:
     """ Abscisse class """
+
     def __init__(self,
                  point_1,  # a touple with x coordinates
                  point_2,  # a touple with y coordinates
@@ -76,7 +95,6 @@ class Abscisse:
                        point_2,
                        ):
         """ Sets new coordinates """
-
 
     def get_length(self):
         """ Returns a length of an abscisse """
@@ -113,14 +131,14 @@ class Abscisse:
         return point_1_rotated, point_2_rotated
 
     def rotate_self(self,
-                    angle, # Angle of rotation
-                    point, # Point around
+                    angle,  # Angle of rotation
+                    point,  # Point around
                     ):
         """ Rotates an abscisse around a point and saves new points as abscisse points """
         pass
 
     def rotate_around_center(self,
-                             angle, # Angle of rotation
+                             angle,  # Angle of rotation
                              ):
         """ Rotates an abscisse around it's center point """
 
@@ -132,7 +150,7 @@ class Abscisse:
         pass
 
     def is_point_on_abscisse(self,
-                             point, # A point on which we can decide if it's on or it's not on self abscisse
+                             point,  # A point on which we can decide if it's on or it's not on self abscisse
                              ):
         pass
 
@@ -154,7 +172,7 @@ def main():
 
     print(f"Length of an abscisse is: {abscisse.get_length()}")
 
-    print(abscisse.rotate(angle_rot, {'x' : x_rot, 'y' : y_rot}))
+    print(abscisse.rotate(angle_rot, {'x': x_rot, 'y': y_rot}))
 
 
 if __name__ == "__main__":
