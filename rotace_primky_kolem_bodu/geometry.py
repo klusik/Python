@@ -34,7 +34,7 @@ class Rectangle:
     def __init__(self,
                  point_0,
                  point_1,
-                square=False,
+                 square = False,
                  ):
 
         self.square = square
@@ -53,7 +53,7 @@ class Rectangle:
         self.point_1 = point_1
 
     def is_square(self,
-                  forced=False,  # If flagged as True, it computes it's 'squareness'
+                  forced = False,  # If flagged as True, it computes it's 'squareness'
                   ):
         """ Returns if the shape is a rectangle """
         if forced:
