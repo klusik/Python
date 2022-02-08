@@ -25,6 +25,9 @@ if __name__ == "__main__":
     # Canvas
     window_canvas = tkinter.Canvas(root_window, bg="white", width=800, height=600)
 
+    # Stuff on canvas
+    window_canvas.create_rectangle(100, 100, 300, 400)
+
     # Render canvas
     window_canvas.pack()
 
