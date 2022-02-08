@@ -17,6 +17,9 @@ import geometry
 if __name__ == "__main__":
     """ Main function """
 
+    # Creating some geometry
+    square = geometry.Rectangle(geometry.Point(100, 100), geometry.Point(200, 200))
+
     # Creating a window
 
     # Initialize TkInter
@@ -26,7 +29,7 @@ if __name__ == "__main__":
     window_canvas = tkinter.Canvas(root_window, bg="white", width=800, height=600)
 
     # Stuff on canvas
-    window_canvas.create_rectangle(100, 100, 300, 400)
+    window_canvas.create_rectangle(square.point_0.x, square.point_0.y, square.point_1.x, square.point_1.y)
 
     # Render canvas
     window_canvas.pack()
