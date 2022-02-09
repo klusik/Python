@@ -27,7 +27,7 @@ class ConversionTable:
         'o': '---',
         'p': '.--.',
         'q': '--.-',
-        'r': '-.-',
+        'r': '.-.',
         's': '...',
         't': '-',
         'u': '..-',
@@ -49,9 +49,12 @@ class ConversionTable:
     @staticmethod
     def get_ascii(morse):
         """ Returns ascii character """
-        if ConversionTable.table.keys()[morse]:
-            return ConversionTable.keys()[morse]
-        else:
+        try:
+            for ascii, mrs in ConversionTable.table.items():
+                if mrs == morse:
+                    return ascii
+            return 'X'
+        except TypeError:
             return 'X'
 
 
@@ -77,6 +80,7 @@ class Morse:
         encoded = str(self.message).split()
         for morse in encoded:
             output.append(ConversionTable.get_ascii(morse))
+
 
         return "".join(output)
 
