@@ -36,14 +36,14 @@ class ConversionTable:
         'x': '-..-',
         'y': '-.--',
         'z': '--..',
+        ' ': ' ',
     }
-
     @staticmethod
     def get_morse(ascii):
         """ Returns a morse code """
-        if ConversionTable.table[ascii]:
+        try:
             return ConversionTable.table[ascii]
-        else:
+        except KeyError:
             return 'X'
 
     @staticmethod
