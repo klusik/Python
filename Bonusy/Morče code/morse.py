@@ -4,37 +4,38 @@
 
 """
 
+
 # IMPORTS #
 
 # CLASSES #
 class ConversionTable:
     table = {
-        'a':'.-',
-        'b':'-...',
-        'c':'-.-.',
-        'd':'-..',
-        'e':'.',
-        'f':'..-.',
-        'g':'--.',
-        'h':'....',
-        'i':'..',
-        'j':'.---',
-        'k':'-.-',
-        'l':'.-..',
-        'm':'--',
-        'n':'-.',
-        'o':'---',
-        'p':'.--.',
-        'q':'--.-',
-        'r':'-.-',
-        's':'...',
-        't':'-',
-        'u':'..-',
-        'v':'...-',
-        'w':'.--',
-        'x':'-..-',
-        'y':'-.--',
-        'z':'--..',
+        'a': '.-',
+        'b': '-...',
+        'c': '-.-.',
+        'd': '-..',
+        'e': '.',
+        'f': '..-.',
+        'g': '--.',
+        'h': '....',
+        'i': '..',
+        'j': '.---',
+        'k': '-.-',
+        'l': '.-..',
+        'm': '--',
+        'n': '-.',
+        'o': '---',
+        'p': '.--.',
+        'q': '--.-',
+        'r': '-.-',
+        's': '...',
+        't': '-',
+        'u': '..-',
+        'v': '...-',
+        'w': '.--',
+        'x': '-..-',
+        'y': '-.--',
+        'z': '--..',
     }
 
     @staticmethod
@@ -53,10 +54,12 @@ class ConversionTable:
         else:
             return 'X'
 
+
 class Morse:
     """ Morse class """
+
     def __init__(self,
-                 message, # A message to encode or decode
+                 message,  # A message to encode or decode
                  ):
         self.message = message
 
@@ -76,8 +79,5 @@ class Morse:
             output.append(ConversionTable.get_ascii(morse))
 
         return "".join(output)
-
-
-
 
 # RUNTIME #
