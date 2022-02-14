@@ -59,6 +59,10 @@ def parse_input(input_string):
                     # Place for a new number
                     number.clear()
 
+            # Next character
+            continue
+
+
         # In the case of plus or minus
 
 def main():
