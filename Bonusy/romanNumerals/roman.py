@@ -7,10 +7,27 @@
 
 # CLASSES #
 class Config:
+    """ Just values and config """
+
+    # list of valid letters
     valid_letters = ['m', 'c', 'd', 'l', 'x', 'v', 'i']
+
+    # Letter values for conversion
+    letter_values = {
+        'm':1000,
+        'c':100,
+        'x':10,
+        'i':1,
+        'd':500,
+        'l':50,
+        'v':5,
+    }
+
+
 class Number:
     """ Number class """
     def __init__(self, input_number):
+
         # Determine if it's in Roman or decimal form
         if str(input_number).isnumeric():
             # It's in decimal, checking if 
@@ -54,6 +71,16 @@ class Number:
         Converts self.number to roman
         :return: string
         """
+
+        # Method:
+        #
+        # Subsequently try to subtract the largest possible value from
+        # the number. If possible, do it and save the letter used.
+        # If the remainin value after subtraction is not less than
+        # 100 from 1000 or 10 from 100 and so on, it must use subtract
+        # form of roman numeral, for example 900 is not writen as DCCCC, but CM.
+        # 800 is writen as DCCC. So the limit is 3 on the right side and 1
+        # on the left side around the main roman numeral.
 
 
 
