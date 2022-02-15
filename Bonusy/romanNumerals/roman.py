@@ -29,6 +29,15 @@ class Config:
         ('i', 1),
     ]
 
+    @staticmethod
+    def find_value(character):
+        for value in Config.conversion_table:
+            if value[0] == character:
+                # found
+                return value[1]
+
+        return None
+
 
 
 class Number:
@@ -139,7 +148,35 @@ class Number:
         # Approach:
         #
         # We have Config.conversion_table with values, we need just the
-        # "one letter" stuff, easy filtering there. 
+        # "one letter" stuff, easy filtering there.
+
+        # Cumulative sum
+        cum_sum = 0
+
+
+        for index, character in enumerate(self.roman_number):
+            # Maximal index
+            max_index = len(self.roman_number)-1
+
+            # Reading and comparing two consequent characters
+            character_value = Config.find_value(character)
+
+            # Reading a value of next character only if not last
+            if index < max_index:
+                next_character_value = Config.find_value(self.roman_number[index+1])
+            else:
+                next_character_value = 0 # There is no other one
+
+            if character_value >= next_character_value:
+                # Actual number has to be added
+                cum_sum += int(character_value)
+            else:
+                # Actual number has to be subtracted
+                cum_sum -= int(character_value)
+
+        return cum_sum
+
+
 
 
 
