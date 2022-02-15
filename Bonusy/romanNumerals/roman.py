@@ -12,16 +12,23 @@ class Config:
     # list of valid letters
     valid_letters = ['m', 'c', 'd', 'l', 'x', 'v', 'i']
 
-    # Letter values for conversion
-    letter_values = {
-        'm':1000,
-        'c':100,
-        'x':10,
-        'i':1,
-        'd':500,
-        'l':50,
-        'v':5,
-    }
+    # Values for conversion
+    conversion_table = [
+        ('m', 1000),
+        ('cm', 900),
+        ('d', 500),
+        ('cd', 400),
+        ('c', 100),
+        ('xc', 90),
+        ('l', 50),
+        ('xl', 40),
+        ('x', 10),
+        ('ix', 9),
+        ('v', 5),
+        ('iv', 4),
+        ('i', 1),
+    ]
+
 
 
 class Number:
@@ -81,7 +88,42 @@ class Number:
         # form of roman numeral, for example 900 is not writen as DCCCC, but CM.
         # 800 is writen as DCCC. So the limit is 3 on the right side and 1
         # on the left side around the main roman numeral.
+        #
+        # Approach:
+        #
+        # Let's save all interesting values as list of tuples and subtract
+        # one by one until the number is cleared to zero.
 
+        # Make a 'pointer' to the biggest item (the first one)
+        conversion_index = 0
+
+        # Local copy of number (we'll destroy it soon :-D )
+        number = self.number
+
+        # A place to save output
+        output = list()
+
+        # Main loop
+        while number:
+            # Get the floor of number/max from list
+            division = number // Config.conversion_table[conversion_index][1]
+
+            # Save the rest of a division to number
+            number %= Config.conversion_table[conversion_index][1]
+
+            # Creating output
+            while division:
+                # Save a letter (or group of letters)
+                output.append(Config.conversion_table[conversion_index][0])
+
+                # next step
+                division -= 1
+
+            # Done for this letter, let's skip to another
+            conversion_index += 1
+
+        # Returns the joined output
+        return ''.join(output).upper()
 
 
 # RUNTIME #
@@ -92,7 +134,7 @@ def main():
     number = Number(input_number)
 
     if number.is_integer:
-        print(f"Converted integer {number.number} to roman form is .")
+        print(f"Converted integer {number.number} to roman form is {number.convert_to_roman()}.")
             
 
 if __name__ == "__main__":
