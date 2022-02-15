@@ -39,9 +39,9 @@ class Config:
         return None
 
 
-
 class Number:
     """ Number class """
+
     def __init__(self, input_number):
 
         # Determine if it's in Roman or decimal form
@@ -64,9 +64,9 @@ class Number:
             not_valid = False
             for index, character in enumerate(str(input_number).lower()):
                 if character in Config.valid_letters:
-                    continue # found
+                    continue  # found
                 else:
-                    print(f"Not valid roman numeral, a letter {character} in position {index+1} is not valid.")
+                    print(f"Not valid roman numeral, a letter {character} in position {index + 1} is not valid.")
                     not_valid = True
             if not_valid:
                 exit()
@@ -153,19 +153,18 @@ class Number:
         # Cumulative sum
         cum_sum = 0
 
-
         for index, character in enumerate(self.roman_number):
             # Maximal index
-            max_index = len(self.roman_number)-1
+            max_index = len(self.roman_number) - 1
 
             # Reading and comparing two consequent characters
             character_value = Config.find_value(character)
 
             # Reading a value of next character only if not last
             if index < max_index:
-                next_character_value = Config.find_value(self.roman_number[index+1])
+                next_character_value = Config.find_value(self.roman_number[index + 1])
             else:
-                next_character_value = 0 # There is no other one
+                next_character_value = 0  # There is no other one
 
             if character_value >= next_character_value:
                 # Actual number has to be added
@@ -175,9 +174,6 @@ class Number:
                 cum_sum -= int(character_value)
 
         return cum_sum
-
-
-
 
 
 # RUNTIME #
@@ -192,7 +188,7 @@ def main():
 
     if number.is_roman:
         print(f"Converted roman {number.roman_number} to integer form is {number.convert_to_integer()}.")
-            
+
 
 if __name__ == "__main__":
     main()
