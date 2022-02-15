@@ -125,6 +125,23 @@ class Number:
         # Returns the joined output
         return ''.join(output).upper()
 
+    def convert_to_integer(self):
+        """ Converts number to integer """
+
+        # Method:
+        #
+        # Going from left to right, every letter is either followed
+        # by bigger or lesser number.
+        # If it is followed by lesser number, the number we are talking
+        # about has to be added to cumulative sum, if the following number
+        # is bigger, actual number has to be subtracted from the cumulative sum.
+        #
+        # Approach:
+        #
+        # We have Config.conversion_table with values, we need just the
+        # "one letter" stuff, easy filtering there. 
+
+
 
 # RUNTIME #
 def main():
@@ -135,6 +152,9 @@ def main():
 
     if number.is_integer:
         print(f"Converted integer {number.number} to roman form is {number.convert_to_roman()}.")
+
+    if number.is_roman:
+        print(f"Converted roman {number.roman_number} to integer form is {number.convert_to_integer()}.")
             
 
 if __name__ == "__main__":
