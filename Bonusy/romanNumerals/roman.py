@@ -173,6 +173,7 @@ class Number:
                 # Actual number has to be subtracted
                 cum_sum -= int(character_value)
 
+        # Returns the cumulative sum
         return cum_sum
 
 
