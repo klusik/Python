@@ -14,17 +14,64 @@ class Config:
     """
     cache_file_name = "primes_cache.kls"
 
-class PrimeCache:
+class Primes:
     """
         Caches all found primes to file,
         so next time it won't be necessary
         to compute them again and again
     """
 
-class Primes:
-    """
-        Found primes
-    """
+    def __init__(self):
+        # Define file name
+        self.cache_file_name = Config.cache_file_name
+        
+        # List of found primes (computed or loaded)
+        self.found_primes = list()
+
+        # Pointer to a specific prime
+        self.prime_index = None # Initially None, not zero
+
+        # Loads a cache
+        self.load_cache()
+
+    def add_next_prime(self):
+        """
+            Adds next prime to list.
+            :return: Integer of index of last prime added
+        """
+
+    def get_prime(self):
+        """
+            Returns actual prime from list.
+            :return: Integer, actual prime
+        """
+
+    def load_cache(self):
+        """
+            Loads cache from a file if exists
+            :return: True if successful, False if not
+        """
+        try:
+            with open(self.cache_file_name, "w") as link_cache_file:
+                pass
+        except FileNotFoundError:
+            # Cache doesn't exist, no problem.
+            return False
+        finally:
+            return True
+
+    def save_cache(self):
+        """
+            Saves cache to file
+            :return: True if saved successfully, False if not.
+        """
+        try:
+            with open(self.cache_file_name, "w") as link_cache_file:
+                pass
+        except:
+            pass
+
+
 
 class Product:
     """
