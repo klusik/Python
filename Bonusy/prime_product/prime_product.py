@@ -52,8 +52,17 @@ class Primes:
             :return: True if successful, False if not
         """
         try:
-            with open(self.cache_file_name, "w") as link_cache_file:
-                pass
+            with open(self.cache_file_name, "r") as link_cache_file:
+                # Reads the file
+                content_cache_file = link_cache_file.read()
+
+                # Going through all numbers and saving them to cache
+                for number in str(content_cache_file).split():
+                    self.found_primes.append(int(number))
+
+                # Setting the actual index to zero
+                self.prime_index = 0
+
         except FileNotFoundError:
             # Cache doesn't exist, no problem.
             return False
@@ -66,11 +75,20 @@ class Primes:
             :return: True if saved successfully, False if not.
         """
         try:
-            with open(self.cache_file_name, "w") as link_cache_file:
-                pass
-        except:
+            with open(self.cache_file_name, "r") as link_cache_file:
+                # Reading the last prime added
+                last_prime = int(str(link_cache_file.read()).split[-1])
+        except FileNotFoundError:
+            # Cache doesn't exist yet, nevermind :-)
             pass
-
+        finally:
+            # Writing the cache file
+            try:
+                with open(self.cache_file_name, "a") as link_cache_file:
+                    pass
+            except Exception as exception:
+                print("Writing cache file error.")
+                raise(exception)
 
 
 class Product:
