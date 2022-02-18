@@ -21,7 +21,16 @@ class Primes:
         to compute them again and again
     """
 
-    def __init__(self):
+    def __init__(self,
+                 number_to_do_product, # This number will be factorized to primes
+                 ):
+
+        # Initial check
+        self.number_to_do_product = number_to_do_product
+        if not self.valid_number():
+            raise ValueError
+
+
         # Define file name
         self.cache_file_name = Config.cache_file_name
         
@@ -33,6 +42,14 @@ class Primes:
 
         # Loads a cache
         self.load_cache()
+
+    def valid_number(self):
+        """ Checks if self.number_to_do_product is valid number """
+        return (
+            str(self.number_to_do_product).isnumeric() and
+            (int(self.number_to_do_product) > 0) and
+            ((float(self.number_to_do_product) - int(self.number_to_do_product)) == 0)
+            )
 
     def add_next_prime(self):
         """
@@ -107,6 +124,15 @@ class Product:
 # RUNTIME #
 def main():
     """ Main runtime function """
+    try:
+        # User input
+        user_input = input("Enter a whole positive number to do a prime product: ")
+        number_to_do_product = int(user_input)
+
+        # Create a product
+        product = Primes(number_to_do_product)
+    except ValueError:
+        print(f"Entered value '{user_input}' is invalid.")
 
 if __name__ == "__main__":
     main()
