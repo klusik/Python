@@ -46,6 +46,14 @@ class Primes:
             :return: Integer, actual prime
         """
 
+        # If not prime computed yet, returns None,
+        # if computed, return the last one
+
+        if len(self.found_primes):
+            return self.found_primes[-1]
+        else:
+            return None
+
     def load_cache(self):
         """
             Loads cache from a file if exists
