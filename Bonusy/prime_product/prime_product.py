@@ -51,6 +51,9 @@ class Primes:
             ((float(self.number_to_do_product) - int(self.number_to_do_product)) == 0)
             )
 
+    def compute_factors(self):
+        """ Compute all factors """
+
     def add_next_prime(self):
         """
             Adds next prime to list.
@@ -131,6 +134,9 @@ def main():
 
         # Create a product
         product = Primes(number_to_do_product)
+
+        # Compute a factorization
+
     except ValueError:
         print(f"Entered value '{user_input}' is invalid.")
 
