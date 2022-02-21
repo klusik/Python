@@ -7,6 +7,8 @@
 
 # IMPORTS #
 import math
+import logging
+
 
 # CLASSES #
 class Config:
@@ -41,6 +43,9 @@ class Primes:
         # Pointer to a specific prime
         self.prime_index = None # Initially None, not zero
 
+        # Found factors list
+        self.found_factors = list()
+
         # Loads a cache
         self.load_cache()
 
@@ -52,9 +57,25 @@ class Primes:
             ((float(self.number_to_do_product) - int(self.number_to_do_product)) == 0)
             )
 
+    def get_actual_prime(self):
+        """ Returns actual prime """
+        return self.found_primes[self.prime_index]
+
+    def set_next_prime(self):
+        """ Sets the prime_index pointer to next one in the list """
+        self.prime_index += 1
+
+        # If the index is in the list
+        if self.prime_index < len(self.found_primes):
+            # It's okay
+            return self.prime_index
+        else:
+            # Need to generate a new prime
+            self.add_next_prime()
+            return self.prime_index
+
     def compute_factors(self):
         """ Compute all factors """
-        print(f"Factorizing number {self.number_to_do_product}.")
 
         # Let's go through all the primes found and try to use them as
         # a dividers, modulo-check them and if checked, just divide on
@@ -65,19 +86,44 @@ class Primes:
         # Floating residue initial
         number_rest = self.number_to_do_product
 
+        # Beginning of the list
+        self.prime_index = 0
+
         while True:
             if len(self.found_primes) == 0:
                 # If the list of pre-generated primes
                 # is empty, generate at least one prime to begin with
                 self.add_next_prime()
 
-            
+            if number_rest == 1:
+                # End of the cycle
+                break
+
+            # Try the division
+            if number_rest % self.get_actual_prime() == 0:
+                # It's divisible, so this prime is a factor.
+                self.found_factors.append(self.get_actual_prime())
+
+                # Get the rest of the number
+                number_rest /= self.get_actual_prime()
+
+                # continue to next cycle with the same prime.
+                continue
+
+            else:
+                # This prime is not a divider, so just skip to next prime
+                self.set_next_prime()
+
+
+    def get_factors(self):
+        """ Returns a list of factors """
+        return self.found_factors
 
 
     @staticmethod
     def is_prime(number):
         """ Returns True if the number is prime """
-        for tested in range(3, math.ceil(math.sqrt(number)), 2):
+        for tested in range(3, math.ceil(math.sqrt(number))+1, 2):
             if number % tested == 0:
                 # If divisible by any number,
                 # it's not a prime
@@ -108,8 +154,8 @@ class Primes:
                 if self.is_prime(new_prime_candidate):
                     self.found_primes.append(new_prime_candidate)
                     return new_prime_candidate
-                    break
-
+                else:
+                    new_prime_candidate += 2
 
 
     def get_last_prime(self):
@@ -171,10 +217,6 @@ class Primes:
                 raise(exception)
 
 
-class Product:
-    """
-        Handles the primes factorization
-    """
 
 # RUNTIME #
 def main():
@@ -190,8 +232,12 @@ def main():
         # Compute a factorization
         product.compute_factors()
 
+        # Displaying a factors
+        print(product.get_factors())
+
     except ValueError:
         print(f"Entered value '{user_input}' is invalid.")
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     main()
