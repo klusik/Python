@@ -114,6 +114,8 @@ class Primes:
                 # This prime is not a divider, so just skip to next prime
                 self.set_next_prime()
 
+        self.save_cache()
+        return self.found_factors
 
     def get_factors(self):
         """ Returns a list of factors """
@@ -155,6 +157,8 @@ class Primes:
                     self.found_primes.append(new_prime_candidate)
                     return new_prime_candidate
                 else:
+                    # If not the right one, it's necessary to add
+                    # at least 2 (every odd number) and continuing with the trying.
                     new_prime_candidate += 2
 
 
@@ -203,7 +207,14 @@ class Primes:
         try:
             with open(self.cache_file_name, "r") as link_cache_file:
                 # Reading the last prime added
-                last_prime = int(str(link_cache_file.read()).split[-1])
+                cache_content = link_cache_file.read()
+                cache_content_list = str(cache_content).split()
+                if len(cache_content_list):
+                    # if at least one item found
+                    last_prime = int(cache_content_list[-1])
+                else:
+                    last_prime = 0
+
         except FileNotFoundError:
             # Cache doesn't exist yet, nevermind :-)
             pass
@@ -211,7 +222,14 @@ class Primes:
             # Writing the cache file
             try:
                 with open(self.cache_file_name, "a") as link_cache_file:
-                    pass
+                    # Writing a cache
+                    # But only if the last item on found is bigger
+                    # than the last one in cache file.
+
+                    if int(self.found_primes[-1]) > int(last_prime):
+                        for prime in self.found_primes:
+                            if prime > last_prime:
+                                link_cache_file.writelines(str(prime)+"\n")
             except Exception as exception:
                 print("Writing cache file error.")
                 raise(exception)
