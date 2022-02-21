@@ -53,6 +53,13 @@ class Primes:
 
     def compute_factors(self):
         """ Compute all factors """
+        print(f"Factorizing number {self.number_to_do_product}.")
+
+        # Let's go through all the primes found and try to use them as
+        # a dividers, modulo-check them and if checked, just divide on
+        # and on.
+        # If one particular prime not found in the list,
+        # it's added and saved in the cache.
 
     def add_next_prime(self):
         """
@@ -136,6 +143,7 @@ def main():
         product = Primes(number_to_do_product)
 
         # Compute a factorization
+        product.compute_factors()
 
     except ValueError:
         print(f"Entered value '{user_input}' is invalid.")
