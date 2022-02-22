@@ -1,5 +1,5 @@
 # here i will keep record of code teacher is showing
-
+'''
 # toying with print()
 
 # float numbers are using .
@@ -60,3 +60,66 @@ print(pi)
 # re-typing pi to str
 
 print(str(pi))
+'''
+# following: the break
+
+# continuing after the break
+
+# operatory
+
+# +,-,*,/,-(napr -5),//,%, **, --, !=, <, >, <=, >=, 
+
+from ast import ExtSlice
+
+
+pravda = 1 < 3
+print(pravda)
+
+pravda = 1 == 3
+print(pravda)
+
+
+# conditions: IF, elif, else
+
+# example: program na ohver vody v bazenu (rizeno cerpadlem)
+# napajeno ze solaru -> sviti/nesviti
+# mezni teplota vody
+# vnejsi teplato vzduchu
+
+svetlo = input("je den nebo noc? zadejte 'den', nebo 'noc'")
+print(f'zadal jste, ze je {svetlo}')
+target_temp = int(input('zadejte teplotu, na kterou chcete nahrat vodu'))
+actual_temp = int(input('zadejte realnou teplotu vody: '))
+
+if svetlo == "den":
+    onOff = True
+    print('napajeni solarnich panelu je k dispozici')
+    if actual_temp <= target_temp:
+        print(f'teplota vody v bazenu je {actual_temp}. natapim')
+    else:
+        print(f'teplota vody je {actual_temp}, nenatapim')
+elif svetlo == "noc":
+    onOff = False
+    print('slunce nesviti. je mala doba ledova')+
+    
+elif svetlo == "mlha":
+    onOff = False
+    print('je mlha, dneska to na koupani neni')
+else:
+    onOff = False
+    print("nesplnena zadna podminka, pocasi leda pro otuzilce")
+
+
+
+'''
+# my own code
+target_temp = int(input('zadejte teplotu, na kterou chcete nahrat vodu'))
+actual_temp = int(input('zadejte realnou teplotu vody: '))
+
+if actual_temp < target_temp & onOff == True:
+    print(f'natapime vodu na {target_temp}')
+elif actual_temp < target_temp & onOff == False:
+    print(f'teplota vody je nizka, nenatapime protoze je {svetlo}')
+else:
+    print(f'pozadovana teplota vody {target_temp} byla dosazena, vypinani natapeni')
+'''
