@@ -17,8 +17,7 @@ class Point:
     """ Point class """
 
     def __init__(self,
-                 x,  # X coordinate of a point
-                 y,  # Y coordinate of a point
+                 x, y, # X and Y coordinate of a point
                  ):
         """ Init """
         self.x = x
