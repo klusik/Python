@@ -28,7 +28,7 @@ DEFAULT_FONT = ("Arial", 20)
 DISPLAY_COLOR = "#CCCCCC"
 LABEL_COLOR = "#25265C"
 BUTTON_COLOR = "#FFFFFF"
-OPERATOR_COLOR ="#ABCDEF"
+OPERATOR_COLOR = "#ABCDEF"
 
 
 # CLASSES #
@@ -59,7 +59,7 @@ class Calculator:
         # later will be displayed.
         # Layout is standard as on the numerical keyboard
         # on the computer
-        self.digits ={
+        self.digits = {
             7: (1, 1), 8: (1, 2), 9: (1, 3),
             4: (2, 1), 5: (2, 2), 6: (2, 3),
             1: (3, 1), 2: (3, 2), 3: (3, 3),
@@ -77,9 +77,8 @@ class Calculator:
         for num in range(1, 5):
             self.buttons_f.rowconfigure(num, weight=1)
             self.buttons_f.columnconfigure(num, weight=1)
-            
-        self.buttons_f.rowconfigure(0, weight=1) # Zero on the bottom
 
+        self.buttons_f.rowconfigure(0, weight=1)  # Zero on the bottom
 
         self.create_keyboard()
         self.create_operator_buttons()
@@ -116,7 +115,6 @@ class Calculator:
                            bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0)
 
         button.grid(row=4, column=3, sticky=tk.NSEW, columnspan=2)
-
 
     def create_display_labels(self):
         """ Creates a numbers (current & total) and returns their frames """
