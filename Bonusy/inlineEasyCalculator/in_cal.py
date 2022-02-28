@@ -7,6 +7,8 @@
 
     Implements Shunting-yard algorithm: https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
+    Or maybe not, (we'll see what will be used) :-D 
+
     Author:     klusik 2022
 """
 
