@@ -85,11 +85,26 @@ class Calculator:
         self.create_clear_button()
         self.create_equals_button()
 
+    def update_total_label(self):
+        """ Updates the total label number """
+        self.total_label.config(text=self.total)
+
+    def update_current_label(self):
+        """ Updates the current label number """
+        self.current_label.config(text=self.current)
+
+    def add_to_current(self, value):
+        """ Updates the expression """
+        self.current += str(value)
+        self.update_current_label()
+
+
     def create_keyboard(self):
         """ Creates buttons """
         for digit, grid_value in self.digits.items():
             button = tk.Button(self.buttons_f, text=str(digit),
-                               bg=BUTTON_COLOR, fg=LABEL_COLOR, font=KEYBOARD_FONT, borderwidth=0)
+                               bg=BUTTON_COLOR, fg=LABEL_COLOR, font=KEYBOARD_FONT, borderwidth=0,
+                               command=lambda x=digit: self.add_to_current(x))
             button.grid(row=grid_value[0], column=grid_value[1], sticky=tk.NSEW)
 
     def create_operator_buttons(self):
