@@ -16,7 +16,7 @@
 import tkinter as tk
 
 # CONFIG #
-WINDOW_DIMENSIONS = "400x600"
+WINDOW_DIMENSIONS = "450x600"
 DISPLAY_HEIGHT = 150
 RIGHT_PADDING = 30
 
@@ -28,7 +28,7 @@ DEFAULT_FONT = ("Arial", 20)
 DISPLAY_COLOR = "#CCCCCC"
 LABEL_COLOR = "#25265C"
 BUTTON_COLOR = "#FFFFFF"
-OPERATOR_COLOR ="#F7AAF7"
+OPERATOR_COLOR ="#ABCDEF"
 
 
 # CLASSES #
@@ -72,8 +72,19 @@ class Calculator:
             '+': '+',
         }
         self.buttons_f = self.create_button_frame()
+
+        # Filling the empty spaces with buttons
+        for num in range(1, 5):
+            self.buttons_f.rowconfigure(num, weight=1)
+            self.buttons_f.columnconfigure(num, weight=1)
+            
+        self.buttons_f.rowconfigure(0, weight=1) # Zero on the bottom
+
+
         self.create_keyboard()
         self.create_operator_buttons()
+        self.create_clear_button()
+        self.create_equals_button()
 
     def create_keyboard(self):
         """ Creates buttons """
@@ -91,6 +102,21 @@ class Calculator:
 
             button.grid(row=row, column=4, sticky=tk.NSEW)
             row += 1
+
+    def create_clear_button(self):
+        """ Creates 'C' button """
+        button = tk.Button(self.buttons_f, text='C',
+                           bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0)
+
+        button.grid(row=0, column=1, sticky=tk.NSEW, columnspan=3)
+
+    def create_equals_button(self):
+        """ Creates '=' button """
+        button = tk.Button(self.buttons_f, text='=',
+                           bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0)
+
+        button.grid(row=4, column=3, sticky=tk.NSEW, columnspan=2)
+
 
     def create_display_labels(self):
         """ Creates a numbers (current & total) and returns their frames """
