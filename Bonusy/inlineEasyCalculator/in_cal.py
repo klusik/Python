@@ -23,10 +23,12 @@ RIGHT_PADDING = 30
 SMALL_FONT = ("Arial", 16)
 LARGE_FONT = ("Arial", 30)
 KEYBOARD_FONT = ("Arial", 30)
+DEFAULT_FONT = ("Arial", 20)
 
 DISPLAY_COLOR = "#CCCCCC"
 LABEL_COLOR = "#25265C"
 BUTTON_COLOR = "#FFFFFF"
+OPERATOR_COLOR ="#F7AAF7"
 
 
 # CLASSES #
@@ -63,8 +65,15 @@ class Calculator:
             1: (3, 1), 2: (3, 2), 3: (3, 3),
             0: (4, 2), '.': (4, 1),
         }
+        self.operators = {
+            '/': '\u00F7',
+            '*': '×',
+            '-': '-',
+            '+': '+',
+        }
         self.buttons_f = self.create_button_frame()
         self.create_keyboard()
+        self.create_operator_buttons()
 
     def create_keyboard(self):
         """ Creates buttons """
@@ -72,6 +81,16 @@ class Calculator:
             button = tk.Button(self.buttons_f, text=str(digit),
                                bg=BUTTON_COLOR, fg=LABEL_COLOR, font=KEYBOARD_FONT, borderwidth=0)
             button.grid(row=grid_value[0], column=grid_value[1], sticky=tk.NSEW)
+
+    def create_operator_buttons(self):
+        """ Creates the button for division, multiplication and so on """
+        row = 0
+        for operator, symbol in self.operators.items():
+            button = tk.Button(self.buttons_f, text=symbol,
+                               bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0)
+
+            button.grid(row=row, column=4, sticky=tk.NSEW)
+            row += 1
 
     def create_display_labels(self):
         """ Creates a numbers (current & total) and returns their frames """
