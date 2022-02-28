@@ -106,6 +106,11 @@ class Calculator:
         self.update_total_label()
         self.update_current_label()
 
+    def clear(self):
+        """ Clears display """
+        self.current = self.total = ""
+        self.update_total_label()
+        self.update_current_label()
 
     def create_keyboard(self):
         """ Creates buttons """
@@ -130,14 +135,16 @@ class Calculator:
     def create_clear_button(self):
         """ Creates 'C' button """
         button = tk.Button(self.buttons_f, text='C',
-                           bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0)
+                           bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0,
+                           command=self.clear)
 
         button.grid(row=0, column=1, sticky=tk.NSEW, columnspan=3)
 
     def create_equals_button(self):
         """ Creates '=' button """
         button = tk.Button(self.buttons_f, text='=',
-                           bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0)
+                           bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0,
+                           command=self.evaluate)
 
         button.grid(row=4, column=3, sticky=tk.NSEW, columnspan=2)
 
@@ -173,6 +180,21 @@ class Calculator:
         frame.pack(expand=True, fill="both")
 
         return frame
+
+    def evaluate(self):
+        """ Evaluates the result """
+        self.total += self.current
+
+        try:
+            self.current = str(eval(self.total))
+            self.total = ""
+        except ZeroDivisionError:
+            self.current = "Error (Zero division)"
+        finally:
+            self.update_current_label()
+
+        self.update_total_label()
+        self.update_current_label()
 
     def run(self):
         self.window.mainloop()
