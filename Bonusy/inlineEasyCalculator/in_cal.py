@@ -26,10 +26,10 @@ LARGE_FONT = ("Arial", 30)
 DISPLAY_COLOR = "#CCCCCC"
 LABEL_COLOR = "#25265C"
 
+
 # CLASSES #
 class Calculator:
     def __init__(self):
-
         # Specify the window
         self.window = tk.Tk()
 
@@ -50,20 +50,23 @@ class Calculator:
         self.buttons_f = self.create_button_frame()
 
     def create_display_labels(self):
+        """ Creates a numbers (current & total) and returns their frames """
+
+        # Number total
         total_label = tk.Label(self.display_f, text=self.total, anchor=tk.E,
                                bg=DISPLAY_COLOR, fg=LABEL_COLOR, padx=RIGHT_PADDING,
                                font=SMALL_FONT)
 
         total_label.pack(expand=True, fill="both")
 
+        # Number current
         current_label = tk.Label(self.display_f, text=self.current, anchor=tk.E,
-                               bg=DISPLAY_COLOR, fg=LABEL_COLOR, padx=RIGHT_PADDING,
-                               font=LARGE_FONT)
+                                 bg=DISPLAY_COLOR, fg=LABEL_COLOR, padx=RIGHT_PADDING,
+                                 font=LARGE_FONT)
 
         current_label.pack(expand=True, fill="both")
 
         return total_label, current_label
-
 
     def create_display_frame(self):
         """ Creates a frame for a display numbers """
@@ -90,6 +93,7 @@ def main():
 
     # Loops the loop
     calculator.run()
+
 
 if __name__ == "__main__":
     main()
