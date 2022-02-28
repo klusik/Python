@@ -43,8 +43,8 @@ class Calculator:
         self.window.title("Awesome klusculator")
 
         # Default display values
-        self.total = "0"
-        self.current = "0"
+        self.total = ""
+        self.current = ""
 
         # FRAMES #
 
@@ -98,6 +98,14 @@ class Calculator:
         self.current += str(value)
         self.update_current_label()
 
+    def append_operator(self, operator):
+        """ Appends an operator to current """
+        self.current += operator
+        self.total += self.current
+        self.current = ""
+        self.update_total_label()
+        self.update_current_label()
+
 
     def create_keyboard(self):
         """ Creates buttons """
@@ -105,6 +113,7 @@ class Calculator:
             button = tk.Button(self.buttons_f, text=str(digit),
                                bg=BUTTON_COLOR, fg=LABEL_COLOR, font=KEYBOARD_FONT, borderwidth=0,
                                command=lambda x=digit: self.add_to_current(x))
+
             button.grid(row=grid_value[0], column=grid_value[1], sticky=tk.NSEW)
 
     def create_operator_buttons(self):
@@ -112,7 +121,8 @@ class Calculator:
         row = 0
         for operator, symbol in self.operators.items():
             button = tk.Button(self.buttons_f, text=symbol,
-                               bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0)
+                               bg=OPERATOR_COLOR, fg=LABEL_COLOR, font=DEFAULT_FONT, borderwidth=0,
+                               command=lambda x=operator: self.append_operator(x))
 
             button.grid(row=row, column=4, sticky=tk.NSEW)
             row += 1
