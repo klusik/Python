@@ -13,6 +13,13 @@ class Words:
 
     def is_anagram(self):
         """ Returns true if anagram """
+        if len(self.string_1) == len(self.string_2):
+            if ''.join(sorted(self.string_1)) == ''.join(sorted(self.string_2)):
+                return True
+            else:
+                return False
+        else:
+            return False
 
 # RUNTIME #
 def main():
