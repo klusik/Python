@@ -2,26 +2,18 @@
 # Aby byly tvary zhruba stejně veliké, použij pro n-úhelník délku strany např. 200/n
 
 import turtle
-# petiuhlenik
-for i in range(5):
-    turtle.forward(500/5)
-    turtle.left(360/5)
+maja_path = r"C:\Users\Z0001932\OneDrive - ZF Friedrichshafen AG\prace\python\projects\streda\python_git\michal\PyLadies\03\maja.gif"
+turtle.register_shape(maja_path)
+turtle.shape(maja_path)
+turtle.resizemode("user")
+turtle.shapesize(0.2, 0.2, 1)
+for n in range(5,9):
+    # petiuhlenik
+    for i in range(n):
+        turtle.forward(500/n)
+        turtle.left(360/n)
+    turtle.penup()
+    turtle.forward(100)
+    turtle.pendown()
 turtle.exitonclick()
 
-# sestiuhelnik
-for i in range(6):
-    turtle.forward(500/6)
-    turtle.left(360/6)
-turtle.exitonclick()
-
-# sedmiuhlenik
-for i in range(7):
-    turtle.forward(500/7)
-    turtle.left(360/7)
-turtle.exitonclick()
-
-# osmiuhlenik
-for i in range(8):
-    turtle.forward(500/8)
-    turtle.left(360/8)
-turtle.exitonclick()
