@@ -1,8 +1,11 @@
 """
     Explore OOP inheritance
 """
+
+
 class Color:
     pass
+
 
 class Liquid:
     def __init__(self,
@@ -10,14 +13,16 @@ class Liquid:
                  ):
         self.liquid = True
         self.mass_concentration = mass_concentration
-        self.color=None
+        self.color = None
+
 
 class Milk(Liquid):
     def __init__(self):
         super().__init__(1)
-        self.color="white"
+        self.color = "white"
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     milk = Milk()
 
     print(milk.color, milk.mass_concentration)
