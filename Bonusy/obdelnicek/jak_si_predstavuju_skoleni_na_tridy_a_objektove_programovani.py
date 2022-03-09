@@ -4,6 +4,12 @@ class Point:
         self.x = x
         self.y = y
 
+    def __repr__(self):
+        pass
+
+    def __str__(self):
+        return("Ahoj")
+
 
 
 point_x = 10
@@ -21,4 +27,6 @@ bod_pocatek = Point(0, 0)
 bod_kam_jdu = Point(10, 20)
 
 print(bod_pocatek.x)
+
+print(bod_pocatek)
 
