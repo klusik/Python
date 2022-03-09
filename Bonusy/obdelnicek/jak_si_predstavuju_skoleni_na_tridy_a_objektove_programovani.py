@@ -30,3 +30,27 @@ print(bod_pocatek.x)
 
 print(bod_pocatek)
 
+"""
+PHP 
+
+$sql_query = "SELECT * FROM table";
+
+$db_data = mysqli_query($sql_query);
+
+while($row = mysqli_fetch_array($db_data)) {
+...
+}
+
+for ($i=0, $i<10, $i++) {
+}
+
+foreach $radek in $veci {
+...
+}
+
+C 
+for (i=0; i<10; udelej() {
+...
+}
+"""
+
