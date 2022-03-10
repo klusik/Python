@@ -18,30 +18,45 @@ import random
 
 # CLASSES #
 class Player:
+    """ Player """
     def __init__(self,
                  name):
+
+        # Name of the player
         self.name = name
+
+        # List of throws for this player
         self.throws = list()
 
     def save_throw(self,
                    throw,  # Number from the dice
                    ):
+        """ Saves a new throw to list for this player """
         self.throws.append(throw)
 
 
 class Game:
+    """ Main game """
     def __init__(self,
                  number_of_players,  # Number of players for the game
                  ):
+
+        # Number of players for this game
         self.number_of_players = number_of_players
 
         # Creating players
         self.players = self.create_players()
 
     def create_players(self):
+        """ Generate players """
         players = list()
         for player_number in range(self.number_of_players):
+            # Creates every player
+
+            # Player name is generated
             player = Player(f"Player {str(player_number + 1)}")
+
+            # Player is appended to local list of players
             players.append(player)
 
         return players
@@ -50,8 +65,12 @@ class Game:
         """ Displays (prints) a list of players and saved throws """
         for player in self.players:
             print(f"Name of player: {player.name}")
+
+            # I am sure there would be other output after that, so end="" is okay
             print("Throws: ", end="")
 
+            # If there are any throws yet, it displays them, otherwise
+            # it displays "no throws yet."
             if len(player.throws) > 0:
                 for throw in player.throws:
                     print(f"{throw} ", end="")
@@ -69,12 +88,16 @@ class Game:
             # Sort via value
             sorted_players = sorted(players.items(), key=lambda item: item[1])
 
+            # Language stuff, singular or plural
             if sorted_players[0][1] == 1:
                 throws = "throw"
             else:
                 throws = "throws"
+
+            # Output message
             print(f"A winner is {sorted_players[0][0]} with {sorted_players[0][1]} {throws}. Player table below.")
 
+            # Print a list of all players and their score
             for player in sorted_players:
                 print(f"{player[0]}: {player[1]} throws")
 
