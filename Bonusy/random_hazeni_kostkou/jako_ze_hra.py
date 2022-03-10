@@ -15,6 +15,7 @@
 # IMPORTS #
 import random
 
+
 # CLASSES #
 class Player:
     def __init__(self,
@@ -23,14 +24,14 @@ class Player:
         self.throws = list()
 
     def save_throw(self,
-                   throw, # Number from the dice
+                   throw,  # Number from the dice
                    ):
         self.throws.append(throw)
 
 
 class Game:
     def __init__(self,
-                 number_of_players, # Number of players for the game
+                 number_of_players,  # Number of players for the game
                  ):
         self.number_of_players = number_of_players
 
@@ -40,7 +41,7 @@ class Game:
     def create_players(self):
         players = list()
         for player_number in range(self.number_of_players):
-            player = Player(f"Player {str(player_number+1)}")
+            player = Player(f"Player {str(player_number + 1)}")
             players.append(player)
 
         return players
@@ -77,8 +78,6 @@ class Game:
             for player in sorted_players:
                 print(f"{player[0]}: {player[1]} throws")
 
-
-
     def all_players_done(self):
         """ Checks scores of all players and return True, if game finished, False otherwise """
         players_done = 0
@@ -89,7 +88,6 @@ class Game:
         # If there are all players done, returns True
         return players_done == len(self.players)
 
-
     def play(self):
         while not self.all_players_done():
             # Let's play :-)
@@ -99,8 +97,6 @@ class Game:
                 while throw < 6:
                     throw = random.randint(1, 6)
                     player.save_throw(throw)
-
-
 
 
 # RUNTIME #
@@ -118,4 +114,3 @@ if __name__ == "__main__":
     game.play()
 
     game.display_players()
-
