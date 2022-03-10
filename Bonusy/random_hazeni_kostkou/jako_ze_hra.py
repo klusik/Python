@@ -101,7 +101,12 @@ class Game:
 
 # RUNTIME #
 if __name__ == "__main__":
+    """ Main runtime """
+
+    # Initial value of player count
     number_of_players = 0
+
+    # Ask user until enters valid number
     while number_of_players < 2:
         try:
             number_of_players = int(input("Enter the number of players: "))
@@ -109,8 +114,11 @@ if __name__ == "__main__":
             print("Bad format of number.")
             number_of_players = 0
 
+    # Creates a new game
     game = Game(number_of_players)
 
+    # Playing the game
     game.play()
 
+    # Showing results
     game.display_players()
