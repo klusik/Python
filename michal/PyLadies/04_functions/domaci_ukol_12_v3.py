@@ -1,21 +1,21 @@
 '''
 12.
 
-Výzva   
-Napiš program, který simuluje tuto hru: První hráč hází kostkou (t.j. 
-vybírají se náhodná čísla od 1 do 6), dokud nepadne šestka. Potom hází další 
-hráč, dokud nepadne šestka i jemu. Potom hází hráč třetí a nakonec čtvrtý. 
-Vyhrává ten, kdo na hození šestky potřeboval nejvíc hodů. (V případě shody
-vyhraje ten, kdo házel dřív.)
+Výzva   Napiš program, který simuluje tuto hru: První hráč hází kostkou (t.j. vybírají se náhodná čísla od 1 do 6), dokud nepadne šestka. Potom hází další hráč, dokud nepadne šestka i jemu. Potom hází hráč třetí a nakonec čtvrtý. Vyhrává ten, kdo na hození šestky potřeboval nejvíc hodů. (V případě shody vyhraje ten, kdo házel dřív.)
 
 Program by měl vypisovat všechny hody a nakonec napsat, kdo vyhrál.
 
 Nápověda: průběžně stačí ukládat jen údaj, kdo vede.
 
-Vytka lektora k v1:
-Jako vtip dobrý, a teď opravit :D Probrali jsme na teamsech.
+Vytka lektora:
+O hodně lepší.
+Ještě tam vidím prostor pro určité vylepšení.
+Když se podíváš, hodně věcí se ti tam 4x opakuje. To si vyloženě říká o cyklus.
+Třeba vzít nějakou inspiraci ze cvičení, kdy jsme si měli zapamatovat nejnižší číslo z deseti pokusů?.. 
+Koukneme kdyžtak na cvičení.
 '''
 
+# IMPORTS
 import random
 
 # generate throws and attempts
@@ -102,3 +102,34 @@ def eval():
 
 # start the game
 eval()
+
+
+def play(pocet_hracu):
+    generuj_hod = 0
+    player_counter = 0
+    for cislo_hrace in range(pocet_hracu):
+        
+        while True:
+            generuj_hod = random.randint(1,6)
+            player_counter = player_counter + 1
+            
+            print(f'padla {generuj_hod}, pokus cislo {player_counter}.')
+            if generuj_hod == 6:
+                return cislo_hrace, player_counter
+        
+        
+def ev(pocet_hracu):
+    while True:
+        cislo_hrace, player_counter = play(pocet_hracu)
+        if player_counter >= player_counter:
+            winning_attempts = player_counter
+            cislo_hrace = cislo_hrace
+        if cislo_hrace == pocet_hracu:
+            break
+    
+
+    
+    
+    
+    
+    
