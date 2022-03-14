@@ -26,14 +26,15 @@ import random
 
 def throw_the_dice():
     '''
-    Generate throws on the dice untile 6 is present. Keep track of number
-    of throws until 6 is present. Return number of throws.
+    Generate throws on the dice until 6 is present. Keep track of number
+    of throws. Return number of throws.
     
     INPUT
     None
     
     OUTPUT
-    iPlayer_counter
+    iPlayer_counter - number of throws until 6 is present, integer
+    console prints - value on the dice, number of throw
     '''
     
     # declarations
@@ -49,30 +50,52 @@ def throw_the_dice():
         
         print(f'Dice value is {iThrow}, throw number {iPlayer_counter}.')
         
-        # desired number is present on the dice, return number of throws
+        # if desired number is present on the dice, return number of throws
         if iThrow == 6:
             return iPlayer_counter
 
         
 def play_the_game(iNumber_of_players):
-    iPlayer_atttempts_counter = 0
-    iWinning_attempts_counter = 0
-    iWinning_player_number = 10
+    '''
+    Call throw_the_dice() for each player, evaluate number of throws, therefore
+    the winner. Winner is the player with the highest amount of throws. 
+    In case of a tie scenario, winner is the player who reached the highest
+    number of throws first.
+
+    INPUT
+    iNumber_of_players - number of players, integer
+
+    OUTPUT
+    console prints - turn of actual player, winning number of throws, winning
+                     player.
+    '''
+
+    # declarations
+    iPlayer_throws_counter = 0       # keep track of throws for each player
+    iWinning_throws_counter = 0      # winning throws number
+    iWinning_player_number = 0       # winning player number
     
-    
+    # range 1 to number of players + 1 used to avoid player 0 situation
     for iPlayer_number in range(1,iNumber_of_players+1):
-        iPlayer_atttempts_counter = throw_the_dice()
+        # get the number of throws
+        iPlayer_throws_counter = throw_the_dice()
         
         print(f'It was player {iPlayer_number} turn.')
         
-        if iPlayer_atttempts_counter > iWinning_attempts_counter:
-            iWinning_attempts_counter = iPlayer_atttempts_counter
-            print(f'Winning number of attempts: {iWinning_attempts_counter}')
+        # winning condition = highest throws number occurs
+        # tie situation is handled via > operator instead of >=
+        if iPlayer_throws_counter > iWinning_throws_counter:
+            iWinning_throws_counter = iPlayer_throws_counter
+            print(f'Winning number of attempts: {iWinning_throws_counter}')
+            
+            # re-write also winning player number 
             iWinning_player_number = iPlayer_number
 
-    print(f'Winning player number is {iWinning_player_number}')            
-    
-play_the_game(4)
+    print(f'Winning player number is {iWinning_player_number}'
+          f' with {iWinning_throws_counter} throws.')            
+
+# RUNTIME    
+play_the_game(5)
     
     
     
