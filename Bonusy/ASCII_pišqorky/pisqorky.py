@@ -56,11 +56,11 @@ class Game:
     def add_player(self,
                    name=None,           # set up a name if you want
                    count_of_players=1,  # Append more players (batch adding)
-                   symbol=None,         # Default symbol for player
+                   symbol=None,         # Default symbol for player (if more than 1 player, generates by chance)
                    ):
         """ Adds players (default 1) """
         for _ in range(count_of_players):
-            self.players.append(Player(name))
+            self.players.append(Player(name, symbol=symbol))
 
         logging.info(self.players)
 
@@ -88,8 +88,13 @@ class Game:
 class Player:
     def __init__(self,
                  name=None, # Define own name if you want
+                 symbol=None, # Define player symbol
                  ):
         self.name = name
+        if symbol:
+            self.symbol = symbol
+        else:
+            self.symbol = None
 
 # RUNTIME #
 def game():
