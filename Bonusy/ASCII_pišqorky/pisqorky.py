@@ -18,3 +18,22 @@ Napiš funkci vyhodnot, která dostane řetězec s herním polem 1-D piškvorek 
 "-" – Ani jedna ze situací výše (t.j. hra ještě neskončila)
 
 """
+
+# CLASSES #
+class Config:
+    # Default gameboard size
+    default_game_size = 20
+
+class Game:
+    def __init__(self,
+                 size = Config.default_game_size, # Default game size
+                 ):
+        # Game size
+        self.size = size
+
+# RUNTIME #
+def game():
+    pass
+
+if __name__ == "__main__":
+    game()
