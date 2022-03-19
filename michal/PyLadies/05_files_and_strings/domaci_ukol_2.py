@@ -13,7 +13,8 @@ def whitespace_hate(StringToBeCleansed):
     OUTPUT
     console print - original string cleansed of withespaces
     '''
-
-    print(StringToBeCleansed.replace(' ', ''))
+    strng = len(StringToBeCleansed.replace(' ', ''))
+    print(f'number of chars without withespaces: {strng}')
+    return strng
 
 whitespace_hate('I really really loath the whitespaces!')
