@@ -30,9 +30,15 @@ def turn(field, position, symbol):
     # post position 
     post_position_field = field[position:]
 
+    # char on selected position
+    position_char = field[position]
     # test for available position
-    if (field[position] == '-'):
+    if (position_char == '-'):
         print('invalid position')
     else:
         # concatenate three parts into output game field
         new_field = pre_position_field + symbol + post_position_field
+    
+    return new_field
+
+print(turn('-----xoxoxxo--------', 4, 'x'))
