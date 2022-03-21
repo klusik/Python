@@ -33,7 +33,7 @@ def turn(field, position, symbol):
     # char on selected position
     position_char = field[position]
     # test for available position
-    if (position_char == '-'):
+    if not(position_char == '-'):
         print('invalid position')
     else:
         # concatenate three parts into output game field
