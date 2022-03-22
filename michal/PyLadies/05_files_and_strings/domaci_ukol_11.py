@@ -169,11 +169,44 @@ def ticktacktoe():
 
     # obtain player symbols
     player_symbol, CML_symbol = set_player_symbol()
+    
+    # turn counter
+    turn_counter = 0
 
-    # way too tired, need to finish in the morning
+    # play the game in the cycle -> maintain turn changes
     while True:
+        turn_counter = turn_counter + 1
+        
+        # HUMAN - updated game field after human player turn
+        game_field = player_turn(game_field, player_symbol)
+        
+        # view the game field
+        print(f'Current view of game field: {game_field}')
+        
+        # evaluate game status
+        status = evaluate(game_field)
+        
+        # game over condition
+        if status == '-':
+            continue
+        else:
+            print('End of game')
+            break
+        
+        # CML - updated game field after CML player turn
+        game_field = CML_turn(game_field, CML_symbol)
+        
+        # view the game field
+        print(f'Current view of game field: {game_field}')
+        
+        # evaluate game status
+        status = evaluate(game_field)
 
+        # game over condition
+        if status == '-':
+            continue
+        else:
+            print('End of game')
+            break
 
-
-
-
+ticktacktoe()
