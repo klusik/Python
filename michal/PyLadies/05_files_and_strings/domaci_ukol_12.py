@@ -1,35 +1,7 @@
 '''
-Napiš funkci piskvorky1d, která vytvoří řetězec s herním polem a střídavě volá 
-funkce tah_hrace a tah_pocitace, dokud někdo nevyhraje nebo nedojde k remíze.
+Výzva  Zvládneš pro počítač naprogramovat lepší strategii? Třeba aby se snažil hrát vedle svých existujících symbolů nebo aby bránil protihráčovi?
 
-Nezapomeň kontrolovat stav hry po každém tahu.
-'''
-
-
-'''
-Nakonec trošku delší projekt. Budeme na něm stavět dál; nedokončíš-li ho teď, 
-budeš ho muset dodělat před příští sadou projektů.
-
-    1-D piškvorky se hrají na řádku s dvaceti políčky. Hráči střídavě přidávají
-    kolečka (`o`) a křížky (`x`), třeba:
-
-    1. kolo: -------x------------
-    2. kolo: -------x--o---------
-    3. kolo: -------xx-o---------
-    4. kolo: -------xxoo---------
-    5. kolo: ------xxxoo---------
-
-    Hráč, která dá tři své symboly vedle sebe, vyhrál. 
-'''
-'''
-Napiš funkci vyhodnot, která dostane řetězec s herním polem 1-D piškvorek
-a vrátí jednoznakový řetězec podle stavu hry:
-
-    "x" – Vyhrál hráč s křížky (pole obsahuje "xxx")
-    "o" – Vyhrál hráč s kolečky (pole obsahuje "ooo")
-    "!" – Remíza (pole neobsahuje "-", a nikdo nevyhrál)
-    "-" – Ani jedna ze situací výše (t.j. hra ještě neskončila)
-
+Stačí jen docela malé vylepšení!
 '''
 
 # IMPORTS
@@ -111,6 +83,31 @@ def CML_turn(field, CML_symbol):
     '''
     CML_turn = random.randint(1, 20) # CML = centralni mozek lidstva
     print(f'CML choice: {CML_turn}.')
+
+    # super SMART strategy
+    # if CML symbol present on the field, play 'next' position, else play random
+    # if only one oponent field is taken, actively block oponent
+    # if first turn, start in the middle
+    right = CML_symbol + CML_symbol + '-' # 'xx-'
+    left = '-' + CML_symbol + CML_symbol # '-xx'
+    
+    # win right, 'xx-' is present
+    if right in field:
+        # find index of substring
+        index_right = field.find(right) # ---xx--- => returns index of 3, where substring starts
+        # calculate position to place a winning symbol
+        index_right_winning = index_right + len(right)
+        
+    elif left in field:
+        # find index of substring
+        index_left = field.find(left)
+        # calculate position to place a winning symbol
+        index_left_winning = index_left - 1
+        
+    
+    
+    
+
 
     # backup plan: IF field is like 'x-----xoxoxoxoxooxox' and CML choice is 12
     # => the position is taken and so is every remaining position until end, yet
