@@ -94,15 +94,15 @@ def CML_turn(field, CML_symbol):
     # win right, 'xx-' is present
     if right in field:
         # find index of substring
-        index_right = field.find(right) # ---xx--- => returns index of 3, where substring starts
+        index_right = field.find(right) # ---xx--- => returns index of 2, where substring starts
         # calculate position to place a winning symbol
-        index_right_winning = index_right + len(right)
+        index_right_winning = index_right + len(right) - 1
         
     elif left in field:
         # find index of substring
         index_left = field.find(left)
         # calculate position to place a winning symbol
-        index_left_winning = index_left - 1
+        index_left_winning = index_left
         
     
     
