@@ -75,40 +75,107 @@ def player_turn(field, player_symbol):
                 new_field = pre_position + player_symbol + post_position
                 return new_field
 
-def CML_turn(field, CML_symbol):
+def CML_turn(field, CML_symbol, player_symbol):
     '''
     Return updated game field with CML's turn.
     CML turn is randomly selected. If selected position is not available, 
     add symbol to first available position from 0 onwards.
     '''
-    CML_turn = random.randint(1, 20) # CML = centralni mozek lidstva
-    print(f'CML choice: {CML_turn}.')
+    
+    
+    # ==================
+    # DEFENSIVE STRATEGY
+    # ==================
 
-    # super SMART strategy
-    # if CML symbol present on the field, play 'next' position, else play random
+    # first defensive turn:
     # if only one oponent field is taken, actively block oponent
-    # if first turn, start in the middle
-    right = CML_symbol + CML_symbol + '-' # 'xx-'
-    left = '-' + CML_symbol + CML_symbol # '-xx'
+    count_player_symbol = field.count(player_symbol)
+    if count_player_symbol == 1:
+        # get the position of the oponent symbol
+        player_position = field.find(player_symbol)
+        CML_position = player_position + 1
+        # prepare new field
+        pre_position = field[:CML_position]
+        post_position = field[CML_position + 1:]
+        # return new field
+        new_field = pre_position + CML_symbol + post_position
+        return new_field
+
+    # try to avoid victory of oponent
+    right_loss = player_symbol + player_symbol + '-' # xx-
+    left_loss = '-' + player_symbol + player_symbol # -xx
+    # LEFT LOSS '-xx'
+    if left_loss in field:
+        # BLOCK
+        # get the postion
+        block_position = (field.find(left_loss)) - 1
+        # prepare new field
+        pre_position = field[:block_position]
+        post_position = field[block_position + 1:]
+        # return new field
+        new_field = pre_position + CML_symbol + post_position
+        return new_field
+    # RIGHT LOSS 'xx-'
+    elif right_loss in field:
+        # BLOCK
+        # get the postion (+2 calculated to include len of loss string 'xx-')
+        block_position = (field.find(left_loss)) + 2
+        # prepare new field
+        pre_position = field[:block_position]
+        post_position = field[block_position + 1:]
+        # return new field
+        new_field = pre_position + CML_symbol + post_position
+        return new_field
+
+    # ==================
+    # OFFENSIVE STRATEGY
+    # ==================
+
+    # FIRST TURN STRATEGY
+    # start in the middle
+    if field == 20 * '-': # '--------------------':
+        # middle of the field
+        middle_position = 10
+        # prepare new field
+        pre_position = field[:middle_position]
+        post_position = field[middle_position + 1:]
+        # return new field
+        new_field = pre_position + CML_symbol + post_position
+        # field = '---------' + CML_symbol + '----------'
+        return new_field
+
+    right_win = CML_symbol + CML_symbol + '-' # 'xx-'
+    left_win = '-' + CML_symbol + CML_symbol # '-xx'
     
     # win right, 'xx-' is present
-    if right in field:
+    if right_win in field:
         # find index of substring
-        index_right = field.find(right) # ---xx--- => returns index of 2, where substring starts
+        index_right = field.find(right_win) # ---xx--- => returns index of 2, where substring starts
         # calculate position to place a winning symbol
-        index_right_winning = index_right + len(right) - 1
-        
-    elif left in field:
+        index_right_winning = index_right + len(right_win) - 1
+        # prepare new field
+        pre_position = field[:index_right_winning]
+        post_position = field[index_right_winning + 1:]
+        # return new field
+        new_field = pre_position + CML_symbol + post_position
+        return new_field
+    # win left, '-xx' is present        
+    elif left_win in field:
         # find index of substring
-        index_left = field.find(left)
+        index_left = field.find(left_win)
         # calculate position to place a winning symbol
-        index_left_winning = index_left
-        
+        index_left_winning = index_left - 1
+        # prepare new field
+        pre_position = field[:index_left_winning]
+        post_position = field[index_left_winning + 1:]
+        # return new field
+        new_field = pre_position + CML_symbol + post_position
+        return new_field
     
     
     
 
-
+    '''
     # backup plan: IF field is like 'x-----xoxoxoxoxooxox' and CML choice is 12
     # => the position is taken and so is every remaining position until end, yet
     # there are still some available positions left to play at the beginning
@@ -131,7 +198,10 @@ def CML_turn(field, CML_symbol):
             else:
                 new_field = pre_position + CML_symbol + post_position
                 return new_field
-
+    '''
+    # if no strategy applied, make random turn
+    CML_turn = random.randint(1, 20) # CML = centralni mozek lidstva
+    print(f'CML choice: {CML_turn}.')
 
 def set_player_symbol():
     '''
@@ -196,7 +266,7 @@ def ticktacktoe():
             break
         
         # CML - updated game field after CML player turn
-        game_field = CML_turn(game_field, CML_symbol)
+        game_field = CML_turn(game_field, CML_symbol, player_symbol)
         
         # view the game field
         print(f'Current view of game field: {game_field}')
