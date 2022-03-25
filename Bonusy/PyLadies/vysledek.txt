@@ -1,0 +1,8 @@
+Počet znaků v souboru je: 11
+Počet řádků v souboru je: 9
+Počet znaků v souboru je: 5
+Počet řádků v souboru je: 3
+Počet znaků v souboru je: 5
+Počet řádků v souboru je: 3
+Počet znaků v souboru je: 5
+Počet řádků v souboru je: 3
