@@ -5,7 +5,6 @@ funkce tah_hrace a tah_pocitace, dokud někdo nevyhraje nebo nedojde k remíze.
 Nezapomeň kontrolovat stav hry po každém tahu.
 '''
 
-
 '''
 Nakonec trošku delší projekt. Budeme na něm stavět dál; nedokončíš-li ho teď, 
 budeš ho muset dodělat před příští sadou projektů.
@@ -29,7 +28,6 @@ a vrátí jednoznakový řetězec podle stavu hry:
     "o" – Vyhrál hráč s kolečky (pole obsahuje "ooo")
     "!" – Remíza (pole neobsahuje "-", a nikdo nevyhrál)
     "-" – Ani jedna ze situací výše (t.j. hra ještě neskončila)
-
 '''
 
 # IMPORTS
@@ -109,21 +107,18 @@ def CML_turn(field, CML_symbol):
     CML turn is randomly selected. If selected position is not available, 
     add symbol to first available position from 0 onwards.
     '''
-    CML_turn = random.randint(1, 20) # CML = centralni mozek lidstva
-    print(f'CML choice: {CML_turn}.')
+    
 
     # backup plan: IF field is like 'x-----xoxoxoxoxooxox' and CML choice is 12
     # => the position is taken and so is every remaining position until end, yet
     # there are still some available positions left to play at the beginning
-    planB = 0 
+    
     # field available
     while True:
+        CML_turn = random.randint(1, 20) # CML = centralni mozek lidstva
+        print(f'CML choice: {CML_turn}.')
         # position not available, look for available position from beginning
-        if not(field[CML_turn] == '-'):
-            planB = planB + 1
-            CML_turn = planB
-        # position available
-        else:
+        if field[CML_turn] == '-':
             pre_position = field[:CML_turn]
             # +1 used to fix "growing game field" issue
             post_position = field[CML_turn + 1:]
@@ -182,38 +177,26 @@ def ticktacktoe():
         
         # view the game field
         print(f'Current view of game field: {game_field}')
+        # vytiskni indexy pro prehlednost
+        
         print(f'Turn number {turn_counter}.')
         
-        # HUMAN - updated game field after human player turn
-        game_field = player_turn(game_field, player_symbol)
+        if turn_counter % 2 == 1:    
+            # HUMAN - updated game field after human player turn
+            game_field = player_turn(game_field, player_symbol)
+        
+        else:
+            # CML - updated game field after CML player turn
+            game_field = CML_turn(game_field, CML_symbol)
         
         # evaluate game status
         status = evaluate(game_field)
         
         # game over condition
-        if status == '-':
-            pass
-        else:
+        if status != '-':
             print(game_field)
             print('End of game')
-            break
-        
-        # CML - updated game field after CML player turn
-        game_field = CML_turn(game_field, CML_symbol)
-        
-        # view the game field
-        print(f'Current view of game field: {game_field}')
-        
-        # evaluate game status
-        status = evaluate(game_field)
-
-        # game over condition
-        if status == '-':
-            pass
-        else:
-            print(game_field)
-            print('End of game')
-            break
+            break 
 
 # RUNTIME
 ticktacktoe()

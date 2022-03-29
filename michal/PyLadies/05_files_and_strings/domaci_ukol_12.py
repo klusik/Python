@@ -7,6 +7,24 @@ Stačí jen docela malé vylepšení!
 # IMPORTS
 import random
 
+def prepare_field(field, position, symbol):
+    '''
+    Place player symbol on defined position on the game field
+    
+    INPUTS
+    field = game field, string
+    position = postion to place symbol to, integer
+    symbol = symbol to be inserted into game field, string
+    
+    output
+    new_field = updated game field with new symbol in it, string
+    '''
+    pre_position = field[:position]
+    post_position = field[position + 1:]
+    # return new field
+    new_field = pre_position + symbol + post_position
+    return new_field
+
 def evaluate(field):
     """
     Evaluate game status. Possible outcomes:
@@ -38,8 +56,6 @@ def evaluate(field):
         print('Game is not yet finished.')
         return '-'
 
-
-
 def player_turn(field, player_symbol):
     """
     Ask player for position to place the symbol. Check availability
@@ -62,18 +78,8 @@ def player_turn(field, player_symbol):
             print('Invalid selection, position already taken. Make a new choice')
         # correct selection
         else:
-            # prepare output
-            pre_position = field[:position]
-            # +1 used to fix "growing game field" issue
-            post_position = field[position + 1:]
-
-            # fix the issue with adding extra char at the end
-            if position == 19:
-                new_field = pre_position + player_symbol
-                return new_field
-            else:
-                new_field = pre_position + player_symbol + post_position
-                return new_field
+            new_field = prepare_field(field, position, player_symbol)
+            return new_field
 
 def CML_turn(field, CML_symbol, player_symbol):
     '''
@@ -82,49 +88,42 @@ def CML_turn(field, CML_symbol, player_symbol):
     add symbol to first available position from 0 onwards.
     '''
     
-    
     # ==================
     # DEFENSIVE STRATEGY
     # ==================
 
-    # first defensive turn:
+    # FIRST DEFENSIVE TURN:
     # if only one oponent field is taken, actively block oponent
     count_player_symbol = field.count(player_symbol)
     if count_player_symbol == 1:
         # get the position of the oponent symbol
         player_position = field.find(player_symbol)
         CML_position = player_position + 1
-        # prepare new field
-        pre_position = field[:CML_position]
-        post_position = field[CML_position + 1:]
-        # return new field
-        new_field = pre_position + CML_symbol + post_position
+        # prepare new field    
+        new_field = prepare_field(field, CML_position, CML_symbol)
         return new_field
 
+    # LOSS STRATEGIES
     # try to avoid victory of oponent
     right_loss = player_symbol + player_symbol + '-' # xx-
     left_loss = '-' + player_symbol + player_symbol # -xx
+    
     # LEFT LOSS '-xx'
     if left_loss in field:
         # BLOCK
         # get the postion
-        block_position = (field.find(left_loss)) - 1
+        block_position = (field.find(left_loss))
         # prepare new field
-        pre_position = field[:block_position]
-        post_position = field[block_position + 1:]
-        # return new field
-        new_field = pre_position + CML_symbol + post_position
+        new_field = prepare_field(field, block_position, CML_symbol)
         return new_field
+    
     # RIGHT LOSS 'xx-'
     elif right_loss in field:
         # BLOCK
         # get the postion (+2 calculated to include len of loss string 'xx-')
         block_position = (field.find(left_loss)) + 2
         # prepare new field
-        pre_position = field[:block_position]
-        post_position = field[block_position + 1:]
-        # return new field
-        new_field = pre_position + CML_symbol + post_position
+        new_field = prepare_field(field, block_position, CML_symbol)
         return new_field
 
     # ==================
@@ -137,71 +136,40 @@ def CML_turn(field, CML_symbol, player_symbol):
         # middle of the field
         middle_position = 10
         # prepare new field
-        pre_position = field[:middle_position]
-        post_position = field[middle_position + 1:]
-        # return new field
-        new_field = pre_position + CML_symbol + post_position
-        # field = '---------' + CML_symbol + '----------'
+        new_field = prepare_field(field, middle_position, CML_symbol)
         return new_field
 
+    # VICTORY STRATEGIES
     right_win = CML_symbol + CML_symbol + '-' # 'xx-'
     left_win = '-' + CML_symbol + CML_symbol # '-xx'
     
-    # win right, 'xx-' is present
+    # INVESTIGATION NEEDED, 'xx-' pattern not recognised!
+    # RIGHT WIN 'xx-'
     if right_win in field:
         # find index of substring
         index_right = field.find(right_win) # ---xx--- => returns index of 2, where substring starts
         # calculate position to place a winning symbol
         index_right_winning = index_right + len(right_win) - 1
         # prepare new field
-        pre_position = field[:index_right_winning]
-        post_position = field[index_right_winning + 1:]
-        # return new field
-        new_field = pre_position + CML_symbol + post_position
+        new_field = prepare_field(field, index_right_winning, CML_symbol)
         return new_field
-    # win left, '-xx' is present        
+    
+    # LEFT WIN '-xx'
     elif left_win in field:
         # find index of substring
         index_left = field.find(left_win)
         # calculate position to place a winning symbol
         index_left_winning = index_left - 1
         # prepare new field
-        pre_position = field[:index_left_winning]
-        post_position = field[index_left_winning + 1:]
-        # return new field
-        new_field = pre_position + CML_symbol + post_position
+        new_field = prepare_field(field, index_left_winning, CML_symbol)
         return new_field
     
-    
-    
-
-    '''
-    # backup plan: IF field is like 'x-----xoxoxoxoxooxox' and CML choice is 12
-    # => the position is taken and so is every remaining position until end, yet
-    # there are still some available positions left to play at the beginning
-    planB = 0 
-    # field available
-    while True:
-        # position not available, look for available position from beginning
-        if not(field[CML_turn] == '-'):
-            planB = planB + 1
-            CML_turn = planB
-        # position available
-        else:
-            pre_position = field[:CML_turn]
-            # +1 used to fix "growing game field" issue
-            post_position = field[CML_turn + 1:]
-            # fix adding extra character at the end
-            if CML_turn == 19:
-                new_field = pre_position + CML_symbol
-                return new_field
-            else:
-                new_field = pre_position + CML_symbol + post_position
-                return new_field
-    '''
-    # if no strategy applied, make random turn
+    # NO STRATEGY -> make random turn
     CML_turn = random.randint(1, 20) # CML = centralni mozek lidstva
     print(f'CML choice: {CML_turn}.')
+    # prepare new field
+    new_field = prepare_field(field, CML_turn, CML_symbol)
+    return new_field
 
 def set_player_symbol():
     '''
@@ -249,38 +217,26 @@ def ticktacktoe():
         
         # view the game field
         print(f'Current view of game field: {game_field}')
+        # vytiskni indexy pro prehlednost
+        
         print(f'Turn number {turn_counter}.')
         
-        # HUMAN - updated game field after human player turn
-        game_field = player_turn(game_field, player_symbol)
+        if turn_counter % 2 == 1:    
+            # HUMAN - updated game field after human player turn
+            game_field = player_turn(game_field, player_symbol)
+        
+        else:
+            # CML - updated game field after CML player turn
+            game_field = CML_turn(game_field, CML_symbol, player_symbol)
         
         # evaluate game status
         status = evaluate(game_field)
         
         # game over condition
-        if status == '-':
-            pass
-        else:
+        if status != '-':
             print(game_field)
             print('End of game')
-            break
-        
-        # CML - updated game field after CML player turn
-        game_field = CML_turn(game_field, CML_symbol, player_symbol)
-        
-        # view the game field
-        print(f'Current view of game field: {game_field}')
-        
-        # evaluate game status
-        status = evaluate(game_field)
-
-        # game over condition
-        if status == '-':
-            pass
-        else:
-            print(game_field)
-            print('End of game')
-            break
+            break 
 
 # RUNTIME
 ticktacktoe()
