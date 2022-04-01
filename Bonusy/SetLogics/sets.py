@@ -23,3 +23,9 @@ print(f"OR: {sets[0] | sets[1]}")
 
 print(f"AND: {sets[0] & sets[1]}")
 
+print(f"XOR: {sets[0] ^ sets[1]}")
+
+print(f"Left: {sets[0] - sets[1]}")
+
+print(f"Right: {sets[1] - sets[0]}")
+
