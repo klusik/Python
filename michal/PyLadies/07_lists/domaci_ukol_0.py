@@ -25,14 +25,13 @@ def animal_detector(animal, list_of_animals):
         return True
     else:
         return False
-
+animal_list = ['pes', 
+                'kočka', 
+                'králík', 
+                'had', 
+                'hamster', 
+                'fish', 
+                'shrimp', 
+                'snail']
 # RUNTIME
-print(animal_detector('horse', 
-                     ['pes', 
-                     'kočka', 
-                     'králík', 
-                     'had', 
-                     'hamster', 
-                     'fish', 
-                     'shrimp', 
-                     'snail']))
+print(animal_detector('horse', animal_list))
