@@ -12,9 +12,16 @@
 """
 
 # IMPORTS #
+import os
+
 
 # CLASSES #
 
 # RUNTIME #
+def read_all_files(directory):
+    """ Reads all files in directory and return their file names as a list """
+    pass
+
+
 if __name__ == "__main__":
     pass
