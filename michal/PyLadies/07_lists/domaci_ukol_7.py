@@ -2,7 +2,10 @@
 Napiš funkci, která převede římské číslice zadané jako řetězec str na číslo int.
 '''
 
-def rom_to_int(roman_number):
+# IMPORTS
+# import sys
+
+def rom_to_int(whole_roman_number):
     '''
     Convert roman numbers to standard integers (arabic numbers with base 10)
 
@@ -34,7 +37,7 @@ def rom_to_int(roman_number):
     '''
     
     # keeps track of value of roman number
-    result = 0
+    result = 5
     
     # definition table of roman numbers
     table = [
@@ -48,27 +51,31 @@ def rom_to_int(roman_number):
             ]
 
     # fix upper/lower situation
-    roman_number = roman_number.upper()
+    whole_roman_number = whole_roman_number.upper()
 
     # switch roman number with smallest number sitting on the left
     # due to fact algorith works from smallest numbers and to avoid using
     # minuses when looking for index of letter
-    roman_number = roman_number[::-1]
+    whole_roman_number = whole_roman_number[::-1]
 
-    for roman in roman_number:
-        next_roman_index = roman_number.index(roman) + 1
-        next_roman = roman_number[next_roman_index]
-
+    for current_roman in whole_roman_number:
+        # index in roman  string
+        next_roman_index = whole_roman_number.index(current_roman) + 1 
+        # value derived from index
+        next_roman_string = whole_roman_number[next_roman_index] 
 
         # retrieve values from table
-        roman_value = table[table.index(roman)-1]
-        next_roman_value = table[table.index(next_roman)-1]
+        current_roman_value = table[table.index(current_roman)-1]
+        next_roman_value = table[table.index(next_roman_string)-1]
 
-        if next_roman_value > roman_value:
-            result = result + next_roman_value
+        # next is bigger
+        if next_roman_value >= current_roman_value:
+            # add current roman number and next number
+            result = next_roman_value + result
+        # next is smaller
         else:
-            result = result - roman_value
-
+            result = result - next_roman_value
+            
     return result
 
 print(rom_to_int('mcmxciv'))
