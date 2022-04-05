@@ -82,6 +82,10 @@ class Number:
             print("Bad input, mixed decimals with romans.")
             exit()
 
+    def valid_roman(self):
+        """ Checks if enterer roman value is valid.
+            Returns True if valid, False if invalid
+        """
     def convert_to_roman(self):
         """
         Converts self.number to roman
