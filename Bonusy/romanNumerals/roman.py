@@ -71,8 +71,15 @@ class Number:
             if not_valid:
                 exit()
 
+
+
             # Valid roman numeral
             self.roman_number = str(input_number).lower()
+
+            if not self.valid_roman():
+                print(f"Not valid (too many repeats of single character) in {self.roman_number}.")
+                exit()
+
             self.is_roman = True
             self.is_integer = False
             print("Number recognized as roman.")
@@ -81,6 +88,37 @@ class Number:
             # Not integer nor roman
             print("Bad input, mixed decimals with romans.")
             exit()
+
+    def valid_roman(self):
+        """ Checks if enterer roman value is valid.
+            Returns True if valid, False if invalid
+        """
+        # Goes through all characters in roman numeral
+        # and checks if there is more than 3 same letters
+        # consequently
+
+        # counters
+        counter = 0
+        last_character = str()
+
+        for char_index, roman_character in enumerate(self.roman_number):
+            if char_index == 0:
+                # first letter
+                last_character = roman_character
+                continue
+
+            # For not first letter assume there is 'last_character' previously created
+            if last_character == roman_character:
+                counter += 1
+            else:
+                counter = 0
+                last_character = roman_character
+
+            if counter >= 3:
+                # Too many characters
+                return False
+
+        return True
 
     def convert_to_roman(self):
         """
