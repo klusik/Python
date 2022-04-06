@@ -33,10 +33,10 @@ def read_all_files(directory):
 
             if len(path) > 2:
                 if path[2] == '.':
-                    continue # next file
+                    continue  # next file
 
             if file[0] == '.':
-                continue # next file
+                continue  # next file
 
             all_files[file_path] = file
 
@@ -68,9 +68,7 @@ def move_files(files, destination_path):
         shutil.copyfile(file, f"{destination_path}\\file_{str(counter).zfill(count_length)}.{extension}")
 
 
-
 if __name__ == "__main__":
     all_files = read_all_files(".")
 
     move_files(all_files, 'test')
-
