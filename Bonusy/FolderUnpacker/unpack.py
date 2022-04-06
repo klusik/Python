@@ -14,15 +14,16 @@
 # IMPORTS #
 import os
 import pprint
+import shutil
 
 
 # CLASSES #
 
 # RUNTIME #
 def read_all_files(directory):
-    """ Reads all files in directory and return their file names as a list """
+    """ Reads all files in directory and return their file names as a dict """
 
-    all_files = list()
+    all_files = dict()
     for path, current_directory, files in os.walk(directory):
         for file in files:
             # ignore files with '.' as first character,
@@ -37,7 +38,7 @@ def read_all_files(directory):
             if file[0] == '.':
                 continue # next file
 
-            all_files.append(file_path)
+            all_files[file_path] = file
 
     return all_files
 
@@ -45,7 +46,24 @@ def read_all_files(directory):
 def move_files(files, destination_path):
     """ Moves files """
 
+    # Prepare output folder
+    try:
+        os.mkdir(destination_path)
+    except FileExistsError:
+        # Directory exists
+        # Remove directory content
+        shutil.rmtree(destination_path)
+        os.mkdir(destination_path)
+
+    for file in files:
+        # shutil.copyfile(file, f"{destination_path}\{file}")
+        pprint.pprint(f"{file} : {files[file]}")
+        shutil.copyfile(file, f"{destination_path}\{files[file]}")
+
+
 
 if __name__ == "__main__":
     all_files = read_all_files(".")
+
+    move_files(all_files, 'test')
 
