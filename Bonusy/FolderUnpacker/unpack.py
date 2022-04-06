@@ -55,10 +55,12 @@ def move_files(files, destination_path):
         shutil.rmtree(destination_path)
         os.mkdir(destination_path)
 
-    for file in files:
+
+    for counter, file in enumerate(files):
         # shutil.copyfile(file, f"{destination_path}\{file}")
         pprint.pprint(f"{file} : {files[file]}")
-        shutil.copyfile(file, f"{destination_path}\{files[file]}")
+        extension = files[file].split('.')[-1]
+        shutil.copyfile(file, f"{destination_path}\\file_{counter}.{extension}")
 
 
 
