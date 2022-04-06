@@ -55,12 +55,17 @@ def move_files(files, destination_path):
         shutil.rmtree(destination_path)
         os.mkdir(destination_path)
 
+    # Determine number of files (later for formatting the name)
+    file_count = len(files)
+    count_length = len(str(file_count))
+    print(count_length)
 
+    # Copying & renaming
     for counter, file in enumerate(files):
         # shutil.copyfile(file, f"{destination_path}\{file}")
         pprint.pprint(f"{file} : {files[file]}")
         extension = files[file].split('.')[-1]
-        shutil.copyfile(file, f"{destination_path}\\file_{counter}.{extension}")
+        shutil.copyfile(file, f"{destination_path}\\file_{str(counter).zfill(count_length)}.{extension}")
 
 
 
