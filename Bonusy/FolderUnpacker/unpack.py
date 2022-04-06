@@ -13,6 +13,7 @@
 
 # IMPORTS #
 import os
+import pprint
 
 
 # CLASSES #
@@ -20,8 +21,31 @@ import os
 # RUNTIME #
 def read_all_files(directory):
     """ Reads all files in directory and return their file names as a list """
-    pass
+
+    all_files = list()
+    for path, current_directory, files in os.walk(directory):
+        for file in files:
+            # ignore files with '.' as first character,
+            # which is character on index [2]
+
+            file_path = f"{path}\{file}"
+
+            if len(path) > 2:
+                if path[2] == '.':
+                    continue # next file
+
+            if file[0] == '.':
+                continue # next file
+
+            all_files.append(file_path)
+
+    return all_files
+
+
+def move_files(files, destination_path):
+    """ Moves files """
 
 
 if __name__ == "__main__":
-    pass
+    all_files = read_all_files(".")
+
