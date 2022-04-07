@@ -1,0 +1,3 @@
+[submodule "pyladies_klusik"]
+	path = pyladies_klusik
+	url = https://klusik@bitbucket.org/klusik/pyladies_klusik.git
