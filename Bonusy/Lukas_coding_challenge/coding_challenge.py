@@ -14,8 +14,22 @@ import time
 
 
 # RUNTIME #
+def find_numbers_o2(input_number):
+    """ Same as find_numbers, but hopefully faster :-D """
+    numbers = list()
+
+    for number_1 in range(1, input_number+1):
+        for number_2 in range(number_1, input_number+1-number_1):
+            for number_3 in range(number_2, input_number+1-number_1-number_2):
+                if (number_1 + number_2 + number_3) == input_number:
+                    numbers.append((number_1, number_2, number_3))
+
+
+    return numbers
+
 def find_numbers(input_number):
     """ Find numbers according to the assignment """
+    # O(n^3) solution
 
     numbers = list()
 
@@ -45,7 +59,15 @@ def main():
     found_numbers = find_numbers(input_number)
     final_time = time.time()
 
-    print("Numbers found: ")
+    print("Numbers found (1st method): ")
+    # pprint.pprint(found_numbers)
+    print(f"It ran for {final_time - initial_time} s.")
+
+    initial_time = time.time()
+    found_numbers = find_numbers_o2(input_number)
+    final_time = time.time()
+
+    print("Numbers found (2nd method): ")
     # pprint.pprint(found_numbers)
     print(f"It ran for {final_time - initial_time} s.")
 
