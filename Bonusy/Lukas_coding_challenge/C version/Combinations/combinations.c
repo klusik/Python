@@ -72,6 +72,11 @@ int create_combinations(int input_number) {
 
             /* Adding to a list (all permutations) */
             add_combination(number_1, number_2, number_3);
+            add_combination(number_1, number_3, number_2);
+            add_combination(number_2, number_1, number_3);
+            add_combination(number_2, number_3, number_1);
+            add_combination(number_3, number_2, number_1);
+            add_combination(number_3, number_1, number_2);
         }
     }
 }
