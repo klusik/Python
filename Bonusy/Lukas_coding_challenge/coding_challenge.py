@@ -10,6 +10,7 @@ Udělej to v O(n^2)
 
 # IMPORTS #
 import pprint
+import time
 
 
 # RUNTIME #
@@ -18,10 +19,10 @@ def find_numbers(input_number):
 
     numbers = list()
 
-    for number in range(3, input_number + 1):
+    for number in range(1, input_number + 1):
         # Find other 2 numbers
         remaining_number = input_number - number
-        for number_2 in range(2, remaining_number + 1):
+        for number_2 in range(1, remaining_number + 1):
             remaining_number_2 = remaining_number - number_2
             for number_3 in range(1, remaining_number_2 + 1):
                 remaining_number_3 = remaining_number_2 - number_3
@@ -40,10 +41,13 @@ def main():
     except ValueError:
         print("Bad format of number or the value doesn't make sense.")
 
+    initial_time = time.time()
     found_numbers = find_numbers(input_number)
+    final_time = time.time()
 
     print("Numbers found: ")
-    pprint.pprint(found_numbers)
+    # pprint.pprint(found_numbers)
+    print(f"It ran for {final_time - initial_time} s.")
 
 
 if __name__ == "__main__":
