@@ -14,6 +14,26 @@ import time
 
 
 # RUNTIME #
+def find_numbers_o2_real(input_number):
+    """ Same as find_numbers_o2(), but actualy working """
+    numbers = set()
+
+    for number_1 in range(1, input_number+1):
+        for number_2 in range(number_1, input_number+1-number_1):
+            # Here I know number_3 could be ONLY input_number - (number_1 + number_2),
+            # so that's my number_3
+            number_3 = input_number - (number_1 + number_2)
+
+            # Run permutations (yeah, bruteforce)
+            numbers.add((number_1, number_2, number_3))
+            numbers.add((number_1, number_3, number_2))
+            numbers.add((number_2, number_1, number_3))
+            numbers.add((number_2, number_3, number_1))
+            numbers.add((number_3, number_2, number_1))
+            numbers.add((number_3, number_1, number_2))
+
+    return numbers
+
 def find_numbers_o2(input_number):
     """ Same as find_numbers, but hopefully faster :-D """
     numbers = set()
@@ -61,23 +81,34 @@ def main():
             raise (ValueError)
     except ValueError:
         print("Bad format of number or the value doesn't make sense.")
+        return
 
+    # 1st method
     initial_time = time.time()
     # found_numbers = find_numbers(input_number)
     final_time = time.time()
-
     print("Numbers found (1st method): ")
     # pprint.pprint(found_numbers)
     print(f"It ran for {final_time - initial_time} s.")
 
+    # 2nd method
     initial_time = time.time()
-    found_numbers = find_numbers_o2(input_number)
+    # found_numbers = find_numbers_o2(input_number)
     final_time = time.time()
-
     print("Numbers found (2nd method): ")
     # pprint.pprint(found_numbers)
-    print(f"It is {len(found_numbers)} numbers.")
     print(f"It ran for {final_time - initial_time} s.")
+
+    # 3rd method
+    initial_time = time.time()
+    found_numbers = find_numbers_o2_real(input_number)
+    final_time = time.time()
+    print("Numbers found (3rd method): ")
+    # pprint.pprint(found_numbers)
+    print(f"It ran for {final_time - initial_time} s.")
+
+    # Number of numbers
+    print(f"It is {len(found_numbers)} numbers.")
 
 
 if __name__ == "__main__":
