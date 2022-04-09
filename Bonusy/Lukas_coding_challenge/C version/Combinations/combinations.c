@@ -55,12 +55,58 @@ int add_combination(int number_1, int number_2, int number_3) {
     }
 }
 
+int create_combinations(int input_number) {
+    /** Creates all combinations & saves them into the linked list */
+
+    /* Register iterators */
+    register int number_1, number_2;
+
+    /* Number 3 as an integer */
+    int number_3;
+
+    /* Looping the loops */
+    for (number_1 = 1; number_1 <= input_number; number_1++) {
+        for (number_2 = number_1; number_2 <= (input_number-number_1); number_2++) {
+            /* Number_3 should be just a subtraction from input_number */
+            number_3 = input_number - (number_1 + number_2);
+
+            /* Adding to a list (all permutations) */
+            add_combination(number_1, number_2, number_3);
+        }
+    }
+}
 
 int main()
 {
-    int input_number;
-    printf("Enter the whole number (3 or more): ");
-    scanf("%d", &input_number);
+    int input_number = 0;
+
+    /* User input */
+    while (input_number < 3) {
+        printf("Enter the whole number (3 or more): ");
+        scanf("%d", &input_number);
+    }
+
+    /* Creating combinations */
+    if (create_combinations(input_number)) {
+        printf("Successfully done.\n");
+    }
+    else {
+        printf("Something went wrong.\n");
+    }
+
+    /* Output */
+    COMBINATIONS *reader;
+    reader = first;
+
+    while(reader != NULL) {
+        /* Write numbers to console */
+        //printf("%d %d %d \n", reader->number_1, reader->number_2, reader->number_3);
+
+        /* Moving the pointer */
+        reader = reader->next;
+    }
+
+
 
 
 
