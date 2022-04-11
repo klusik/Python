@@ -53,6 +53,9 @@ int add_combination(int number_1, int number_2, int number_3) {
         /* Move the pointer */
         last = last->next;
     }
+
+    /* Everything went well */
+    return(1);
 }
 
 int create_combinations(int input_number) {
@@ -64,21 +67,37 @@ int create_combinations(int input_number) {
     /* Number 3 as an integer */
     int number_3;
 
+    int success_counter;
+
     /* Looping the loops */
     for (number_1 = 1; number_1 <= input_number; number_1++) {
         for (number_2 = number_1; number_2 <= (input_number-number_1); number_2++) {
             /* Number_3 should be just a subtraction from input_number */
             number_3 = input_number - (number_1 + number_2);
 
+            /* Good runs counter */
+            success_counter = 0;
+
             /* Adding to a list (all permutations) */
-            add_combination(number_1, number_2, number_3);
-            add_combination(number_1, number_3, number_2);
-            add_combination(number_2, number_1, number_3);
-            add_combination(number_2, number_3, number_1);
-            add_combination(number_3, number_2, number_1);
-            add_combination(number_3, number_1, number_2);
+            success_counter += add_combination(number_1, number_2, number_3);
+            success_counter += add_combination(number_1, number_3, number_2);
+            success_counter += add_combination(number_2, number_1, number_3);
+            success_counter += add_combination(number_2, number_3, number_1);
+            success_counter += add_combination(number_3, number_2, number_1);
+            success_counter += add_combination(number_3, number_1, number_2);
+
+            /* Check if everything okay */
+            if (success_counter == 6) {
+                success_counter = 0;
+            }
+            else {
+                return(0);
+            }
         }
     }
+
+    /* Everything went well */
+    return(1);
 }
 
 int main()
