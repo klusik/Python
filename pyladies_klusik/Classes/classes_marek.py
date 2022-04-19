@@ -1,23 +1,18 @@
-class Ctverec:
-    def __init__(self, a):
-        self.strana = a
+class Kotatko:
+    def __init__(self, jmeno):
+        self.jmeno = jmeno
 
-    def obvod(self):
-        return self.strana * 4
-
-    def obsah(self):
-        return self.strana ** 2
-
-    def rozdil(cizi_ctverec, self):
-        return cizi_ctverec.obsah() - self.obsah()
+    def zamnoukej(self):
+        print("Mňau!")
 
 
-prvni = Ctverec(4)
-druhy = Ctverec(2)
+kocky = ['Mourek', 'Micka', 'PanKoťátko', 'Kusaj', 'Udaj', 'Mourek', 'Mourek']
 
-rozdil = prvni.rozdil(druhy)
-print(rozdil)
-rozdil = druhy.rozdil(prvni)
-print(rozdil)
-print(druhy.obsah())
-print(druhy.obvod())
+kocky_jedinecne = []
+for kocka in kocky:
+    kocka_objekt = Kotatko(kocka)
+    kocky_jedinecne.append(kocka_objekt)
+
+
+print(kocky_jedinecne[0].jmeno)
+
