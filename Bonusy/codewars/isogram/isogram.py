@@ -10,3 +10,33 @@ Example: (Input --> Output)
 "moOse" --> false (ignore letter case)
 
 """
+
+# RUNTIME #
+
+def is_isogram(input_string = ""):
+    """ Returns True / False """
+
+    # My approach would be using dict with keys for every letter,
+    # everything should be there only once
+
+    histogram = dict()
+
+    for character in input_string.lower():
+        try:
+            histogram[character] += 1
+            return False
+
+        except KeyError:
+            histogram[character] = 0
+
+    # Everything only once
+    return True
+
+
+if __name__ == "__main__":
+    """ Main runtime """
+
+    if is_isogram(str(input("Enter a word: "))):
+        print("Yes, it's an isogram.")
+    else:
+        print("Nope, not an isogram.")
