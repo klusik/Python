@@ -10,9 +10,15 @@ kocky = ['Mourek', 'Micka', 'PanKoťátko', 'Kusaj', 'Udaj', 'Mourek', 'Mourek']
 
 kocky_jedinecne = []
 for kocka in kocky:
+    if kocka not in kocky_jedinecne:
+        kocky_jedinecne.append(kocka)
+
+kocky_objekty = []
+for kocka in kocky_jedinecne:
     kocka_objekt = Kotatko(kocka)
-    kocky_jedinecne.append(kocka_objekt)
+    kocky_objekty.append(kocka_objekt)
 
 
-print(kocky_jedinecne[0].jmeno)
+for kocka in kocky_objekty:
+    print(kocka.jmeno)
 
