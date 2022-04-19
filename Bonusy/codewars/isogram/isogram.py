@@ -22,12 +22,8 @@ def is_isogram(input_string = ""):
     histogram = dict()
 
     for character in input_string.lower():
-        try:
-            histogram[character] += 1
+        if input_string.lower().count(character) > 1:
             return False
-
-        except KeyError:
-            histogram[character] = 0
 
     # Everything only once
     return True
