@@ -24,3 +24,5 @@ for poradi in range(10):
     seznam_instanci.append(obsah)
     
 print(seznam_instanci)
+
+""" Super, a jak ověříš, že se jedná skutečně o různé objekty? :-) """
