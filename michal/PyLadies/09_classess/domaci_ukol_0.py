@@ -3,6 +3,7 @@ vytvoř seznam alespoň pěti ruzných koťátek/čtverců.
 Dokážeš to udělat v cyklu? Jak ověříš, 
 že jde skutečně o různé objekty?
 '''
+import random
 
 class Ctverec:
     def __init__(self, delka_strany, pocet_stran):
@@ -26,3 +27,15 @@ for poradi in range(10):
 print(seznam_instanci)
 
 """ Super, a jak ověříš, že se jedná skutečně o různé objekty? :-) """
+
+seznam_objektu = []
+
+for poradi in range(10):
+    ctverec = Ctverec(random.randrange(1,100), 4)
+    seznam_objektu.append(ctverec)
+
+for ctverec in seznam_objektu:
+    print(ctverec.obsah())
+    print(ctverec.obvod())
+    print(id(ctverec))
+    
