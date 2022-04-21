@@ -40,3 +40,4 @@ for poradi in range(10):
 for ctverec in seznam_objektu:
     print(ctverec.obsah())
     print(ctverec.obvod())
+    print(id(ctverec))
