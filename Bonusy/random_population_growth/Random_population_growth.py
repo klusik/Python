@@ -12,7 +12,23 @@
 """
 
 # IMPORTS #
+import random
 
 # CLASSES #
+class Defaults:
+    pass
+
+
+class Person:
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        pass
 
 # RUNTIME #
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()
