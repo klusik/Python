@@ -40,7 +40,7 @@ class Defaults:
     # Initial population sex distribution
     # How much M over F
     # 1 means all M, 0 means all F
-    initial_sex_distribution = 0.5
+    initial_sex_distribution = 0.8
 
     # Simulation length
     maximal_number_of_iterations = 100
@@ -48,11 +48,19 @@ class Defaults:
 
 class Person:
     def __init__(self):
-        pass
+        # Determine sex by chance
+        self.sex = self.decide_sex()
+
+        self.age = 0
 
     def __repr__(self):
-        output_string = ""
+        output_string = f"Sex:\t\t{self.sex}\n"
+        output_string += f"Age:\t\t{self.age}\n"
         return (output_string)
+
+    def decide_sex(self):
+        # Higher probability means more M than F
+        return random.random() < Defaults.initial_sex_distribution
 
 
 class Simulation:
@@ -69,11 +77,21 @@ class Simulation:
     def __repr__(self):
         output_string = "-" * 30 + "\n"
         output_string += f"Iteration:\t\t{self.iteration}\n"
-        output_string += f"Population: \t{self.count_persons()}"
+        output_string += f"Population: \t{self.count_persons()}, M: {self.count_persons(1)} F: {self.count_persons(0)}"
         return (output_string)
 
-    def count_persons(self):
-        return len(self.population)
+    def count_persons(self,
+                      sex = None):
+        if sex in [0, 1]:
+            # counter
+            male_or_female = 0
+
+            for person in self.population:
+                if person.sex == sex:
+                    male_or_female += 1
+            return male_or_female
+        else:
+            return len(self.population)
 
     def step(self):
         self.iteration += 1
@@ -83,9 +101,11 @@ class Simulation:
 def main():
     simulation = Simulation()
 
-    for step in range(Defaults.maximal_number_of_iterations):
-        print(simulation)
+    for step in range(1, Defaults.maximal_number_of_iterations):
         simulation.step()
+
+    # Final simulation
+    print(simulation)
 
 
 if __name__ == "__main__":
