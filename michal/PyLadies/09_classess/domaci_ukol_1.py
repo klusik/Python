@@ -9,6 +9,7 @@ class Ctverec:
     def __init__(self, delka_strany, pocet_stran):
         self.delka_strany = delka_strany
         self.pocet_stran = pocet_stran
+        
     def obvod(self):
         print(f'obvod ctverce je {self.pocet_stran * self.delka_strany}')
         return self.pocet_stran * self.delka_strany
@@ -27,5 +28,4 @@ class Ctverec:
 a = Ctverec(3,4)
 b = Ctverec(2, 4)
 print(a.rozdil_obsahu(b))
-
     
