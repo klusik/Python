@@ -48,7 +48,7 @@ was recorded (full throttle = 100l/100km):
 
 Throttle position   |   fuel consumtion [l/100km]   |   acceleration 0-100km/h [s]
 10%                 |   100 * 0.1 = 10              |   12 * 10 = 120**
-25%                 |   100 * 0.25 = 25             |   12 * 3 = 36**
+25%                 |   100 * 0.25 = 25             |   12 * 4 = 48**
 50%                 |   100 * 0.5 = 50              |   12 * 2 = 24**
 75%                 |   100 * 0.75 = 75             |   12 * 1.5 = 18**
 100%                |   100***                      |   12*
@@ -66,6 +66,10 @@ fuel_consumed_accel = fuel_consumption / distance_traveled
 
 To be able to determine fuel consumption during acceleration, traveled length
 must be known. Not sure, how to do that. 
+
+25.4.2022 12:55 Michal Sykora:
+This is too complicated if real life conditions are considered, 
+thus development is abandoned.
 ---=========================================================================---
 '''
 # CLASSES #
