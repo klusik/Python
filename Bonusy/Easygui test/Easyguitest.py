@@ -1,5 +1,8 @@
 """
     Test the "easygui" :-)
+
+    As an administrator: pip install easygui
+
 """
 
 # IMPORTS #
