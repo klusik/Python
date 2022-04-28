@@ -10,14 +10,24 @@ import xml
 
 # CLASSES #
 class Body:
-    def __init__(self):
+    """ Body of the person """
+    def __init__(self,
+                 year_of_birth=None, # For determining the age of a person
+                 height=None, # For determining BMI
+                 sex=None, # For determining BMI and ideal weight
+                 ):
         pass
 
 
 class BodyValues:
-    def __init__(self):
+    """ Values the Body has """
+    def __init__(self,
+                 weight=None, # Weight in kg
+                 waist_circumference=None, # Waist circumference in cm
+                 date_of_measurement=None, # Date of measurement (timestamp)
+                 ):
         pass
-    
+
 
 
 # RUNTIME #
