@@ -16,7 +16,10 @@ class Body:
                  height=None, # For determining BMI
                  sex=None, # For determining BMI and ideal weight
                  ):
-        pass
+        self.year_of_birth = year_of_birth
+        self.height = height
+        self.sex = sex
+
 
 
 class BodyValues:
@@ -26,7 +29,9 @@ class BodyValues:
                  waist_circumference=None, # Waist circumference in cm
                  date_of_measurement=None, # Date of measurement (timestamp)
                  ):
-        pass
+        self.weight = weight
+        self.waist_circumference = waist_circumference
+        self.date_of_measurement = date_of_measurement
 
 
 
