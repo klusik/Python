@@ -20,6 +20,28 @@ class Body:
         self.height = height
         self.sex = sex
 
+        # List for Body values
+        self.body_values = []
+
+    def add_body_value(self,
+                       weight = None,
+                       waist_circumference = None,
+                       date_of_measurement = None,
+                       ):
+
+        # Create an object with all values necessary
+        body_value = BodyValues(
+            weight,
+            waist_circumference,
+            date_of_measurement,
+        )
+
+        # Add a body value to the list
+        self.body_values.append(body_value)
+
+        # Exit function
+        return body_value
+
 
 
 class BodyValues:
