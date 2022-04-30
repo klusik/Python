@@ -1,1 +1,1 @@
-<bodies><Default><age>30</age><height>180</height><name>John Doe</name><ignore>True</ignore></Default></bodies>
+<bodies><body name="Default"><val name="age">30</val><val name="height">180</val><val name="name">John Doe</val><val name="ignore">True</val></body></bodies>

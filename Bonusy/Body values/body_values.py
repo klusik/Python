@@ -60,11 +60,11 @@ class Body:
             # No previously found body, create the file
             try:
                root = xmlElTree.Element("bodies")
-               body = xmlElTree.SubElement(root, "Default")
-               xmlElTree.SubElement(body, "age").text = "30"
-               xmlElTree.SubElement(body, "height").text = "180"
-               xmlElTree.SubElement(body, "name").text = "John Doe"
-               xmlElTree.SubElement(body, "ignore").text = "True"
+               body = xmlElTree.SubElement(root, "body", name="Default")
+               xmlElTree.SubElement(body, "val", name="age").text = "30"
+               xmlElTree.SubElement(body, "val", name="height").text = "180"
+               xmlElTree.SubElement(body, "val", name="name").text = "John Doe"
+               xmlElTree.SubElement(body, "val", name="ignore").text = "True"
 
                tree = xmlElTree.ElementTree(root)
                tree.write(Config.list_of_bodies_file)
@@ -80,7 +80,10 @@ class Body:
         root = xmlElTree.parse(Config.list_of_bodies_file).getroot()
 
         # List of bodies
-        print(root)
+        for body in root:
+            print(body.tag, body.attrib)
+
+
 
 
 class BodyValues:
