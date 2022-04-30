@@ -6,8 +6,9 @@
 
 # IMPORTS #
 import easygui
-import xml
 import logging
+
+import xml.etree.ElementTree as xmlElTree
 
 
 # CLASSES #
@@ -52,7 +53,9 @@ class Body:
         """ Loads a list of previous saved bodies """
         try:
             with open(Config.list_of_bodies_file, "r") as f_list_of_bodies:
+                # The file could be read, cool
                 pass
+
         except FileNotFoundError:
             # No previously found body, create the file
             try:
@@ -65,7 +68,11 @@ class Body:
                 logging.error(f"File {Config.list_of_bodies_file} couldn't be created, exiting process.")
                 exit(1)
 
+        # File exists and it's openable, xml parse it
+        root = xmlElTree.parse(Config.list_of_bodies_file).getroot()
 
+        # List of bodies
+        print(root)
 
 
 class BodyValues:
@@ -87,6 +94,8 @@ def main():
     logging.basicConfig(level=logging.INFO)
     # Create a body
     body = Body()
+
+    body.list_of_bodies()
 
 
 if __name__ == "__main__":
