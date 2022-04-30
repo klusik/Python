@@ -7,14 +7,21 @@
 # IMPORTS #
 import easygui
 import xml
+import logging
+
 
 # CLASSES #
+class Config:
+    list_of_bodies_file = "bodies.xml"
+
+
 class Body:
     """ Body of the person """
+
     def __init__(self,
-                 year_of_birth=None, # For determining the age of a person
-                 height=None, # For determining BMI
-                 sex=None, # For determining BMI and ideal weight
+                 year_of_birth=None,  # For determining the age of a person
+                 height=None,  # For determining BMI
+                 sex=None,  # For determining BMI and ideal weight
                  ):
         self.year_of_birth = year_of_birth
         self.height = height
@@ -24,11 +31,10 @@ class Body:
         self.body_values = []
 
     def add_body_value(self,
-                       weight = None,
-                       waist_circumference = None,
-                       date_of_measurement = None,
+                       weight=None,
+                       waist_circumference=None,
+                       date_of_measurement=None,
                        ):
-
         # Create an object with all values necessary
         body_value = BodyValues(
             weight,
@@ -42,25 +48,46 @@ class Body:
         # Exit function
         return body_value
 
+    def list_of_bodies(self):
+        """ Loads a list of previous saved bodies """
+        try:
+            with open(Config.list_of_bodies_file, "r") as f_list_of_bodies:
+                pass
+        except FileNotFoundError:
+            # No previously found body, create the file
+            try:
+                with open(Config.list_of_bodies_file, "w") as f_list_of_bodies:
+                    # Return no bodies.
+                    return None
+
+            except PermissionError:
+                # If bodies file couldn't be created
+                logging.error(f"File {Config.list_of_bodies_file} couldn't be created, exiting process.")
+                exit(1)
+
+
 
 
 class BodyValues:
     """ Values the Body has """
+
     def __init__(self,
-                 weight=None, # Weight in kg
-                 waist_circumference=None, # Waist circumference in cm
-                 date_of_measurement=None, # Date of measurement (timestamp)
+                 weight=None,  # Weight in kg
+                 waist_circumference=None,  # Waist circumference in cm
+                 date_of_measurement=None,  # Date of measurement (timestamp)
                  ):
         self.weight = weight
         self.waist_circumference = waist_circumference
         self.date_of_measurement = date_of_measurement
 
 
-
 # RUNTIME #
 def main():
+    # Logging setup
+    logging.basicConfig(level=logging.INFO)
     # Create a body
     body = Body()
+
 
 if __name__ == "__main__":
     main()
