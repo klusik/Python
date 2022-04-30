@@ -59,9 +59,16 @@ class Body:
         except FileNotFoundError:
             # No previously found body, create the file
             try:
-                with open(Config.list_of_bodies_file, "w") as f_list_of_bodies:
-                    # Return no bodies.
-                    return None
+               root = xmlElTree.Element("bodies")
+               body = xmlElTree.SubElement(root, "Default")
+               xmlElTree.SubElement(body, "age").text = "30"
+               xmlElTree.SubElement(body, "height").text = "180"
+               xmlElTree.SubElement(body, "name").text = "John Doe"
+
+               tree = xmlElTree.ElementTree(root)
+               tree.write(Config.list_of_bodies_file)
+
+               logging.info("Test")
 
             except PermissionError:
                 # If bodies file couldn't be created
