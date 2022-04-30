@@ -49,8 +49,11 @@ class Body:
         # Exit function
         return body_value
 
-    def list_of_bodies(self):
-        """ Loads a list of previous saved bodies """
+    def load_list_of_bodies(self):
+        """ Loads a list of previous saved bodies
+            Returns: Dict with bodies and their's values
+        """
+
         try:
             with open(Config.list_of_bodies_file, "r") as f_list_of_bodies:
                 # The file could be read, cool
@@ -80,14 +83,18 @@ class Body:
 
         # Dict of bodies
         bodies = dict()
+
         for body in root:
-            print("name", body.attrib['name'])
+            # For every body in the XMl there will be values
             bodies[body.attrib['name']] = dict()
+
             for value in body:
-                print(value.tag, value.text)
+                # Every body has values,
+                # Key is value.tag, value is value.text from XML
                 bodies[body.attrib['name']][value.tag] = value.text
 
-        print(bodies)
+        logging.debug(bodies)
+        return bodies
 
 
 
@@ -111,7 +118,7 @@ def main():
     # Create a body
     body = Body()
 
-    body.list_of_bodies()
+    print(body.load_list_of_bodies())
 
 
 if __name__ == "__main__":
