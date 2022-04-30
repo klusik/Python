@@ -64,6 +64,7 @@ class Body:
                xmlElTree.SubElement(body, "age").text = "30"
                xmlElTree.SubElement(body, "height").text = "180"
                xmlElTree.SubElement(body, "name").text = "John Doe"
+               xmlElTree.SubElement(body, "ignore").text = "True"
 
                tree = xmlElTree.ElementTree(root)
                tree.write(Config.list_of_bodies_file)
