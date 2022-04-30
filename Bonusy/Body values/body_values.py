@@ -16,38 +16,13 @@ class Config:
     list_of_bodies_file = "bodies.xml"
 
 
-class Body:
-    """ Body of the person """
+class Bodies:
+    def __init__(self):
+        self.list_of_bodies = self.load_list_of_bodies()
 
-    def __init__(self,
-                 year_of_birth=None,  # For determining the age of a person
-                 height=None,  # For determining BMI
-                 sex=None,  # For determining BMI and ideal weight
-                 ):
-        self.year_of_birth = year_of_birth
-        self.height = height
-        self.sex = sex
-
-        # List for Body values
-        self.body_values = []
-
-    def add_body_value(self,
-                       weight=None,
-                       waist_circumference=None,
-                       date_of_measurement=None,
-                       ):
-        # Create an object with all values necessary
-        body_value = BodyValues(
-            weight,
-            waist_circumference,
-            date_of_measurement,
-        )
-
-        # Add a body value to the list
-        self.body_values.append(body_value)
-
-        # Exit function
-        return body_value
+    def get_list_of_bodies(self):
+        """ Returns a list of bodies """
+        return self.list_of_bodies
 
     def load_list_of_bodies(self):
         """ Loads a list of previous saved bodies
@@ -64,7 +39,7 @@ class Body:
             try:
                root = xmlElTree.Element("bodies")
                body = xmlElTree.SubElement(root, "body", name="John Doe")
-               xmlElTree.SubElement(body, "age").text = "30"
+               xmlElTree.SubElement(body, "year_of_birth").text = "1984"
                xmlElTree.SubElement(body, "height").text = "180"
                xmlElTree.SubElement(body, "ignore").text = "True"
 
@@ -93,8 +68,55 @@ class Body:
                 # Key is value.tag, value is value.text from XML
                 bodies[body.attrib['name']][value.tag] = value.text
 
+            """
+            obj_body = Body(
+                year_of_birth=body.attrib['year_of_birth'],
+                height=body.attrib['height'],
+                ignore=body.attrib['ignore'],
+                sex=body.attrib['sex'],
+            ) """
+
+
         logging.debug(bodies)
         return bodies
+
+
+class Body:
+    """ Body of the person """
+
+    def __init__(self,
+                 year_of_birth=None,  # For determining the age of a person
+                 height=None,  # For determining BMI
+                 sex=None,  # For determining BMI and ideal weight
+                 age=None, # Age
+                 ignore=False, # If the user is ignored by program (for creating a dummy bodies)
+                 ):
+        self.year_of_birth = year_of_birth
+        self.height = height
+        self.sex = sex
+
+        # List for Body values
+        self.body_values = []
+
+
+    def add_body_value(self,
+                       weight=None,
+                       waist_circumference=None,
+                       date_of_measurement=None,
+                       ):
+        # Create an object with all values necessary
+        body_value = BodyValues(
+            weight,
+            waist_circumference,
+            date_of_measurement,
+        )
+
+        # Add a body value to the list
+        self.body_values.append(body_value)
+
+        # Exit function
+        return body_value
+
 
 
 
@@ -116,9 +138,9 @@ def main():
     # Logging setup
     logging.basicConfig(level=logging.INFO)
     # Create a body
-    body = Body()
+    bodies = Bodies()
 
-    print(body.load_list_of_bodies())
+    print(bodies.get_list_of_bodies())
 
 
 if __name__ == "__main__":
