@@ -7,4 +7,10 @@ def vyber_znaku():
 
     return znak_hrac
 
-vyber_znaku()
+# vyber_znaku()
+pole = []
+
+for i in range(5):
+    pole.append(["x"] * 5)
+
+print(pole)
