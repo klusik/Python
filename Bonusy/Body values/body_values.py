@@ -37,16 +37,16 @@ class Bodies:
         except FileNotFoundError:
             # No previously found body, create the file
             try:
-               root = xmlElTree.Element("bodies")
-               body = xmlElTree.SubElement(root, "body", name="John Doe")
-               xmlElTree.SubElement(body, "year_of_birth").text = "1984"
-               xmlElTree.SubElement(body, "height").text = "180"
-               xmlElTree.SubElement(body, "ignore").text = "True"
+                root = xmlElTree.Element("bodies")
+                body = xmlElTree.SubElement(root, "body", name="John Doe")
+                xmlElTree.SubElement(body, "year_of_birth").text = "1984"
+                xmlElTree.SubElement(body, "height").text = "180"
+                xmlElTree.SubElement(body, "ignore").text = "True"
 
-               tree = xmlElTree.ElementTree(root)
-               tree.write(Config.list_of_bodies_file)
+                tree = xmlElTree.ElementTree(root)
+                tree.write(Config.list_of_bodies_file)
 
-               logging.info("Test")
+                logging.info("Test")
 
             except PermissionError:
                 # If bodies file couldn't be created
@@ -76,7 +76,6 @@ class Bodies:
                 sex=body.attrib['sex'],
             ) """
 
-
         logging.debug(bodies)
         return bodies
 
@@ -88,8 +87,8 @@ class Body:
                  year_of_birth=None,  # For determining the age of a person
                  height=None,  # For determining BMI
                  sex=None,  # For determining BMI and ideal weight
-                 age=None, # Age
-                 ignore=False, # If the user is ignored by program (for creating a dummy bodies)
+                 age=None,  # Age
+                 ignore=False,  # If the user is ignored by program (for creating a dummy bodies)
                  ):
         self.year_of_birth = year_of_birth
         self.height = height
@@ -97,7 +96,6 @@ class Body:
 
         # List for Body values
         self.body_values = []
-
 
     def add_body_value(self,
                        weight=None,
@@ -116,8 +114,6 @@ class Body:
 
         # Exit function
         return body_value
-
-
 
 
 class BodyValues:
