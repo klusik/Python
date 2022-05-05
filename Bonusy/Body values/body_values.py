@@ -12,6 +12,18 @@ import xml.etree.ElementTree as xmlElTree
 
 
 # CLASSES #
+class Helper:
+    """ Stuff that helps """
+    @staticmethod
+    def dict_dump(variable):
+        """ Dumps variable in readable way """
+
+        # Assuming the 'variable' is dict and its all items
+        # are values or dicts.
+
+        
+
+
 class Config:
     list_of_bodies_file = "bodies.xml"
 
@@ -137,6 +149,8 @@ def main():
     bodies = Bodies()
 
     print(bodies.get_list_of_bodies())
+
+    Helper.dict_dump(bodies.get_list_of_bodies())
 
 
 if __name__ == "__main__":
