@@ -12,6 +12,14 @@ import xml.etree.ElementTree as xmlElTree
 
 
 # CLASSES #
+class Helper:
+    """ Stuff that helps """
+    @staticmethod
+    def var_dump(variable):
+        """ Dumps variable in readable way """
+
+        # Need to get the variable 
+
 class Config:
     list_of_bodies_file = "bodies.xml"
 
