@@ -5,7 +5,7 @@ version: 0.1 pre-alpha
 license: freeware
 '''
 # https://www.geeksforgeeks.org/python-easygui-enter-box/?ref=rp
-# change for the sake of GIT testing
+# change for the sake of GIT testing 
 
 # IMPORTS
 import easygui
