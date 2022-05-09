@@ -55,4 +55,7 @@ vektor = [1 4]';
 
 inv(Matice_soustava) * vektor
 
+% MInimum v matici
+minimum = min(Matice(:)) % Převést na vektor po prvcích a z toho
+
 
