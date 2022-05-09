@@ -59,3 +59,21 @@ inv(Matice_soustava) * vektor
 minimum = min(Matice(:)) % Převést na vektor po prvcích a z toho
 
 
+%% Grafika
+
+% hold on / hold off -- nepřekreslení grafu
+
+%% Zadání
+% Vytvořte rand vektor s 10 prvky hodnoty mezi 0 a 1
+% najděte všechny mezi 0.4 a 0.8
+
+rand_vector = rand(100, 1)
+
+logical_vector = rand_vector > 0.5 & rand_vector < 0.55
+
+rand_vector(logical_vector)
+
+
+
+
+
