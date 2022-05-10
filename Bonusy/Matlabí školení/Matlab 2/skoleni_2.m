@@ -50,7 +50,16 @@ cat(kruh.polomer);
 table_of_cicies = readtable('NejvetsiMestaCR.xlsx');
 
 % Summary vrátí "various info" o tabulce (cool)
-summary(table_of_cicies);
+% summary(table_of_cicies);
+
+%% Hodiny a stuff
+clock;
+
+now;
+
+date;
+
+datestr(now);
 
 
 
