@@ -61,6 +61,19 @@ date;
 
 datestr(now);
 
+% Daytime a duration
+
+time_1 = datetime;
+time_2 = datetime(1984, 1, 1);
+
+% Daytime můžu přes tečky jako time_2.hour 
+% a podobně (yes)
+
+% Jak dlouho od mýho narození?
+years_from_my_birthday = years(time_1 - time_2);
+
+
+
 
 
 
