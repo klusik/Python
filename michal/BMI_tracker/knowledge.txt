@@ -1,0 +1,8 @@
+VENV
+python -m venv .venv
+venv activate
+.venv/Scripts/activate
+
+.GITIGNORE
+
+REQUIREMENTS.txt
