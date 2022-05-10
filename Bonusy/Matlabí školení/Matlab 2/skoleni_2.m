@@ -72,6 +72,18 @@ time_2 = datetime(1984, 1, 1);
 % Jak dlouho od mýho narození?
 years_from_my_birthday = years(time_1 - time_2);
 
+%% Categorical
+
+some_array = {'1', '2', 'a'};
+
+cat_some_array = categorical(some_array);
+
+categories(cat_some_array);
+nnz(cat_some_array == '2');
+
+%% Sparse matrices
+
+
 
 
 
