@@ -14,7 +14,7 @@ nargin('the_best_function');
 
 % varangin([1,2], [2,3], [3,4]);
 
-funkce_s_argumenty()
+funkce_s_argumenty(3, 3)
 
 
 function varangin(varargin)
