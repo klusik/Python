@@ -31,6 +31,26 @@ kruh(2).polomer = 10;
 
 S = pi*kruh(2).polomer^2;
 
+kruh(2);
+
+% Struktury mohu spojovat jen tehdy, 
+% když mají stejná jména položek
+% (je to klasické pole)
+
+% Získání všech položek
+
+kruh.polomer;
+
+% Vrací 'comma separated list'
+% 3, 8 vrátí do ans 3 a pak 8
+
+cat(kruh.polomer);
+
+% Table
+table_of_cicies = readtable('NejvetsiMestaCR.xlsx');
+
+
+
 
 
 
