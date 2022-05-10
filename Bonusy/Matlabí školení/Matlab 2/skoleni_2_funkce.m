@@ -12,7 +12,9 @@ the_best_function(1, 2, 3);
 % Pro výstup je nargout
 nargin('the_best_function');
 
-varangin([1,2], [2,3], [3,4])
+% varangin([1,2], [2,3], [3,4]);
+
+funkce_s_argumenty()
 
 
 function varangin(varargin)
