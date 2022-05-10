@@ -83,11 +83,7 @@ nnz(cat_some_array == '2');
 
 %% Sparse matrices
 
+M = eye(3);
 
-
-
-
-
-
-
-
+% Pouze nenulové prvky
+sparse(M);
