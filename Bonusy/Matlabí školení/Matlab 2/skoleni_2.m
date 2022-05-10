@@ -87,3 +87,7 @@ M = eye(3);
 
 % Pouze nenulové prvky
 sparse(M);
+
+% spy(M); % vykreslení
+
+full(sparse(M));
