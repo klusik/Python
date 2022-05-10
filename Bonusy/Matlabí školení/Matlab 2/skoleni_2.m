@@ -49,6 +49,9 @@ cat(kruh.polomer);
 % Table
 table_of_cicies = readtable('NejvetsiMestaCR.xlsx');
 
+% Summary vrátí "various info" o tabulce (cool)
+summary(table_of_cicies);
+
 
 
 
