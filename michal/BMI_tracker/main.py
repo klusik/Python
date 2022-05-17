@@ -52,8 +52,8 @@ def MainWindow():
     button_list.append(graph)
     button_list.append(pdf)
     button_list.append(records)
-    button_list.append(exit)
     button_list.append(file)
+    button_list.append(exit)
     
     # create indexbox, where each button has assigned index from 0 to infinity
     IndexOfMaineChoice = easygui.indexbox(message, title, button_list)
@@ -138,10 +138,18 @@ def MainWindow():
         easygui.msgbox('Functionality not yet implemented, stay tuned!', 'Records')
         # regenerate the main window
         WindowObject = easygui.indexbox(message, title, button_list)
-
-    # exit button pressed
+    
+    # new file button pressed
     elif IndexOfMaineChoice == 8:
         # not implemented alert
+        easygui.msgbox('Functionality not yet implemented, stay tuned!', 'New file')
+        # regenerate the main window
+        WindowObject = easygui.indexbox(message, title, button_list)
+
+    # exit button pressed
+    elif IndexOfMaineChoice == 9:
+        # not implemented alert
         easygui.msgbox('Finishing!', 'Exit')
+
 
 MainWindow()
