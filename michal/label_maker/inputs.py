@@ -78,4 +78,4 @@ def user_input():
     
     return list_of_dicts
 
-user_input()
+# print(user_input())
