@@ -1,4 +1,24 @@
 import xml.etree.ElementTree as ET
+'''
+Pred samotnou implementaci xml handleru musim udelat uvahu, jak chci s xml
+soubory vlastne pracovat, co vsechno chci naprogramovat. XML soubor bude
+slouzit jako uchovatel uzivatelskych dat.
+
+uzivatelska data:
+vaha, vyska, obvod hrudi, bricha a pasu, poznamka
+
+metadata:
+user id, entry id
+Uzivatel muze
+ 1) vytvorit novy soubor s user daty
+ 2) nemam chut resit jakakoliv prava
+ 3) zobrazit user data
+ 4) zadat user data
+ 5) zmenit user data
+ 6) smazat user data
+ 7) exportovat user data ve forme pdf
+'''
+
 
 def testujPraciSxml(file):
     # vytvor objekt xml souboru
