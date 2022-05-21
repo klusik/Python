@@ -9,14 +9,32 @@ vaha, vyska, obvod hrudi, bricha a pasu, poznamka
 
 metadata:
 user id, entry id
+
 Uzivatel muze
  1) vytvorit novy soubor s user daty
+    - def createProfile(userName)
+        vytvori strukturu souboru s default values
  2) nemam chut resit jakakoliv prava
  3) zobrazit user data
+    def showData(userName)
+        nacte soubor a zobrazi vsechny zaznamy pro vybraneho uzivatele
+        v tabulce, ktera bude soucasti GUI.
  4) zadat user data
+    def enterData()
+        funkce se pta na userName, userData(vaha, vyska, obvod hrudi,
+        bricha, poznamka)
  5) zmenit user data
+    def alterData(entryID, userID)
+        funkce se musi zeptat na atribut, ktery chce uzivatel menit,
+        ten overit na pritomnost, zeptat se na novou hodnotu a zapsat ji
  6) smazat user data
+    def eraseData(entryID, userID)
+        funkce bude umoznovat smazani konkretnich zaznamu, nejnizsi uroven
+        bude entryID
  7) exportovat user data ve forme pdf
+    def exportPDF()
+        funkce pripravi vystup do tvaru, ktery bude umet modul vytvarejici
+        soubory PDF (zajit nevim ktery to bude)
 '''
 
 
