@@ -1,6 +1,6 @@
 import user_input
 def main():
-    data = user_input()
+    data = user_input.user_input()
     print(data)
 
 if __name__ == '__main__':

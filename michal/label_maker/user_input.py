@@ -1,4 +1,4 @@
-'''Inputs.py
+'''
 
 Take input and return data in format of list of dicts
 
@@ -57,4 +57,4 @@ def user_input():
             continue
     return list_of_dicts
 
-print(user_input())
+#print(user_input())
