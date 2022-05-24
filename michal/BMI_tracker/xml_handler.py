@@ -1,3 +1,4 @@
+from turtle import goto
 import xml.etree.ElementTree as ET
 '''
 Pred samotnou implementaci xml handleru musim udelat uvahu, jak chci s xml
@@ -36,6 +37,17 @@ Uzivatel muze
         funkce pripravi vystup do tvaru, ktery bude umet modul vytvarejici
         soubory PDF (zajit nevim ktery to bude)
 '''
+
+
+
+
+
+
+
+
+
+
+
 
 
 def testujPraciSxml(file):
