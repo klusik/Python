@@ -9,3 +9,15 @@
     "identifier"   =>  "identifier"
     ""             =>  ""
 """
+
+# RUNTIME #
+def solution(input_text):
+    """ Stupid name for a function, but need to give it back to CW """
+
+    # Create a new string
+    decamelized = ""
+    
+if __name__ == "__main__":
+    input_text = str(input("Enter the camelcased identifier: "))
+
+    print(solution(input_text))
