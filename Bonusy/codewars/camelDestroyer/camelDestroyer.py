@@ -16,7 +16,17 @@ def solution(input_text):
 
     # Create a new string
     decamelized = ""
-    
+
+    for letter in input_text:
+        # Going through all letters, if a letter is CAPITAL letter,
+        # just insert a space before
+        if letter.isupper():
+            decamelized += f" {letter}"
+        else:
+            decamelized += letter
+
+    return decamelized
+
 if __name__ == "__main__":
     input_text = str(input("Enter the camelcased identifier: "))
 
