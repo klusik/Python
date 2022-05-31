@@ -15,6 +15,11 @@ Example of output:
 ]
 '''
 
+import csv
+import logging
+
+log = logging.getLogger(__name__)
+
 VALID_FORMS = ['gtt', 'sir', 'sol', 'pst', 'tbl', 'cps',
                 'ung', 'crm', 'supp', 'spr', 'grg']
 VALID_UNITS = ['g', 'ml', 'btc', 'sats',]
@@ -79,5 +84,44 @@ def user_input():
             next_q = input('-- dalsi? a/n: ')
             if next_q == 'n':
                 return entries
-            
+def csv_input_hardwork():
+    log.info('CSV input ACTIVATED')
+    entries = []
+    # open file readlines()
+    with open(r'C:\UserData\git_ws\myOnlyRealPrivateRepo\michal\label_maker\resources\sample_data_csv', 'r') as csv_file:
+        content = csv_file.readlines()
+        # first line are keys for dict
+        first_line = content.pop(0)
+        # split first line to list of strings
+        first_line = first_line.split(',')
+        #print(first_line)
+        # create dict with keys created from list of strings
+        item = {
+            first_line[0].replace('"',''): '', # name
+            first_line[1].replace('"',''): '', # form
+            first_line[2].replace('"',''): '', # units
+            first_line[3].replace('"',''): '', # qty
+            first_line[4].replace('\n', '').replace('"',''): '', # total price
+        }
+        # print(item)
+
+        for line in content:
+            line = line.split(',')    
+            item['name'] = line[0].replace('"','')
+            item['form'] = line[1].replace('"','')
+            item['units'] = line[2].replace('"','')
+            item['qty'] = int(line[3])
+            item['total_price'] = int(line[4])
+            entries.append(item)
+                
+    # last values are int() 
+        return entries
 #user_input()
+
+def csv_input():
+    log.info('CSV input ACTIVATED')
+    
+    with open(r'C:\UserData\git_ws\myOnlyRealPrivateRepo\michal\label_maker\resources\sample_data_csv', 'r') as file:
+        reader = csv.DictReader(file, quoting=csv.QUOTE_NONNUMERIC)
+        data = list(reader)
+    return data
