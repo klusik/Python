@@ -1,6 +1,3 @@
-from functools import total_ordering
-
-
 def calculate_unit_price(data):
     ''''
     Add key 'unit_price' key to dict, value = total_price / quantity
@@ -54,3 +51,46 @@ def prepare_output_list(input_data):
 # kdyz bude list delsi, rozdel to
 # kdyz kratsi, dopln ''
 # pripravit si CSV file delsi nez 36 polozek
+
+def split_to_pages(unchunked_list, chunk_size = 36):
+    chunked_list = []
+    # data to be filled
+    # missing_data = {'top_row':'', 'middle row':'', 'bottom_row':''}
+    missing_data = {k: '' for k in unchunked_list[0]}
+    # create chunked list
+    for chunk in range(0, len(unchunked_list), chunk_size):
+        chunked_list.append(unchunked_list[chunk: chunk + chunk_size])
+
+    # empty data solution
+
+    # number of missing entries in last list
+    missing_entries = chunk_size - len(chunked_list[-1])
+    
+    # adding missing data to fill the last list to standard length
+    chunked_list[-1].extend([missing_data]*missing_entries)
+
+    return(chunked_list)
+
+def enumerate_keys(pagelist):
+    '''
+    take list of dicts and to dict keys add number 
+    return list of dicts
+    '''
+    newlist = []
+    newdict = {}
+    for num, dct in enumerate(pagelist, start=1):
+        # pro kazdy klic a hodnotu z dct
+        for i in dct.items():
+            # ke klici pridam  '_num'
+            dctkey = i[0]
+            dctkey = dctkey + f'_{num}'
+            dctval = i[1]
+            #dctval = dctval + f'_{num}'
+            # vlozim klic s hodnotou do newdict
+            newdict[dctkey]=dctval
+        # novej slovnik do newlist
+        newlist.append(newdict)
+    return newlist
+
+
+    # napis funkci, ktera zmerguje vsechny dicty oceslovane do jednoho velkeho dictu bez dodatecne struktury

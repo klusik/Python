@@ -85,6 +85,7 @@ def user_input():
             if next_q == 'n':
                 return entries
 def csv_input_hardwork():
+    ''' take csv file, return '''
     log.info('CSV input ACTIVATED')
     entries = []
     # open file readlines()
