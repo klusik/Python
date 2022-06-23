@@ -21,6 +21,17 @@ class Coords:
         self.distance = distance
 
     def run(self):
+        """ Run the script """
+
+        # 1st step is to determine in which way to go.
+        # Because of the dimmension universality, it's possible to go in any way given dimmension allows.
+        # For 2D it's only up (0, 1), right (1, 0), left(-1, 0) and down (0, -1).
+        # For 3D these values could be (0, 0, 1) or (0, 0, -1) and similar, only one 'one' or 'minus one' placed.
+        # This will be used as a differential vector from the origin, which is (0, 0, ..., 0)
+        #
+        # Random generator must generate two values:
+        #   -   1 or -1 for the way
+        #   -   index number in the vector which should be changed (for 3D it would be 0--2, for 2D it would be 0--1 etc)
         pass
 
 
