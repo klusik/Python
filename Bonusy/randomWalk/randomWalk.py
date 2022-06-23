@@ -10,21 +10,18 @@
         -   File with list of coordinates
 """
 
+
 # CLASSES #
 class Coords:
     def __init__(self,
-                 dimensions,    # Number of dimensions (2 or more)
-                 distance,      # A distance to travel to
-                ):
+                 dimensions,  # Number of dimensions (2 or more)
+                 distance,  # A distance to travel to
+                 ):
         self.dimension = dimensions
         self.distance = distance
 
     def run(self):
         pass
-
-
-
-
 
 
 # RUNTIME #
@@ -36,7 +33,6 @@ if __name__ == "__main__":
     # Dimension
     input_dimension = 0
 
-
     # Input coordinates
     while input_distance <= 1:
         input_distance = float(input("Enter a distance to travel to: "))
@@ -44,7 +40,6 @@ if __name__ == "__main__":
     # Input dimension
     while input_dimension < 2:
         input_dimension = int(input("Enter a dimmension (whole positive number >= 2): "))
-
 
     # Game plane
     coords = Coords(
