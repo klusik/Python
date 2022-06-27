@@ -29,12 +29,11 @@ def main():
     print('calculated data is data with added unit price: ', calculated_data, '\n')
 
     # REFORMAT CALCULATED_DATA DICT TO OUTPUT DICT CONTAINING KEYS TOP_ROW, MIDDLE_ROW AND BOTTOM_ROW
-    print('dict formatted to top_row, middle_row and bottom_row: ', calculation.prepare_output_dic(calculated_data[0]),
+    print('dict formatted to top-middle-bottom_row: ', calculation.prepare_output_dic(calculated_data[0]),
           '\n')
 
     # CREATE LIST OF OUTPUT DICTS
-    print('prepare_output_list() returns list of formatted dicts: ', calculation.prepare_output_list(calculated_data),
-          '\n')
+    print('prepare_output_list() = list of formatted dicts: ', calculation.prepare_output_list(calculated_data), '\n')
 
     # SPLIT LIST OF DICTS TO PAGES CONTAINING 36 ITEMS TOPS
     print('list split to formatted pages: ',
