@@ -1,7 +1,7 @@
 def calculate_unit_price(data):
-    ''''
+    """'
     Add key 'unit_price' key to dict, value = total_price / quantity
-    '''
+    """
 
     for item in data:
         item['unit_price'] = item['total_price'] / item['qty']
@@ -10,17 +10,18 @@ def calculate_unit_price(data):
 
 
 def prepare_output_dic(input_dict):
-    '''
-    Link data dict to ouptut dict as follows
+    """
+    change data dict to dict with 'rows' keys
+    Link between dicts as follows:
 
     input_dict              output_dict
-    form: str               top_row: str  
+    form: str               top_row: str
     name: str               top_row: str
     quantity: int           top_row: str
     total_price: float      price: str -> middle row
     unit: str               bottom_row: str
     unit_price: float       bottom_row: str
-    '''
+    """
 
     output_dict = {}
 
@@ -40,6 +41,11 @@ def prepare_output_dic(input_dict):
 
 
 def prepare_output_list(input_data):
+    """
+
+    :param input_data:
+    :return:
+    """
     output_list = []
 
     for data in input_data:
@@ -56,7 +62,7 @@ def prepare_output_list(input_data):
 
 def split_to_pages(unchunked_list, chunk_size=36):
     """
-    take a list of dicts and separate after selected chunk size
+    take a list of dicts and separate dict after selected chunk size
     if last chunk is not having desired size, fill ''
     return list of lists of size 36 (chunk size)
     """
@@ -107,8 +113,14 @@ def enumerate_keys(pagelist):
     # napis funkci, ktera zmerguje vsechny dicty oceilovane do jednoho velkeho dictu bez dodatecne struktury
 
 
-def merge_dicts(chunk_list: list) -> dict:
+def merge_dicts(chunked_list: list) -> dict:
     """
-    :param list:
+    take a list of dicts and return dict merged of dicts
+
+    :param list: input list containing dicts
+    :param dict: output dict containing all dicts from input list
     """
-    return {'merge': True}
+    final_dict = {}
+    for single_dict in chunked_list:
+        final_dict = final_dict | single_dict
+    return final_dict
