@@ -42,9 +42,9 @@ def prepare_output_dic(input_dict):
 
 def prepare_output_list(input_data):
     """
-
-    :param input_data:
-    :return:
+    prepare list of dicts (dicts include calculated unit price)
+    :param input_data: single dicts
+    :return: list of dicts
     """
     output_list = []
 
@@ -122,5 +122,5 @@ def merge_dicts(chunked_list: list) -> dict:
     """
     final_dict = {}
     for single_dict in chunked_list:
-        final_dict = final_dict | single_dict
+        final_dict |= single_dict
     return final_dict
