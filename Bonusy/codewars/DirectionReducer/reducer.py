@@ -9,11 +9,15 @@ def dirReduc(input_array):
     souths = input_array.count("SOUTH")
 
     output = list()
+    previous = None
 
-    for index, way in enumerate(input_array):
-        if index+1 < len(input_array):
-            if way == "NORTH":
+    for way in input_array:
+        if previous:
+            if previous == "WEST" and way == "EAST":
                 pass
+
+        previous = way
+
 
     return output
 
