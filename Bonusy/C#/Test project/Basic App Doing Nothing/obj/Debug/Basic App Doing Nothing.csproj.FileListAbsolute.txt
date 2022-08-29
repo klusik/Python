@@ -1,0 +1,10 @@
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\bin\Debug\Basic App Doing Nothing.exe.config
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\bin\Debug\Basic App Doing Nothing.exe
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\bin\Debug\Basic App Doing Nothing.pdb
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\obj\Debug\Basic App Doing Nothing.csprojAssemblyReference.cache
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\obj\Debug\Basic_App_Doing_Nothing.Form1.resources
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\obj\Debug\Basic_App_Doing_Nothing.Properties.Resources.resources
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\obj\Debug\Basic App Doing Nothing.csproj.GenerateResource.cache
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\obj\Debug\Basic App Doing Nothing.csproj.CoreCompileInputs.cache
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\obj\Debug\Basic App Doing Nothing.exe
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Test project\Basic App Doing Nothing\obj\Debug\Basic App Doing Nothing.pdb
