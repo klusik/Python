@@ -8,12 +8,25 @@
 """
 
 # IMPORTS #
+import sympy
 
 # RUNTIME #
 if __name__ == "__main__":
 
+    # Input the range
+    prime_max_input = int(input("Please enter the maximum prime: "))
+
+    prime_list = sympy.primerange(2, prime_max_input)
+
     # Input the fraction from keyboard
-    fraction_string = str(input("Enter the fraction sum: "))
+    # fraction_string = str(input("Enter the fraction sum: "))
+
+    # Generating fraction_string
+    fraction_string = str()
+    for prime_index, prime in enumerate(prime_list):
+        if prime_index > 0:
+            fraction_string += ' + '
+        fraction_string += f"1/{prime}"
 
     # Create parts between plusses
     fraction_parts = fraction_string.split('+')
@@ -41,5 +54,5 @@ if __name__ == "__main__":
 
 
 
-    print(f"{fraction_string} = ({(nominator)}) / {common_denominator} = {eval(nominator)} / {common_denominator}")
+    print(f"{fraction_string} =\n= ({(nominator)}) / {common_denominator} =\n= {eval(nominator)} / {common_denominator}")
 
