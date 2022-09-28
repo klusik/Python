@@ -26,7 +26,8 @@ def match(winning_points,  # Number of points necessary to win
         move_ai = random.choice(moves)
         str_move_user = ""
 
-        print('\n', '#' * 80)
+        print('\n')
+        print('=' * 60)
         while str_move_user.upper() not in moves:
             str_move_user = input("(Case insensitive) R (Rock), P (Paper) or S (Scrissors)?: ").upper()
 
@@ -47,6 +48,7 @@ def match(winning_points,  # Number of points necessary to win
             points_user += 1
             print(f"Player won this round. \tScore {points_user}:{points_ai} (Player:AI)")
 
+    print("\n")
     if points_user > points_ai:
         print(f"The winner is Player with {points_user}. AI lost with {points_ai}.")
     else:
