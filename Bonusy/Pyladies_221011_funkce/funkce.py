@@ -56,8 +56,8 @@ def select_difficulty():
                               "3 -- tezka (1--1000000)\n"
                               "Tvoje volba? > "))
 
-        # Funkce musí nějak komunikovat se světem, zde vrátíme vybranou hodnotu.
-        return selection
+    # Funkce musí nějak komunikovat se světem, zde vrátíme vybranou hodnotu.
+    return selection
 
 
 def tip(user_tip, computer_tip):
