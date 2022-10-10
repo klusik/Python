@@ -22,6 +22,11 @@
         Hlavní hra začíná až úplně dole (funkce game()) :-)
 """
 
+# IMPORTS #
+import random
+
+
+# FUNCTIONS #
 def select_difficulty():
     """ Funkce vrátí hodnotu odpovídající složitosti hry.
         V budoucnosti to pak budeme moci řešit i trošku sofistikovanějším
@@ -49,17 +54,37 @@ def select_difficulty():
                               "1 - lehka (1--10)\n"
                               "2 - stredni (1--1000)\n"
                               "3 -- tezka (1--1000000)\n"
-                              "Vase volba? > "))
+                              "Tvoje volba? > "))
 
         # Funkce musí nějak komunikovat se světem, zde vrátíme vybranou hodnotu.
         return selection
+
+
 def game():
     """ Hlavní hra, tedy funkce, která obsahuje samotnou hru jako takovou. """
 
     # Nejdříve potřebujeme vybrat složitost hry, zavolejme proto
     # funkci, která toto obslouží.
-
     difficulty = select_difficulty()
 
+    # Na základě vybrané složitosti vybereme číslo, které si počítač bude 'myslet'
+    if difficulty == 1:
+        # Budeme losovat mezi 1 -- 10
+        number_to_guess = random.randint(1, 10)
+    elif difficulty == 2:
+        # Budeme losovat mezi 1 -- 1000
+        number_to_guess = random.randint(1, 1000)
+    elif difficulty == 3:
+        # Budeme losovat mezi 1 -- 1000000
+        number_to_guess = random.randint(1, 1000000)
+    else:
+        # Sem bychom se nikdy neměli dostat, takže pokud tu jsme, něco je špatně.
+        print("Neco se hodne nepovedlo :-)")
+
+
+    # Nyní si počítač úspěšně myslí číslo a my můžeme začít hádat. 
+
+
+# Tuhle konstrukci vysvětlíme později, až se dostaneme k modulům, importům a tak podobně.
 if __name__ == "__main__":
     game()
