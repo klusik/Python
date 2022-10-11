@@ -10,3 +10,20 @@
     Rychlé zadání na závěr: Funkce, která přijme dva argumenty, první vypíše, druhý vrátí.
     
     """
+
+def podivny_podil(citatel, jmenovatel):
+    if jmenovatel == 0:
+        return False
+
+    podil = citatel / jmenovatel
+
+    if podil > 10:
+        return 10
+    else:
+        return podil
+
+
+citatel = int(input("Zadej čitatele: "))
+jmenovatel = int(input("Zadej jmenovatele: "))
+
+print("Výsledek podivného podílu je", podivny_podil(citatel, jmenovatel))
