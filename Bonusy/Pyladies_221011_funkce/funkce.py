@@ -40,15 +40,15 @@ def select_difficulty():
     selection = 0
 
     while selection not in [1, 2, 3]:
-        """ Už jste dělali cykly, takže víte, jak funguje while(). Pro zopakování,
-            co se děje zde.
+        # Už jste dělali cykly, takže víte, jak funguje while(). Pro zopakování,
+        # co se děje zde.
             
-            while(podminka) bude dělat cyklus (bude chodit pořád dokola), dokud
-            podmínka v jeho argumentu bude pravdivá.
+        # while(podminka) bude dělat cyklus (bude chodit pořád dokola), dokud
+        # podmínka v jeho argumentu bude pravdivá.
             
-            Zde bude podmínka pravdivá, dokud uživatel bude vybírat jiná 
-            čísla než povolená ze seznamu 1, 2, 3.
-            """
+        # Zde bude podmínka pravdivá, dokud uživatel bude vybírat jiná 
+        # čísla než povolená ze seznamu 1, 2, 3.
+            
 
         selection = int(input("Zadej úroveň:\n"
                               "1 - lehka (1--10)\n"
@@ -110,7 +110,7 @@ def game():
 
     # Využijeme cyklu while()
     while user_guess != number_to_guess:
-        """ Cyklus while() bude probíhat, dokud se netrefíme """
+        # Cyklus while() bude probíhat, dokud se netrefíme
 
         # Další kolo (případně 1., pokud před tím žádné nebylo)
         user_guess_count += 1
@@ -119,24 +119,24 @@ def game():
         # o tom, že jsme se netrefili (když jsme ještě nehádali)
 
         if user_guess_count > 1:
-            """ Pokud jsme v jakémkoliv vyšším kole než prvním, 
-                budeme dělat následující kroky """
+            # Pokud jsme v jakémkoliv vyšším kole než prvním, 
+            # budeme dělat následující kroky 
 
             # Zavoláme funkci, která zjistí, jestli jsme tipovali moc či málo
             if tip(user_guess, number_to_guess) == '+':
-                """ Hráč nadstřelil a musíme mu to sdělit """
+                # Hráč nadstřelil a musíme mu to sdělit 
                 print("To je moc!")
             else:
-                """ Hráč nenadstřelil, takže podstřelil """
+                # Hráč nenadstřelil, takže podstřelil
                 print("To je málo!")
 
         # Co na to uživatel?
-        user_guess = int(input(f"{user_guess_count}. kolo: Zadejte vas tip: "))
+        print("Kolo ", user_guess_count)
+        user_guess = int(input("Zadejte vas tip: "))
 
     # Zde jsme vylezli z while() cyklu a víme, že jsme vyhráli. Musíme to pouze oznámit uživateli.
-    print(f"Výborně, trefili jste číslo {user_guess} a stačilo vám k tomu {user_guess_count} tahů!")
+    print("Výborně, trefili jste číslo", user_guess, "a stačilo vám k tomu", user_guess_count, "tahů!")
 
 
 # Tuhle konstrukci vysvětlíme později, až se dostaneme k modulům, importům a tak podobně.
-if __name__ == "__main__":
-    game()
+game()
