@@ -5,10 +5,20 @@
 """
 # IMPORTS #
 import urllib.request
+import sys
+
 
 # CLASSES #
 class Word:
-    pass
+    def __init__(self, word):
+        self.word = word
+        self.length = len(word)
+        self.letters = dict()
+
+        self.process_letters()
+
+    def process_letters(self):
+        pass
 
 
 class Text:
@@ -18,18 +28,26 @@ class Text:
 
         self.read_file()
 
+        self.words = []
+
+        self.processed_words = []
+
     def read_file(self):
         file = urllib.request.urlopen(self.path)
         self.text = file.read()
+        print(f"{int(len(self.text) / 1024 + 1)}kB file loaded.")
 
     def print_file(self):
         print(self.text)
 
     def process_file(self):
-        pass
+        self.words = self.text.split()
+        print(f"Processing {len(self.words)} words...")
 
+        for counter, word in enumerate(self.words):
+            self.processed_words.append(Word(word))
 
-
+        print(f"Done, {len(self.words)} words processed.")
 
 
 # RUNTIME #
