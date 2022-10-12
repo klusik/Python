@@ -18,8 +18,12 @@ class Word:
         self.process_letters()
 
     def process_letters(self):
-        pass
-
+        for letter in str(self.word):
+            if letter in self.letters:
+                self.letters[letter] += 1
+            else:
+                self.letters[letter] = 1
+            
 
 class Text:
     def __init__(self):
