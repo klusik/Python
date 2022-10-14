@@ -46,10 +46,20 @@ class SAPNumbers:
 
         # Runtime
         if self.previous_exist():
-            # Aski if use
+            # Ask user if use previously saved sap numbers
             answer = ""
             while answer.lower() not in ['y', 'n']:
                 answer = input("Previous numbers found, use? (y/n): ")
+
+            if answer.lower() == 'y':
+                # Load old numbers
+                self.load_previous()
+            else:
+                # Create a list of new numbers
+                self.create_new()
+        else:
+            # Create new if previous don't exist
+            self.create_new()
 
     def previous_exist(self):
         """ Checks if the previous SAP numbers exist,
@@ -65,6 +75,40 @@ class SAPNumbers:
                 sap_numbers_file.write('')
 
         return bool(len(sap_numbers))
+
+    def create_new(self):
+        # Clear a list
+        self.numbers.clear()
+
+        # User adds various numbers until hits an empty line
+        user_input = None
+
+        while user_input != "":
+            # List already saved numbers
+            if self.sap_numbers_count():
+                print(f"Saved {self.sap_numbers_count()} numbers:")
+                for sap_count, number in enumerate(self.numbers):
+                    print(f"{sap_count + 1}: {number}")
+            else:
+                # If the list of SAP numbers is empty, tell that to user
+                print("So far no SAP numbers saved.")
+
+            # User input
+            user_input = input("Enter a SAP number (enter for finish): ")
+
+            # Save number
+            if user_input:
+                self.create_number(user_input)
+
+
+
+    def create_number(self, number):
+        """ Creates a new sap number """
+        self.numbers.append(number)
+
+    def sap_numbers_count(self):
+        """ Returns a count of SAP numbers saved """
+        return len(self.numbers)
 
     def load_previous(self):
         pass
