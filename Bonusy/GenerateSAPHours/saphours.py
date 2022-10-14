@@ -36,6 +36,44 @@ class Calendar:
 
         print(month)
 
+class SAPNumbers:
+    """ Handles everything about SAP numbers """
+    def __init__(self):
+
+        # List of SAP numbers
+        self.numbers = []
+
+
+        # Runtime
+        if self.previous_exist():
+            # Aski if use
+            answer = ""
+            while answer.lower() not in ['y', 'n']:
+                answer = input("Previous numbers found, use? (y/n): ")
+
+    def previous_exist(self):
+        """ Checks if the previous SAP numbers exist,
+            if yes, asks user if use them, if not, automatically
+            ask to add sap numbers """
+        sap_numbers = []
+        try:
+            with open(Config.get_saves_file(), 'r') as sap_numbers_file:
+                sap_numbers = sap_numbers_file.read().split()
+        except FileNotFoundError:
+            # Sap number file doesn't exist, create it
+            with open(Config.get_saves_file(), 'w') as sap_numbers_file:
+                sap_numbers_file.write('')
+
+        return bool(len(sap_numbers))
+
+    def load_previous(self):
+        pass
+
+    def edit_previous(self):
+        pass
+
+
+
 # RUNTIME #
 def main():
     """ Main runtime """
@@ -43,6 +81,7 @@ def main():
     ## Main workflow ##
 
     # Load previously saved numbers
+    sap_numbers =SAPNumbers()
 
     # Ask user if do distribution for current month or different
 
