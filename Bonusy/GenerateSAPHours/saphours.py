@@ -5,6 +5,7 @@
 # IMPORTS #
 import datetime
 
+
 # CLASSES #
 class Config:
     """ This class just handles configuration """
@@ -26,8 +27,9 @@ class Config:
 
 class Calendar:
     """ Handles calendar """
+
     def __init__(self,
-                 month = None):
+                 month=None):
         """ If month is not set up, uses actual month """
 
         if not month:
@@ -36,13 +38,14 @@ class Calendar:
 
         print(month)
 
+
 class SAPNumbers:
     """ Handles everything about SAP numbers """
+
     def __init__(self):
 
         # List of SAP numbers
         self.numbers = []
-
 
         # Runtime
         if self.previous_exist():
@@ -100,8 +103,6 @@ class SAPNumbers:
             if user_input:
                 self.create_number(user_input)
 
-
-
     def create_number(self, number):
         """ Creates a new sap number """
         self.numbers.append(number)
@@ -117,7 +118,6 @@ class SAPNumbers:
         pass
 
 
-
 # RUNTIME #
 def main():
     """ Main runtime """
@@ -125,7 +125,7 @@ def main():
     ## Main workflow ##
 
     # Load previously saved numbers
-    sap_numbers =SAPNumbers()
+    sap_numbers = SAPNumbers()
 
     # Ask user if do distribution for current month or different
 
@@ -140,7 +140,6 @@ def main():
 
     # Generate CSV (could be easily opened in Excel or something and copied to SAP)
     # Experiment with text file, values divided by \t or something like that
-
 
 
 if __name__ == "__main__":
