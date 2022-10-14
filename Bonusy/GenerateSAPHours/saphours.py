@@ -47,7 +47,7 @@ class SAPNumbers:
         # List of SAP numbers
         self.numbers = []
 
-        # Runtime
+        # Loading or creating SAP numbers
         if self.previous_exist():
             # Ask user if use previously saved sap numbers
             answer = ""
@@ -59,10 +59,15 @@ class SAPNumbers:
                 self.load_previous()
             else:
                 # Create a list of new numbers
-                self.create_new()
+                self.create_new_numbers()
         else:
             # Create new if previous don't exist
-            self.create_new()
+            self.create_new_numbers()
+
+        # After creating or loading, save SAP numbers to file
+        with open(Config.get_saves_file(), 'w') as sap_numbers_file:
+            sap_numbers_file.write("\n".join(self.numbers))
+            print("SAP numbers updated to file. ")
 
     def previous_exist(self):
         """ Checks if the previous SAP numbers exist,
@@ -79,7 +84,7 @@ class SAPNumbers:
 
         return bool(len(sap_numbers))
 
-    def create_new(self):
+    def create_new_numbers(self):
         # Clear a list
         self.numbers.clear()
 
@@ -112,7 +117,10 @@ class SAPNumbers:
         return len(self.numbers)
 
     def load_previous(self):
-        pass
+        """ Loads previously saved SAP number file and create a list """
+        self.numbers.clear()
+        with open(Config.get_saves_file(), 'r') as sap_numbers_file:
+            self.numbers = sap_numbers_file.read().split()
 
     def edit_previous(self):
         pass
