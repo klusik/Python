@@ -26,5 +26,17 @@ namespace WindowsFormsApp1
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            /* Clicking this button will activate timer */
+            Timer_left.Text = (int)Minutes.Text;
+            while (true)
+            {
+                break;
+            }
+            
+        }
+
     }
 }

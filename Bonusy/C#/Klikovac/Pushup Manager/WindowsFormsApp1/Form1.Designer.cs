@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Minutes = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Timer_left = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,16 +48,16 @@
             this.label1.Text = "Minutes to repeat";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // textBox1
+            // Minutes
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(404, 3);
-            this.textBox1.MaxLength = 180;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(166, 62);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "10";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.Minutes.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Minutes.Location = new System.Drawing.Point(404, 3);
+            this.Minutes.MaxLength = 180;
+            this.Minutes.Name = "Minutes";
+            this.Minutes.Size = new System.Drawing.Size(166, 62);
+            this.Minutes.TabIndex = 1;
+            this.Minutes.Text = "10";
+            this.Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // button1
             // 
@@ -68,18 +68,29 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Do it!";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.Timer_left);
             this.panel1.Controls.Add(this.progressBar1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.Minutes);
             this.panel1.Location = new System.Drawing.Point(29, 44);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(842, 335);
             this.panel1.TabIndex = 3;
+            // 
+            // Timer_left
+            // 
+            this.Timer_left.AutoSize = true;
+            this.Timer_left.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Timer_left.Location = new System.Drawing.Point(27, 135);
+            this.Timer_left.Name = "Timer_left";
+            this.Timer_left.Size = new System.Drawing.Size(133, 147);
+            this.Timer_left.TabIndex = 4;
+            this.Timer_left.Text = "0";
             // 
             // progressBar1
             // 
@@ -87,16 +98,6 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(749, 210);
             this.progressBar1.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(27, 135);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(133, 147);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "0";
             // 
             // Form1
             // 
@@ -116,11 +117,11 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Minutes;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Timer_left;
     }
 }
 

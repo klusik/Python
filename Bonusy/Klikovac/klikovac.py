@@ -8,17 +8,18 @@ import tkinter
 import tkinter.ttk
 
 # CLASSES #
-class Pushuper(tkinter.Frame):
+class Pushuper():
     def __init__(self, master=None):
-        super().__init__(master)
-        self.pack()
+        main_window = tkinter.Tk()
 
+        main_window.title("Pushups for MathSessions")
+        main_window.maxsize(400, 200)
+        main_window.minsize(400, 200)
+
+        # Setting up a labels
+        
+        main_window.mainloop()
 # RUNTIME #
 
 if __name__ == "__main__":
-    main_window = Pushuper()
-
-    main_window.master.title("Pushups for MathSessions")
-    main_window.master.maxsize(400, 200)
-    main_window.master.minsize(400, 200)
-    main_window.mainloop()
+    app = Pushuper()
