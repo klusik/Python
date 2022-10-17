@@ -17,7 +17,14 @@ class Pushuper():
         main_window.minsize(400, 200)
 
         # Setting up a labels
-        
+
+        # Main label
+        label = tkinter.Label(main_window, text="Hey")
+
+        # Add everything to Frame
+        main_window.grid()
+
+        # Main program loop
         main_window.mainloop()
 # RUNTIME #
 
