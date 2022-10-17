@@ -1,0 +1,10 @@
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\UserData\git_ws\Personal\Python\Bonusy\C#\Klikovac\Pushup Manager\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
