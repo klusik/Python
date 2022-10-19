@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1666170651 source:c:\userdata\git_ws\personal\python\bonusy\c\a test\test.c
+	<stdio.h>
+	<stdlib.h>
+
