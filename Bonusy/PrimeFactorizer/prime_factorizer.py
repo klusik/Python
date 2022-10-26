@@ -60,14 +60,30 @@ def generate_primes_to_number_numpy(input_number):
 
     return numpy.r_[2, 3, ((3 * numpy.nonzero(sieve)[0][1:] + 1) | 1)]
 
+def generate_next_prime(last_prime, input_number):
+    """ Generates next prime from the last primes """
+    print(f"Last: {last_prime}, inp: {input_number}")
+    if last_prime == 2:
+        last_prime = 1
+
+    for number in range(last_prime+2, math.ceil(math.sqrt(input_number))+1, 2):
+        print(f"Testing: {number}")
+        if not (input_number % number):
+            print(f"PR: {number}")
+            return number
+
+    return input_number
+
 
 def factorize_number(input_number) -> str:
     """ Generates factorization """
 
     # Get all primes
+    """
     print(f"Generate primes for {input_number}...")
     primes = generate_primes_to_number_numpy(input_number)
     print("Done.")
+    """
 
     # Result placeholder
     factorization = ""
@@ -78,7 +94,7 @@ def factorize_number(input_number) -> str:
     # Divide the input_number periodically, until possible by every prime,
     # track counts of divisions and generate a string accordingly
 
-    print(f"{primes} ({len(primes)})")
+    """
     print("Generate factors...")
     done = False
     for prime in primes:
@@ -105,6 +121,23 @@ def factorize_number(input_number) -> str:
                 # Not divisible, next prime
                 done = False
                 break
+                
+                """
+    prime = 2
+    while input_number >= 2:
+        if not input_number % prime:
+            try:
+                divisions[prime] += 1
+            except KeyError:
+                divisions[prime] = 1
+
+            print(f"{input_number}, {prime}")
+            input_number = int(input_number / prime)
+
+        else:
+            # Not divisible
+            print("Generating next prime...")
+            prime = generate_next_prime(prime, input_number)
 
     # Compile factorization
     print("Generating string...")
