@@ -14,11 +14,30 @@
 
 
 # IMPORTS #
+import math
 
 # FUNCTIONS #
-def prime_factors(input_number):
-    pass
+def is_prime(number) -> bool:
+    """ Returns True if number is prime """
 
+    if number < 2:
+        return False
+
+    if not (number % 2):
+        return False
+
+    for test in range(3, math.ceil(math.sqrt(number)), 2):
+        if not (number % test):
+            return False
+
+    return True
+
+
+def prime_factors(input_number) -> str:
+    if not is_prime(input_number):
+        pass
+    else:
+        return(f"({input_number})")
 
 # RUNTIME #
 if __name__ == "__main__":
