@@ -11,3 +11,17 @@
 
     Author: klusik@klusik.cz
 """
+
+
+# IMPORTS #
+
+# FUNCTIONS #
+def prime_factors(input_number):
+    pass
+
+
+# RUNTIME #
+if __name__ == "__main__":
+    number = int(input("Enter the number: "))
+
+    print(prime_factors(number))
