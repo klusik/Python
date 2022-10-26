@@ -14,6 +14,7 @@
 
 # IMPORTS #
 import math
+import numpy
 
 
 # FUNCTIONS #
@@ -32,21 +33,41 @@ def is_prime(number) -> bool:
 
     return True
 
-def generate_primes_to_number(input_number) ->list:
+
+def generate_primes_to_number(input_number) -> list:
     """ Generates a list of usable primes to input_number / 2 """
     list_of_primes = [2]
 
-    for number in range(3, math.floor(input_number / 2 +1), 2):
-        if not(input_number % number):
+    for number in range(3, math.floor(input_number / 2 + 1), 2):
+
+        if not (input_number % number):
             list_of_primes.append(number)
 
     return list_of_primes
+
+
+def generate_primes_to_number_numpy(input_number):
+    """ Input n>=6, Returns a array of primes, 2 <= p < n """
+    n = int(input_number/2+1)
+
+    sieve = numpy.ones(n // 3 + (n % 6 == 2), dtype=bool)
+
+    for i in range(1, int(n ** 0.5) // 3 + 1):
+        if sieve[i]:
+            k = 3 * i + 1 | 1
+            sieve[k * k // 3::2 * k] = False
+            sieve[k * (k - 2 * (i & 1) + 4) // 3::2 * k] = False
+
+    return numpy.r_[2, 3, ((3 * numpy.nonzero(sieve)[0][1:] + 1) | 1)]
+
 
 def factorize_number(input_number) -> str:
     """ Generates factorization """
 
     # Get all primes
-    primes = generate_primes_to_number(input_number)
+    print(f"Generate primes for {input_number}...")
+    primes = generate_primes_to_number_numpy(input_number)
+    print("Done.")
 
     # Result placeholder
     factorization = ""
@@ -57,8 +78,11 @@ def factorize_number(input_number) -> str:
     # Divide the input_number periodically, until possible by every prime,
     # track counts of divisions and generate a string accordingly
 
+    print(f"{primes} ({len(primes)})")
+    print("Generate factors...")
+    done = False
     for prime in primes:
-        while True:
+        while not done:
             if not (input_number % prime):
                 # Divisible, add to divisions
                 try:
@@ -69,12 +93,21 @@ def factorize_number(input_number) -> str:
                     divisions[prime] = 1
 
                 # Do division
-                input_number /= prime
+                print(f"{prime} added, ", end='')
+                input_number = int(input_number / prime)
+
+                print(f"{input_number} remains.")
+
+                if input_number <= prime:
+                    done = True
+                    break
             else:
                 # Not divisible, next prime
+                done = False
                 break
 
     # Compile factorization
+    print("Generating string...")
     for prime in divisions:
         if divisions[prime] == 1:
             factorization += f"({prime})"
