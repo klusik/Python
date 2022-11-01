@@ -6,14 +6,14 @@
 """
 
 
-def funkce(l_values=[]):
-    for value in l_values:
-        print(value, end="")
+def funkce(l_values=None):
+    l_values = []
+    l_values.append("vnitrek funkce")
+    print(f"Uvnitř funkce, seznam vypadá takhle: \t{l_values}")
 
 
-for value in range(5):
-    print(f"Pro {value}: ", end="")
-    funkce([value, value + 1, value + 2])
-    print()
+list_of_words = ['ahoj', 'pocitac', 'pes']
 
-funkce()
+funkce(list_of_words)
+
+print(f"Mimo funkci, seznam vypadá takhle: \t\t{list_of_words}")
