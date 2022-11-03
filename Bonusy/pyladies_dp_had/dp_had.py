@@ -2,6 +2,8 @@
 Funkce mám dělané malinko jinak a samy o sobě by
 nefungovaly, dávám sem tedy celý prográmek.
 Snad to není moc kódu najednou.
+
+#RK# všechny části, který budu ti komentovat, budu uvozovat takhle s #RK#
 """
 
 from math import floor
@@ -9,7 +11,16 @@ from random import randrange
 
 
 # vytvoření tabulky se samými tečkami na základě poslané velikosti
+# RK# Bohužel jsme si neříkali, jak udělat 'docstring' k funkci třeba, každopádně
+#   komentář, který popisuje, co ve funkci je, se běžně píše přes trojpalec přímo
+#   jako první řádek za definici funkce (udělám to tady na příkladu)
 def vytvor_mapu(rozmery):
+    """ #RK# A tady napíšeš dokumentační popisek (pro našeptávač třeba)
+    :param rozmery: Obsahuje rozměry (takhle popisuješ proměnné, co to příjmá, pro každou proměnnou zvlášť
+    :returns: Co to vrací (list listů)
+    """
+    # RK#    Teoreticky by se mělo ještě ošetřovat, jestli se to pole podaří vyrobit,
+    #       ale chápu, že je to téměř nepotřeba :-)
     return [['.' for i in range(rozmery["sirka"])] for j in range(rozmery["vyska"])]
 
 
@@ -19,10 +30,12 @@ def nacist_rozmery(min_rozmery):
 
     # načítaní šířky tabulky
     while True:
-        sirka = int(input("Zadejte šířku tabulky:"))
+        sirka = int(
+            input("Zadejte šířku tabulky:"))  # RK# Dal bych mezeru za dvojtečku takhle v inputech (platí všude níže)
         rozmery["sirka"] = sirka
         if sirka >= min_rozmery["sirka"]: break
         print("Nesprávný vstup")
+        # RK# Asi bych to nejdřív otestoval a pak až teprve dal do slovníku
 
     # náčítání výšky tabulky
     while True:
@@ -36,7 +49,8 @@ def nacist_rozmery(min_rozmery):
 
 def nakresli_mapu(rozmery_mapy, souradnice_hada, seznam_ovoce):
     # vytvoření prázdné tabulky
-    tabulka = vytvor_mapu(rozmery_mapy)
+    tabulka = vytvor_mapu(
+        rozmery_mapy)  # RK# Název herního pole 'tabulka' je dost meh, prostě proč ne 'herni_pole' nebo tak :-D
 
     # vykreslení hada - hlavu znakem 'O', zbytek těla znakem 'x'
     for had in souradnice_hada:
@@ -81,6 +95,8 @@ def ovoce(rozmery_mapy, souradnice_hada, seznam_ovoce):
         if not generuj_znovu:
             return pozice_ovoce
 
+        # RK# Jop, řešit to takhle "flagem" (generuj_znovu) je fajn nápad, když máš víc možností, které mohou nastat.
+
 
 def pohyb(rozmery_mapy, souradnice_hada, seznam_ovoce):
     while True:
@@ -103,7 +119,10 @@ def pohyb(rozmery_mapy, souradnice_hada, seznam_ovoce):
 
         # pokud had vyjede z mapy - game over
         if pohyb_na[0] < 0 or pohyb_na[0] >= rozmery_mapy["sirka"] or pohyb_na[1] < 0 or pohyb_na[1] >= rozmery_mapy[
-            "vyska"]:
+            "vyska"]: #RK# Heleď tady to rozděl třeba podle toho or", ať to není dělený takhle uvnitř. Ale je možný, že ti to takhle podělal jen web, prostě:
+            # if pohyb...
+                 # or pohyb ....
+                 # or pohyb ...
             raise ValueError('Game over, vyjel jsi z mapy!')
 
         # pokud had narazí do svého těla - game over
@@ -179,3 +198,16 @@ def had():
 
 # volani hlavni smycky hry
 had()
+
+"""
+#RK# Final thoughts
+
+Hodně se mi to líbí, jen bych to vypolishoval. 
+
+Třeba vidím, že když vyjedeš mimo pole, vyhodíš výjimku ValueError, ale nikde ji nezachytáváš,
+takže bych tam ještě trošku s tutím pracoval, aby to víc komunikovalo s uživatelem. 
+
+Díky moc za super kód!
+
+
+"""
