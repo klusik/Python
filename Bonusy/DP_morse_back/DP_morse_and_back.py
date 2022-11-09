@@ -61,6 +61,35 @@ def do_morse(string):
     return vysl[:len(vysl) - 1]
 
 
-vyraz = "Bylo nás 5."
+def do_ascii(morse_convert):
+    """ Converts it back to ascii """
+
+    # Check if there's only valid characters
+    if not (morse_convert.count("|") + morse_convert.count(".") + morse_convert.count("-") + 4 * morse_convert.count(
+            "STOP")) == len(morse_convert):
+        print("Divné znaky, přerušuji převod.")
+
+        return False
+
+    # Let's convert
+    ascii = ""
+
+    # Split by '|'
+    morse_list = morse_convert.split("|")
+
+    # Conversion
+    for char in morse_list:
+        if char != "STOP":
+            ascii += str(list(morse.keys())[list(morse.values()).index(char)])
+        else:
+            ascii += "."
+        
+    return ascii
+
+
+vyraz = "Bylo nas 5."
 vysl = do_morse(vyraz)
+asci = do_ascii(vysl)
+
 print(vysl)
+print(asci)
