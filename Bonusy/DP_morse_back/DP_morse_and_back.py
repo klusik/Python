@@ -87,7 +87,7 @@ def do_ascii(morse_convert):
     return ascii
 
 
-vyraz = "Bylo nas 5."
+vyraz = "Bylo nas 5. A dalsi hromada zajimavych filmu. A to ze to prohazuje s a h mi trosku leze krkem."
 vysl = do_morse(vyraz)
 asci = do_ascii(vysl)
 
