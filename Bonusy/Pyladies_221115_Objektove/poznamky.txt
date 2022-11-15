@@ -2,3 +2,22 @@ Pyladies -- Objektové programování
 15. 11. 2022
 ==================================
 
+Classbased vs prototype
+	-	Classbased vychází ze třídy,
+	-	prototype podle nějakého "ukázkového objektu"
+		
+Třída zvířátek:
+
+class Zviratka:
+	pass
+	
+	-	Důraz na pravidla velkých a malých písmen
+	
+*Pilíře objektového programování:*
+==================================
+
+	Encapsulation (zapouzdření)
+	
+	Abstrakce (...)
+	
+	Později pak dědičnost a polymorfismus
