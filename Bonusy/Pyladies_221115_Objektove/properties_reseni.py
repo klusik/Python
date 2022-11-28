@@ -71,14 +71,16 @@ print(f"Email uživatele: {pepa.email}")
 pepa.jmeno = "Jiri"
 
 # Vypíšeme zase hodnoty
-print(f"Křestní jméno uživatele: {pepa.jmeno}") # Vidíme, že jméno to změnilo
-print(f"Celé jméno uživatele: {pepa.cele_jmeno}") # Vidíme, že metoda se na to jméno odkazuje a změní to taky
-print(f"Email uživatele: {pepa.email}") # Tady ale vidíme, že email se vyrobil už před tím a tohle ho nezměnilo
+print(f"Křestní jméno uživatele: {pepa.jmeno}")
+print(f"Celé jméno uživatele: {pepa.cele_jmeno}")
+print(f"Email uživatele: {pepa.email}")
 
 # Dále budu chtít třeba použít atribut .cele_jmeno na změnění hodnoty!
 pepa.cele_jmeno = "Rudolf Klusal" # Normálně by to nešlo, ale tím, jak to nastavíme ve třídě, už to půjde
 
 # Nakonec opět zobrazím hodnoty:
-print(f"Křestní jméno uživatele: {pepa.jmeno}") # Vidíme, že jméno to změnilo
-print(f"Celé jméno uživatele: {pepa.cele_jmeno}") # Vidíme, že metoda se na to jméno odkazuje a změní to taky
-print(f"Email uživatele: {pepa.email}") # Tady ale vidíme, že email se vyrobil už před tím a tohle ho nezměnilo
+print(f"Křestní jméno uživatele: {pepa.jmeno}")
+print(f"Celé jméno uživatele: {pepa.cele_jmeno}")
+print(f"Email uživatele: {pepa.email}")
+
+# Tadá! :-)
