@@ -9,6 +9,33 @@
 
 
 # RUNTIME #
+
+def clean_input(usr_string: str) -> int:
+    """
+
+    :rtype: int
+    :param usr_string: String which is displayed to user
+    """
+
+    usr_val_1: int = 0
+    while True:
+        # User input of two numbers
+        try:
+            # First number from user
+            usr_val_1 = int(input(usr_string))
+        except ValueError:
+            print("Musí být celé číslo!")
+            continue
+        except KeyboardInterrupt:
+            print("Ukončuji zadávání!")
+            exit(0)
+
+        # number successfully stored
+        break
+
+    return usr_val_1
+
+
 def user_input() -> (int, int):
     """ Deal with user input 
     :rtype: (int, int)
@@ -18,34 +45,8 @@ def user_input() -> (int, int):
     usr_val_1: int = 0
     usr_val_2: int = 0
 
-    while True:
-        # User input of two numbers
-        try:
-            # First number from user
-            usr_val_1 = int(input("Zadej první číslo: "))
-        except ValueError:
-            print("Musí být celé číslo!")
-            continue
-        except KeyboardInterrupt:
-            print("Ukončuji zadávání!")
-            exit(0)
-
-        # First number successfully stored
-        break
-
-    while True:
-        try:
-            # Second number from user
-            usr_val_2 = int(input("Zadej druhé číslo: "))
-        except ValueError:
-            print("I druhé číslo musí být celé číslo!")
-            continue
-        except KeyboardInterrupt:
-            print("Ukončuji zadávání po druhém čísle!")
-            exit(0)
-
-        # Both numbers successfully added
-        break
+    usr_val_1 = clean_input("Zadej první číslo: ")
+    usr_val_2 = clean_input("Zadej druhé číslo: ")
 
     return usr_val_1, usr_val_2
 
