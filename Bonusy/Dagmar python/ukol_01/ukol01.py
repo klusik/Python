@@ -17,12 +17,12 @@ def clean_input(usr_string: str) -> int:
     :param usr_string: String which is displayed to user
     """
 
-    usr_val_1: int = 0
+    usr_val: int = 0
     while True:
         # User input of two numbers
         try:
             # First number from user
-            usr_val_1 = int(input(usr_string))
+            usr_val = int(input(usr_string))
         except ValueError:
             print("Musí být celé číslo!")
             continue
@@ -33,7 +33,7 @@ def clean_input(usr_string: str) -> int:
         # number successfully stored
         break
 
-    return usr_val_1
+    return usr_val
 
 
 def user_input() -> (int, int):
