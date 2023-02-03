@@ -8,7 +8,6 @@
 
     Author:     Rudolf Klusal
 """
-from typing import List, Type
 
 
 # CLASES #
