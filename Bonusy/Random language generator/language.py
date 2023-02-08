@@ -34,6 +34,42 @@ class BadSyllableTypeError(TypeError):
 
 
 # CLASSES #
+class Article:
+    pass
+
+
+class Alphabet:
+    """ Frequency of characters in common English """
+    char_frequency = {
+        'E': 12.02,
+        'T': 9.10,
+        'A': 8.12,
+        'O': 7.68,
+        'I': 7.31,
+        'N': 6.95,
+        'S': 6.28,
+        'R': 6.02,
+        'H': 5.92,
+        'D': 4.32,
+        'L': 3.98,
+        'U': 2.88,
+        'C': 2.71,
+        'M': 2.61,
+        'F': 2.30,
+        'Y': 2.11,
+        'W': 2.09,
+        'G': 2.03,
+        'P': 1.82,
+        'B': 1.49,
+        'V': 1.11,
+        'K': 0.69,
+        'X': 0.17,
+        'Q': 0.11,
+        'J': 0.10,
+        'Z': 0.07,
+    }
+
+
 class Syntax:
     """ Hanldes various syntaxes from which could be generated various sentences
 
@@ -47,12 +83,13 @@ class Syntax:
 
     # Usable syntaxes and probabilities of usage. Probabilities from 0 to 1.
     available_syntaxes = {
-        "sp": 0.3, # Short sentences Dog walks. Mum bakes. He drives. I fly.
-        "spo": 0.4, # Short sentence with object: I fly planes. Mum bakes a quiche.
-        "spao": 0.5, # Verbose version of 'spo' -- mum bakes a nice quiche.
-        "pso": 0.4, # Basic question: bake mum a quiche?
-        "psao": 0.5, # more full sentence, bake mum a nice quiche?
+        "sp": 0.3,  # Short sentences Dog walks. Mum bakes. He drives. I fly.
+        "spo": 0.4,  # Short sentence with object: I fly planes. Mum bakes a quiche.
+        "spao": 0.5,  # Verbose version of 'spo' -- mum bakes a nice quiche.
+        "pso": 0.4,  # Basic question: bake mum a quiche?
+        "psao": 0.5,  # more full sentence, bake mum a nice quiche?
     }
+
 
 class Mark:
     """ Marks and their priority
@@ -102,7 +139,7 @@ class Sentence:
         return str(" ".join(map(str, self.sentence))).capitalize() + self.sentence_ending + ' '
 
     def make_sentence(self,
-                      syntax_format=None, # If specified, use specific syntax
+                      syntax_format=None,  # If specified, use specific syntax
                       ) -> list:
         """
         Creates a list of words to form a sentence.
@@ -196,7 +233,7 @@ class Syllable:
         return ''.join(map(str, self.syllable))
 
     def make_syllable(self) -> list:
-        syllable = []
+        syllable: list = []
 
         for letter_type in self.form:
             if letter_type == 'c':
@@ -304,7 +341,7 @@ class Letter:
 def main():
     # Tests
 
-    for _ in range(9):
+    for _ in range(2):
         sentence = Sentence()
         print(sentence, end='')
 
