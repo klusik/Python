@@ -44,7 +44,7 @@ class Marks:
 class Sentence:
     """
     A class representing a sentence, consisting of a list of words and a sentence ending.
-    The sentence can be between 2 to 8 words long and can end with either a dot, question mark,
+    The sentence can be between 2 and 8 words long and can end with either a dot, question mark,
     exclamation mark, or comma.
     """
 
