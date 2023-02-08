@@ -176,7 +176,7 @@ class Syllable:
             elif letter_type == 'v':
                 syllable.append(Letter(letter_type='vowel'))
             else:
-                raise BadSyllableTypeError("Invalid syllable form: {}".format(self.form))
+                raise BadSyllableTypeError(f"Invalid syllable form: {self.form}")
 
         return syllable
 
