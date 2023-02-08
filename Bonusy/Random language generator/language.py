@@ -84,7 +84,12 @@ class Alphabet:
         # Ratio would be 1 : max_value from character dict
         ratio = 1 / cls.get_max_frequency()
 
-        return {letter : value * ratio for letter, value in cls.char_frequency.items()}
+        return {
+            # Create a tuples from items(), values save to letter and value and
+            # create a dict, where key is a letter and value is a value multiplied
+            # by ratio calculated before.
+            letter : value * ratio for letter, value in cls.char_frequency.items()
+        }
 
 
 class Syntax:
