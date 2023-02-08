@@ -9,7 +9,7 @@
 import random
 
 
-class BadLetterTypeError(Exception):
+class BadLetterTypeError(TypeError):
     """Exception raised when a letter provided is not a string or of invalid length."""
 
     def __init__(self, letter: str):
@@ -18,7 +18,7 @@ class BadLetterTypeError(Exception):
         super().__init__(self.message)
 
 
-class BadSyllableTypeError(Exception):
+class BadSyllableTypeError(TypeError):
     """Exception raised when a syllable provided is not a string or of invalid length."""
 
     def __init__(self, syllable: str):
@@ -276,7 +276,7 @@ class Letter:
 def main():
     # Tests
 
-    for _ in range(57):
+    for _ in range(9):
         sentence = Sentence()
         print(sentence, end='')
 
