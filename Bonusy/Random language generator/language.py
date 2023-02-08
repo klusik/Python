@@ -1,6 +1,11 @@
 """
     Generate sentences in random fake language
 
+    TODO:
+        -   add sentence syntax model
+        -   add letters probabilities
+        -   create class for letter probabilities
+
     Author: Rudolf Klusal
     Year: 2023
 """
