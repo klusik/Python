@@ -14,6 +14,7 @@
 import random
 
 
+# EXCEPTIONS #
 class BadLetterTypeError(TypeError):
     """Exception raised when a letter provided is not a string or of invalid length."""
 
@@ -33,7 +34,27 @@ class BadSyllableTypeError(TypeError):
 
 
 # CLASSES #
-class Marks:
+class Syntax:
+    """ Hanldes various syntaxes from which could be generated various sentences
+
+        -   subject: s
+        -   predicate: p
+        -   object: o
+        -   adjectival specification: d
+        -   complement: c
+        -   adjective: a
+    """
+
+    # Usable syntaxes and probabilities of usage. Probabilities from 0 to 1.
+    available_syntaxes = {
+        "sp": 0.3, # Short sentences Dog walks. Mum bakes. He drives. I fly.
+        "spo": 0.4, # Short sentence with object: I fly planes. Mum bakes a quiche.
+        "spao": 0.5, # Verbose version of 'spo' -- mum bakes a nice quiche.
+        "pso": 0.4, # Basic question: bake mum a quiche?
+        "psao": 0.5, # more full sentence, bake mum a nice quiche?
+    }
+
+class Mark:
     """ Marks and their priority
 
         Priority a number from 0 to 1
@@ -80,7 +101,9 @@ class Sentence:
         """
         return str(" ".join(map(str, self.sentence))).capitalize() + self.sentence_ending + ' '
 
-    def make_sentence(self) -> list:
+    def make_sentence(self,
+                      syntax_format=None, # If specified, use specific syntax
+                      ) -> list:
         """
         Creates a list of words to form a sentence.
         """
