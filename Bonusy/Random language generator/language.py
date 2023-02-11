@@ -137,7 +137,9 @@ class Sentence:
     exclamation mark, or comma.
     """
 
-    def __init__(self):
+    def __init__(self,
+                 dictionary=None, # If defined, it uses dictionary
+                 ):
         # Sentence lengths: 2--8 words
         self.sentence_length = random.randint(2, 8)
 
