@@ -139,6 +139,7 @@ class Sentence:
 
     def __init__(self,
                  dictionary=None, # If defined, it uses dictionary
+                 syntax=None, # If defined, it uses predefined syntax
                  ):
         # Sentence lengths: 2--8 words
         self.sentence_length = random.randint(2, 8)
