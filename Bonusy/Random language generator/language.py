@@ -38,6 +38,10 @@ class Article:
     pass
 
 
+class Paragraph:
+    pass
+
+
 class Alphabet:
     """ Frequency of characters in common English """
     char_frequency = {
