@@ -12,11 +12,13 @@ import sqlite3
 # CLASSES #
 class ViewUsers:
     """ View for users """
-    user_id = 'id_lidi'
-    name = 'jmeno'
-    surname = 'prijmeni'
-    year = 'rok_narozeni'
-    table = 'lidi'
+    users_table = {
+        'user_id': 'id_lidi',
+        'name': 'jmeno',
+        'surname': 'prijmeni',
+        'year': 'rok_narozeni',
+        'table': 'lidi',
+    }
 
     @classmethod
     def __init__(cls,
@@ -25,24 +27,27 @@ class ViewUsers:
                  ):
 
         if order_by:
-            cls.order_by = order_by
+            cls.users_table['order_by'] = order_by
 
         if order:
-            cls.order = order
-
+            cls.users_table['order'] = order
 
     @classmethod
     def __str__(cls):
         output_str = f"SELECT " \
-                   f"{cls.user_id}," \
-                   f"{cls.name}, " \
-                   f"{cls.surname}," \
-                   f"{cls.year}" \
-                   f" FROM " \
-                   f"{cls.table}"
+                     f"{cls.users_table['user_id']}," \
+                     f"{cls.users_table['name']}, " \
+                     f"{cls.users_table['surname']}," \
+                     f"{cls.users_table['year']}" \
+                     f" FROM " \
+                     f"{cls.users_table['table']}"
 
-        if cls.order_by:
-            output_str += f" ORDER BY {cls.order_by}"
+        if 'order_by' in cls.users_table.keys():
+            order_by_key = cls.users_table[cls.users_table['order_by']]
+            output_str += f" ORDER BY {order_by_key}"
+
+        if {'order', 'order_by'}.issubset(cls.users_table.keys()):
+            output_str += f" {cls.users_table['order']}"
 
         return str(output_str)
 
@@ -117,7 +122,7 @@ class DB:
         db_cursor = self.db_conn.cursor()
 
         # SQL query string
-        sql_get_users = str(ViewUsers(order_by='prijmeni'))
+        sql_get_users = str(ViewUsers(order_by='surname', order='desc'))
 
         # Retrieve data
         users_data = db_cursor.execute(sql_get_users).fetchall()
