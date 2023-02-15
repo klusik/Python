@@ -5,6 +5,7 @@
         -   add sentence syntax model
         -   add letters probabilities
         -   create class for letter probabilities
+        -   configure smartgit
 
     Author: Rudolf Klusal
     Year: 2023
