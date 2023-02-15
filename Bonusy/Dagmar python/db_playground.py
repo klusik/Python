@@ -19,14 +19,32 @@ class ViewUsers:
     table = 'lidi'
 
     @classmethod
+    def __init__(cls,
+                 order_by=None,
+                 order=None,
+                 ):
+
+        if order_by:
+            cls.order_by = order_by
+
+        if order:
+            cls.order = order
+
+
+    @classmethod
     def __str__(cls):
-        return str(f"SELECT "
-                   f"{cls.user_id},"
-                   f"{cls.name}, "
-                   f"{cls.surname},"
-                   f"{cls.year}"
-                   f" FROM "
-                   f"{cls.table}")
+        output_str = f"SELECT " \
+                   f"{cls.user_id}," \
+                   f"{cls.name}, " \
+                   f"{cls.surname}," \
+                   f"{cls.year}" \
+                   f" FROM " \
+                   f"{cls.table}"
+
+        if cls.order_by:
+            output_str += f" ORDER BY {cls.order_by}"
+
+        return str(output_str)
 
 
 class DB:
@@ -99,7 +117,7 @@ class DB:
         db_cursor = self.db_conn.cursor()
 
         # SQL query string
-        sql_get_users = str(ViewUsers())
+        sql_get_users = str(ViewUsers(order_by='prijmeni'))
 
         # Retrieve data
         users_data = db_cursor.execute(sql_get_users).fetchall()
