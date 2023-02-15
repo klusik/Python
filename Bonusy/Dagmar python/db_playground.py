@@ -34,6 +34,7 @@ class ViewUsers:
 
     @classmethod
     def __str__(cls):
+        # Create initial string with column names and table name for SELECT query
         output_str = f"SELECT " \
                      f"{cls.users_table['user_id']}," \
                      f"{cls.users_table['name']}, " \
@@ -42,13 +43,19 @@ class ViewUsers:
                      f" FROM " \
                      f"{cls.users_table['table']}"
 
+        # Check if 'order_by' key exists in users_table dictionary
         if 'order_by' in cls.users_table.keys():
+            # Get the corresponding column name from the dictionary using the 'order_by' key
             order_by_key = cls.users_table[cls.users_table['order_by']]
+            # Add ORDER BY clause to the query with the corresponding column name
             output_str += f" ORDER BY {order_by_key}"
 
+        # Check if both 'order' and 'order_by' keys exist in users_table dictionary
         if {'order', 'order_by'}.issubset(cls.users_table.keys()):
+            # Add the sorting order to the query
             output_str += f" {cls.users_table['order']}"
 
+        # Return the final string as a string object
         return str(output_str)
 
 
@@ -77,9 +84,17 @@ class DB:
                 with open('default_db.sql', 'r', encoding='utf8') as f_init_query:
                     init_query = f_init_query.read()
 
-            except FileNotFoundError:
-                print(f"Necessary file not found, exiting program.")
+            except FileNotFoundError as err:
+                print(f"Necessary file not found, exiting program: {str(err)}")
                 exit(3)
+
+            except sqlite3.Error as err:
+                print(f"Sqlite error: {str(err)}")
+                exit(4)
+
+            except IOError as err:
+                print(f"I/O error: {str(err)}")
+                exit(5)
 
             # Creating a default structure
             for row in str(init_query).split(';'):
