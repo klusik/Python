@@ -11,7 +11,9 @@ import sqlite3
 
 # CLASSES #
 class ViewUsers:
-    """ View for users """
+    """A class representing a view of users in a database."""
+
+    # Define a dictionary to map user attributes to their corresponding column names in the database.
     users_table = {
         'user_id': 'id_lidi',
         'name': 'jmeno',
@@ -22,13 +24,21 @@ class ViewUsers:
 
     @classmethod
     def __init__(cls,
-                 order_by=None,
-                 order=None,
+                 order_by=None,  # Optional parameter to specify the column to order the results by.
+                 order=None,  # Optional parameter to specify the order in which to sort the results.
                  ):
+        """
+        Initializes the ViewUsers class.
 
+        Args:
+        - order_by: Optional. The column to order the results by.
+        - order: Optional. The order in which to sort the results.
+        """
+        # If the order_by parameter is provided, add it to the users_table dictionary.
         if order_by:
             cls.users_table['order_by'] = order_by
 
+        # If the order parameter is provided, add it to the users_table dictionary.
         if order:
             cls.users_table['order'] = order
 
