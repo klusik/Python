@@ -20,12 +20,12 @@ class ViewUsers:
 
     @classmethod
     def __str__(cls):
-        return str(f"SELECT " 
-                   f"{cls.user_id}," 
-                   f"{cls.name}, " 
-                   f"{cls.surname}," 
-                   f"{cls.year}" 
-                   f" FROM " 
+        return str(f"SELECT "
+                   f"{cls.user_id},"
+                   f"{cls.name}, "
+                   f"{cls.surname},"
+                   f"{cls.year}"
+                   f" FROM "
                    f"{cls.table}")
 
 
@@ -97,7 +97,6 @@ class DB:
 
         # DB cursor
         db_cursor = self.db_conn.cursor()
-        db_cursor.execute('pragma encoding=utf8')
 
         # SQL query string
         sql_get_users = str(ViewUsers())
