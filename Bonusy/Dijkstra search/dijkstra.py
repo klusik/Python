@@ -9,10 +9,10 @@ import heapq
 
 
 # RUNTIME #
-def dijkstra(graph: dict, start_node: str, end_node: str) -> (list, int):
+def dijkstra(node_graph: dict, start_node: str, end_node: str) -> (list, int):
     """ Dijkstra's algorhitm
     @rtype: (list, list)
-    @param graph: all nodes
+    @param node_graph: all nodes
     @param start_node: starting node
     @param end_node: end node
     @return: List of distances, list of nodes
@@ -22,14 +22,14 @@ def dijkstra(graph: dict, start_node: str, end_node: str) -> (list, int):
     # All nodes would be 'unvisited' and 'unknown,' so set
     # all nodes to 'inf' (means the highest value)
     distances = {
-        node: float('inf') for node in graph
+        node: float('inf') for node in node_graph
     }
 
     # Create predecessors dictionary with empty nodes
     # There would be the same nodes as in the input graph, just
     # not knowing any predecessors yet, so it would appear empty.
     predecessors = {
-        node: None for node in graph
+        node: None for node in node_graph
     }
 
     # Set distance of starting node to 0, because if we go from the start,
@@ -61,7 +61,7 @@ def dijkstra(graph: dict, start_node: str, end_node: str) -> (list, int):
             return path_start_to_end_node[::-1], distances[end_node]
 
         # If we haven't found the end node, update distances of neighbors.
-        for neighbor, weight in graph[current_node].items():
+        for neighbor, weight in node_graph[current_node].items():
             # Node distance to the next is the length of path to current node
             # plus the distance for the next node.
             node_distance = curr_distance + weight
@@ -89,12 +89,21 @@ if __name__ == "__main__":
         'B': {'A': 5, 'C': 2, 'D': 1},
         'C': {'A': 1, 'B': 2, 'D': 4, 'E': 8},
         'D': {'B': 1, 'C': 4, 'E': 3, 'F': 6},
-        'E': {'C': 8, 'D': 3, 'F': 2},
+        'E': {'C': 8, 'D': 3, 'F': 2, 'G': 3},
         'F': {'D': 6, 'E': 2, 'G': 1, 'H': 7},
-        'G': {'F': 1, 'H': 4},
+        'G': {'E': 3, 'F': 1, 'H': 4},
         'H': {'F': 7, 'G': 4}
     }
 
-    path, distance = dijkstra(graph, 'A', 'H')
+    lukas_graph = {
+        'A': {'B': 7, 'C': 50},
+        'B': {'A': 7, 'C': 3, 'E': 13},
+        'C': {'A': 50, 'B': 3, 'D': 1},
+        'D': {'C': 1, 'E': 50, 'F': 15},
+        'E': {'B': 13, 'D': 50, 'F': 101},
+        'F': {'E': 101, 'D': 15},
+    }
+
+    path, distance = dijkstra(lukas_graph, 'A', 'F')
     print(path)
     print(distance)
