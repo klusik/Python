@@ -12,7 +12,15 @@ if __name__ == "__main__":
     data_packs = data.split('\n\n')
 
     # Create list of sums of elven work and select the maximal (for each elf)
-    max_elf = max(list(map(lambda l: (sum(list(map(int, l.split())))), data_packs)))
+    max_elf = sum(
+        sorted(
+            list(
+                map(
+                    lambda l: (sum(list(map(int, l.split())))),
+                    data_packs
+                )
+        ), reverse=True)[0:3]
+    )
     print(max_elf)
 
 
