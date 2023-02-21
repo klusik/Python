@@ -79,8 +79,8 @@ def dijkstra(node_graph: dict, start_node: str, end_node: str) -> (list, int):
                 # Save new node to heap (heap will automatically order nodes)
                 heapq.heappush(heap, (node_distance, neighbor))
 
-    # If we've exhausted all nodes and haven't found the end, return None. Just to be sure :-)
-    return None
+    # If we've exhausted all nodes and haven't found the end, return two empty lists. Just to be sure :-)
+    return [], []
 
 
 if __name__ == "__main__":
@@ -104,6 +104,6 @@ if __name__ == "__main__":
         'F': {'E': 101, 'D': 15},
     }
 
-    path, distance = dijkstra(lukas_graph, 'A', 'F')
+    path, distance = dijkstra(lukas_graph, 'A', 'Z')
     print(path)
     print(distance)
