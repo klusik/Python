@@ -41,21 +41,25 @@ You can also [Share] this puzzle.
 
 # RUNTIME #
 def main():
+    # Input file handling
     try:
         with open('adv_day2_elves.txt', 'r') as f_elves:
             elves = f_elves.read()
     except FileNotFoundError as err:
         print(f"File doesn't exist: {err}")
+        exit(1)
 
+    # Game points
     rock = 1
     paper = 2
     scissors = 3
 
+    # Win/lose points
     win = 6
     lose = 0
     draw = 3
 
-
+    # Possible outcomes
     scores = {
         'A X': rock+draw,
         'A Y': paper+win,
@@ -68,10 +72,14 @@ def main():
         'C Z': scissors+draw,
     }
 
+    # Counter init
     my_score = 0
+
+    # Go through all games
     for game in elves.split('\n'):
         my_score += scores[game]
 
+    # Pring a result
     print(my_score)
 
     return my_score
