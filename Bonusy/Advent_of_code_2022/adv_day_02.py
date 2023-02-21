@@ -61,15 +61,15 @@ def main():
 
     # Possible outcomes
     scores = {
-        'A X': rock+draw,
-        'A Y': paper+win,
-        'A Z': scissors+lose,
-        'B X': rock+lose,
-        'B Y': paper+draw,
-        'B Z': scissors+win,
-        'C X': rock+win,
-        'C Y': paper+lose,
-        'C Z': scissors+draw,
+        'A X': rock + draw,
+        'A Y': paper + win,
+        'A Z': scissors + lose,
+        'B X': rock + lose,
+        'B Y': paper + draw,
+        'B Z': scissors + win,
+        'C X': rock + win,
+        'C Y': paper + lose,
+        'C Z': scissors + draw,
     }
 
     # Counter init
@@ -83,7 +83,6 @@ def main():
     print(my_score)
 
     return my_score
-
 
 
 if __name__ == "__main__":
