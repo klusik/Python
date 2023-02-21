@@ -8,7 +8,7 @@ if __name__ == "__main__":
     hp = []
     hp2 = []
 
-    rng = 10_000_000
+    rng = 1_000_000
 
     t_hp1 = time.time()
     for _ in range(rng):
