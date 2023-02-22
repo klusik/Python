@@ -28,4 +28,15 @@ class Person:
     def name(self) -> str:
         return self.__name
 
-    pass
+    # METHODS #
+    def load_person_from_file(self) -> bool:
+        """ If that person in particular already exists,
+        load it instead of creating a new person
+        @rtype: bool
+        """
+        try:
+            with open() as f_person:
+                pass
+        except FileNotFoundError as err:
+            # New user
+            return False
