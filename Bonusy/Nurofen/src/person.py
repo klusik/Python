@@ -19,8 +19,13 @@ class Person:
             self.__name: str = name
             self.__age: int = age
 
+    # PROPERTIES HANDLING #
     @property
     def age(self) -> int:
         return self.__age
+
+    @property
+    def name(self) -> str:
+        return self.__name
 
     pass
