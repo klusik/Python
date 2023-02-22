@@ -10,6 +10,6 @@ import person
 
 # RUNTIME #
 if __name__ == "__main__":
-    person = person.Person(name='Maruska', age=4)
+    user = person.Person(name='Maruska', age=4)
 
-    print(person.name, person.age)
+    print(user.name, user.age)
