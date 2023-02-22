@@ -2,6 +2,8 @@
     Person class
     Author: Rudolf Klusal
 """
+# IMPORTS #
+import config
 
 
 class Person:
@@ -19,6 +21,10 @@ class Person:
             self.__name: str = name
             self.__age: int = age
 
+        # Person initialization
+        if not self.load_person_from_file():
+            pass
+
     # PROPERTIES HANDLING #
     @property
     def age(self) -> int:
@@ -35,7 +41,8 @@ class Person:
         @rtype: bool
         """
         try:
-            with open() as f_person:
+            print(config.Config.data_path + '/soubor.dat')
+            with open(f"{config.Config.data_path}/{self.name}.nur", 'r') as f_person:
                 pass
         except FileNotFoundError as err:
             # New user

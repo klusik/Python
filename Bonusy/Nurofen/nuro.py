@@ -5,10 +5,11 @@
 """
 
 # IMPORTS #
-import src.person
+import person
+
 
 # RUNTIME #
 if __name__ == "__main__":
-    person = src.person.Person(name='Maruska', age=4)
+    person = person.Person(name='Maruska', age=4)
 
     print(person.name, person.age)
