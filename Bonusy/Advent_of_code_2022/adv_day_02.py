@@ -90,10 +90,6 @@ def main():
         'A': 'C',  # scrissors loses to rock
     }
 
-    draws = { # draws
-        'A': 1
-    }
-
     # PART 1 #
     # Counter init
     my_score = 0
