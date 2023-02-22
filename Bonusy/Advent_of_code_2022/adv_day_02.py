@@ -72,6 +72,29 @@ def main():
         'C Z': scissors + draw,
     }
 
+    things = {
+        'A': rock,
+        'B': paper,
+        'C': scissors,
+    }
+
+    wins = {  # for key wins value over key,
+        'A': 'B',  # paper packs rock
+        'B': 'C',  # scissors cut paper
+        'C': 'A',  # rock dull scissors
+    }
+
+    loses = {  # loses are 'vopáčně' :-D
+        'B': 'A',  # rock loses to paper
+        'C': 'B',  # paper loses to scissors
+        'A': 'C',  # scrissors loses to rock
+    }
+
+    draws = { # draws
+        'A': 1
+    }
+
+    # PART 1 #
     # Counter init
     my_score = 0
 
@@ -79,9 +102,28 @@ def main():
     for game in elves.split('\n'):
         my_score += scores[game]
 
-    # Pring a result
+    # Pring a result of PART 1 #
     print(my_score)
 
+    # PART 2 #
+    my_score = 0
+    for game in elves.split('\n'):
+        opponent, you = str(game).split()[0], str(game).split()[1]
+
+        # X means you need to lose, Y means you need to end
+        # the round in a draw, and Z means you need to win.
+
+        if you == 'X':  # lose
+            your = loses[opponent]
+            my_score += lose + things[your]
+        elif you == 'Y':  # draw
+            your = opponent
+            my_score += draw + things[your]
+        else:  # win
+            your = wins[opponent]
+            my_score += win + things[your]
+
+    print(my_score)
     return my_score
 
 
