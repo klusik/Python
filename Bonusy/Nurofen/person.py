@@ -23,7 +23,7 @@ class Person:
 
         # Person initialization
         if not self.load_person_from_file():
-            pass
+            self.setup_new_user()
 
     # PROPERTIES HANDLING #
     @property
@@ -35,6 +35,19 @@ class Person:
         return self.__name
 
     # METHODS #
+    def setup_new_user(self):
+        """ Creates a new user """
+
+        # User name
+        while True:
+            try:
+                input_name = str(input(f"Enter the new user name (hit Enter for '{self.name}'): "))
+            except ValueError as err:
+                print(f"Enterer name is not valid, try different name.")
+            except KeyboardInterrupt as err:
+                print(f"Ending program. {str(err)}")
+                exit(1)
+
     def load_person_from_file(self) -> bool:
         """ If that person in particular already exists,
         load it instead of creating a new person
