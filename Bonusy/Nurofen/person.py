@@ -41,9 +41,12 @@ class Person:
         # User name
         while True:
             try:
-                input_name = str(input(f"Enter the new user name (hit Enter for '{self.name}'): "))
+                input_name = str(input(f"Enter the new user name (hit Enter for '{self.name}'): ")) or self.name
+                input_age = str((input(f"Enter the new user age (hit Enter for '{self.age}'): ")) or self.age)
+
             except ValueError as err:
-                print(f"Enterer name is not valid, try different name.")
+                print(f"Entered value is not valid, try different name.")
+                
             except KeyboardInterrupt as err:
                 print(f"Ending program. {str(err)}")
                 exit(1)
