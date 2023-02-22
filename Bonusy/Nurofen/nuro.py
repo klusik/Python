@@ -13,3 +13,5 @@ if __name__ == "__main__":
     user = person.Person(name='default', age=9)
 
     print(user)
+
+    user.save_to_file()

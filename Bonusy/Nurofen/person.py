@@ -47,6 +47,14 @@ class Person:
         return f"Name: {self.name}\nAge: {self.age}"
 
     # METHODS #
+    def save_to_file(self):
+        """ Saves all data to a file """
+        try:
+            with open(f"{config.Config.data_path}/{self.name}.nur", "w", encoding="utf8") as f_person:
+                f_person.write("ahoj")
+        except IOError as err:
+            print(f"Unable to save file: {str(err)}")
+
     def setup_new_user(self):
         """ Creates a new user """
 
