@@ -13,11 +13,12 @@ def get_boxes():
 
 def get_compartments(ruksak: str) -> (str, str):
     """ Divide ruksak to two compartments and return those halves """
-    ruksak_separator = int(len(ruksak)/2)
+    ruksak_separator = int(len(ruksak) / 2)
 
     return ruksak[0:ruksak_separator], ruksak[ruksak_separator:]
 
-def get_priority(item:str):
+
+def get_priority(item: str):
     if 'a' <= item <= 'z':
         return ord(item) - ord('a') + 1
     elif 'A' <= item <= 'Z':
@@ -25,9 +26,11 @@ def get_priority(item:str):
     else:
         raise ValueError('Input must be a letter')
 
+
 def main():
     ruksaks = get_boxes()
 
+    # PART 1 #
     total_score = 0
     for ruksak in ruksaks:
         comp1, comp2 = get_compartments(ruksak)
@@ -39,6 +42,18 @@ def main():
 
     print(f"Total: {total_score}")
 
+    # PART 2 #
+    batch_ruksaks = []
+    total_score = 0
+    for ruksak in ruksaks:
+        batch_ruksaks.append(ruksak)
+        if len(batch_ruksaks) == 3:
+            three_ruksaks = set.intersection(*list(map(set, batch_ruksaks)))
+            batch_ruksaks.clear()
+            total_score += sum(map(get_priority, three_ruksaks))
+            print(three_ruksaks, total_score)
+
+    print(f"Three ruksaks: {total_score}")
 
 
 if __name__ == "__main__":
