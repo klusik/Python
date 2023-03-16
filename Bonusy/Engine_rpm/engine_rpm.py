@@ -26,8 +26,9 @@ def input_from_user(
         else:
             return usr_value
 
+
 def get_speed(gbx_ratio, drivetrain_ratio, wheel_diameter, speed) -> int:
-    return int(((speed / 3.6) * gbx_ratio * drivetrain_ratio * 60)/(3.14 * wheel_diameter))
+    return int(((speed / 3.6) * gbx_ratio * drivetrain_ratio * 60) / (3.14 * wheel_diameter))
 
 
 if __name__ == "__main__":
@@ -62,7 +63,6 @@ if __name__ == "__main__":
     except ValueError as err:
         print(f"Value coudln't be recognized: {str(err)}")
 
-
     # Computation:
     speeds = [30, 50, 60, 80, 90, 110, 130, 150, 200]
 
@@ -81,5 +81,3 @@ if __name__ == "__main__":
         print(f"For speed {speed}:")
         for gear, revolution in enumerate(revolutions):
             print(f"Gear {gear + 1}: {revolution} rpm")
-
-
