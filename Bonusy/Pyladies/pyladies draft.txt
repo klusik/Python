@@ -1,0 +1,212 @@
+# PYLADIES 2023 draft #
+
+* Předmluva *
+	Kurz je určen lidem _bez technických znalostí,_ tedy lidem,
+	kteří často netuší, jak něco nainstalovat, že má počítač
+	příkazovou řádku a třeba i že Windows a Word není totéž.
+	
+	Cílem není učit lidi všechno, objektové programování a gui,
+	ale především dokonale naučit základy -- a to co nejdokonaleji, 
+	aby na těchto základech mohli dále stavět. 
+	
+	Dále je potřeba studenty "hooknout," tedy nezačínat lekci tím,
+	že se ukazuje instalace a věci v příkazové řádce, jako je
+	změna složky a podobně, ale ukázat, co python umí. A ukázat
+	tím i motivaci, proč by se lidi měli python učit a že je to dobrá věc.
+	
+	Celý kurz *stojí na domácí práci.*
+	
+	Každá lekce začíná krátkým shrnutím (cca 10--15 minut) toho,
+	co se dělalo v předchozí lekci.
+	
+	Stránky python.org -- sám o sobě má tutorial, language refference (y)
+	
+	Byl by program schopen být 20 lekcí místo 12? 
+	
+	* KDE? *
+	-	Techtower? (ne ideální prostory) (daleko) (drahý)
+	-	ZF v Avalonu (maybe)
+	-	Filip & prostory (musím mu napsat)
+	-	Max 15 -- 20 lidí
+	
+	* Podmínky diplomu *
+	-	60% docházka
+	-	Výstupní test 
+	
+	* Podmiňující znalosti *
+	-	Základní PC znalosti
+	-	Notebook
+	-	V přihlášce uvést, že máte "někde" (Dokumenty, Plocha, whatever) 
+		vytvořenou složku s textovým souborem.
+		
+	-	Přípravná lekce
+		-	Do registračního dotazníku "projděte si přípravnou lekci" (video etc.)
+		-	Checkbox "prošla jsem si," případně otázka (lehká)
+			-	Otázka typu "napište, jakou cestu máte k Ploše (plnou)"
+			
+	* Koučové a lektoři *
+		-	2 lektoři, kteří se vzájemně zastupují, ale aby to táhnul spíš jeden
+			(lidi jsou zvyklí a více se pak znají)
+		-	koučing volný.
+	
+* Lekce *
+
+	1.	* Představení pythonu, první prográmek *
+		a)	Představení, ukázka online prostředí, první prográmek		
+		b)	Program na tisk na úrovni (obtížnosti):
+				print("Ahoj, spouštím se a jsem Python!") 				
+			Vhodné klávesy, jak na české klávesnici psát řídící znaky
+			(závorky, lomítka, symboly)			
+			Komentáře
+			Chybové hlášky (jakým způsobem python říká, že je něco špatně)
+		c)	Instalace z MS Store či python.org, 
+			základní prostředí (Pycharm nejlíp, případně VSCode nebo něco dalšího, 
+			co je v MS Store dostupné)			
+			Python jako základní kalkulačka
+			
+			Motivace:
+				-	není třeba webové rozhraní, dají se ukládat soubory
+				-	data můžeme ukládat do proměnných 
+					pro pozdější použití => motivace na další lekci
+					
+		d)	Čtení chyb (ne řešení výjimek, pouze čtení Tracebacku).
+			Chyba není problém, ale učební materiál.
+			Čtení odspoda.
+			TypeError (nemůžu sečíst int + string) 
+			Nastal výjimečný stav, se kterým si program neví rady.
+			Program, který nevyhodí chybu, ale nefunguje (třeba se zasekne)
+					
+			
+			
+	2.	* Základní proměnné *
+		a) 	Představení proměnných, uložení čísla a stringu. 
+			Rozdíl mezi číselnou proměnnou a textovou:
+				print(5) vs print('5'), print(3+1) vs print('3'+'1')
+		b)	Uložení výsledku do proměnné, práce se základními daty
+		c)	Porovnávání dat, císel, řetězců, if
+				if (x > 5), if (x < 5), if (x == 5), if (x <= 5)
+				if (x == "ahoj"), if (x < "ahoj") atd.
+		d)	Možná zmínit rozdíl mezi int/float/double (/bool)
+		e)	Správný pojmenování proměnných
+		f)  Debug
+	
+	3.	* Vstupy a výstupy *
+		a)	Funkce input(), podrobněji print(). (Printy ve funkcích fujové)
+		b)	Formátování výstupu, f-stringy.
+		c)	Stringy immutable, (iterable později, až v lekci o cyklech)
+		d)	Index, string[5] a podobně. 
+			Koncept jedné proměnné, která se skládá z více písmenek.
+		e)	Další možnosti výběru dat ze stringů, 
+			(slicing) string[5:8] a string[-2] atd.
+		f)	Přečtení souboru, výpis počtu znaků v souborů, 
+			spočítání všech instancí 'a' a podobně.
+		g)	Chyby při čtení, ošetření vstupů.
+			Ošetření uživatelského vstupu.
+			
+			
+	4.	* Cykly *
+		a)	Iterable string nebo jen ve hranatých jako list.
+		b)	Forem projít string
+			úkol např. "projdi text z 3. lekce ze souboru a najdi všechny
+			znaky 'z', které následují za mezerou" atd.
+		c)	Cyklus while
+			while True, while (var < 20), break
+		d)  range(4, 20, 2) - generuje nám čísla, dá se procházet
+			
+	5.	* Soubory *
+		a) 	Čtení souboru, zápis do souboru.
+		b)	Režimy čtení a zápisu
+		c)	Chybové stavy (základ chyb, FileNotFoundError etc., rozšíření 
+			původního povídání o chybách).
+		d)	Cesty (relativní vs absolutní).	
+		e)	Soubor je taky iterable.
+		f)	f.read(), for number in soubor.
+	
+		
+	6.	* Procvičovací lekce *
+		a)	Co nejvíc *malých,* ale zajímavých prográmků. 
+		b)	Cílem není se zaseknout na něčem složitém, ale pořádně projet fundamenty.
+		c)	Dále je jasné, že studenti/tky jsou na různých úrovních, 
+			takže paralelní úkoly pro začátečníky a pokročilejší.
+		d)	Řešení ukazovat na projektoru.
+		e)	Čtení cizího kódu, ukázat nějaký výcuc z kódu,
+			zkusit pochopit, co daná část programu dělá. (PEP8). 
+			Program s komentáři a bez nich, čitelnost.
+		f)	Podrobnější představení Thonny, co umí, debugging a hledání chyb.
+		g)	Komplexní program, kde se všechno využívá.
+	
+	
+	7.	* Seznamy a množiny *
+		a)	Operace se seznamy, append, pop.
+			Návaznost na stringy, indexování stejné.
+		b)	Co všechno může seznam obsahovat, včetně seznamů. + indexování list[2][0]
+		c)	Načtení dat ze souboru po řádcích do seznamu.
+		d)	Výběr ze seznamu, [5:8] a [-1] a podobně.
+		e)	Forem procházet seznam, funkce enumerate.
+			Nepěkné chování listu, když se mění během procházení forem.
+			Důraz na to to nedělat.
+		f)	Třídění seznamu, rozdíl sort() a sorted().
+		g)	Najití maximální a minimální hodnoty.
+		x)	_Jen jako zajímavost různé třídící algoritmy (velmi zhruba a povrchově)_ 
+			Přístup pythonu k třídění (jiné metody pro různě velká data např.)
+		
+		
+	8.	* Slovníky *
+		a)	Struktura slovníku (key:value), 
+			přidání do slovníku, vytažení hodnoty ze slovníku
+			každá hodnota jen jednou
+		b)	Forem projití slovníku. keys, values, items
+		c)	Ve values m§že být seznam nebo další slovník.
+		d)	Další operace se slovníky. b |= c (update)
+		
+
+	9.	* Funkce *
+		a)	Definice funkce
+		b)	Parametry, argumenty - resp. argumenty funkce můžou mít jiné názvy (lokálně)
+		c)	Scope - vidím ven (nepoužívá se), nevidím dovnitř
+		d)	K čemu je dobré psát funkce (uvést příklady)
+		x)	Příklady:
+			Hotel, cena za noc, cena za snídani etc. Funkce je "kolik_zaplatim()"
+
+	10.	* Opakovací lekce 2 *
+		_)  Nechat o tématu hlasovat (online hlasovací stránka)..
+		a)	Opět, spousta malých a zajímavých zadání, kde budou listy,
+			slovníky a funkce a bude se kombinovat se soubory, řetězci apod.
+		
+	11.	* Výjimky, práce s chybami *
+		a)	Zachycení výjimek.
+		b)	Raise, finally, hiearchie výjimek.
+		c)	Hodně ukázkových úkolů
+		d)	Existuje možnost vytvoření vlastní výjimky.
+		
+	12.	* Práce na projektu *
+		a)	Jakým způsobem udržovat větší projekt.
+		b)	Moduly, knihovny
+		c)	Rozdělení na 2 týmy, jeden píše nějakou metodu, 
+			druhý tým píše program tuhle metodu využívající.
+		d)	Ukázat (ne učit), že existuje něco jako git a jak se to hodí.
+		
+	13.	* Objektové programování *
+		a)	Koncepty (Třída, metoda, instanční proměnná)
+		b)	Metoda __init__()
+		c)	Výhody a nevýhody
+		d)	Další ukázky a malé úkoly (velmi základní)
+		e)	Předpřipravená třída, kterou budou jen používat 
+			(např. čtverec, dům, ...)
+		
+	Kdyby bylo možno více než 12 lekcí
+	14.	* Objektové programování II *
+		a)	Speciální metody __str__(), __call__(), __repr__() 
+		b)	Další koncepty (polymorfismus, abstrakce, dědičnost)
+	
+	15.	* Práce na větším projektu *
+		a)	Vázané na dobré zadání domácího úkolu.
+		b)	Tady bych začal teprve řešit větší úkoly typu piškvorky
+			(akorát prosím ne piškvorky :-D) 
+		c)	Role v týmu,
+			sw inženýr, datový analytik, tester, ...
+		
+				
+				
+		
+		
