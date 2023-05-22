@@ -1,0 +1,20 @@
+* CO DĚLAT NA NAŠICH SOUKROMÝCH PYTHON SETKÁNÍCH *
+
+==========
+Setkání 1.
+==========
+
+Program:
+	-	Číselné proměnné (int, float) a řetězce
+	-	Výpis proměnných
+	-	Vstup od uživatele
+	
+Ukázková zadání:
+	Z1.
+	-	Požádej uživatele o vstup: Zadej sudé kladné číslo
+	-	Program bude kontrolovat validitu vstupu, 
+		dokud uživatel nezadá kladné sudé číslo
+	-	Program toto číslo bude dělit dvěma tak dlouho, dokud to půjde.
+	-	Nakonec vypíše, kolikrát se mu to povedlo (proto je třeba sudé číslo, aby to bylo alespoň jednou).
+	-	Pokud číslo bude složeno pouze z násobků dvojek, 
+		program vypíše hlášku: Zadali jste mocninu dvou, super!
