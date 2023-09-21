@@ -1,0 +1,268 @@
+Saifedean Ammous - Bitcoinový standard
+1. vydání, rok 2022, isbn 978-9916-697-26-9
+
+Altcoiny
+(strana 263)
+
+Ačkoliv bitcoin je prvním příkladem peer-to-peer elektronické hotovosti,
+royhodně nezůstal jediným. Poté, co Nakamoto zveřejnil svůj nápad a bitcoinová
+síť začala získávat příznivce a nabývat na hodnotě, mnozí jeho
+nápad okopírovali a založili vlastní podobné sítě a měny. První takovou
+měnou byl Namecoin, který používal stejný zdrojový kód jako bitcoin a byl
+založen v dubnu 2011. Podle serveru coinmarketcap.com do února 2017
+vzniklo na 732 digitálních měn 
+(*Na začátku roku 2022 eviduje server coinmarketcap.com již přes 9300 kryptoměn)
+
+Zatímco mezi lidmi panuje přesvědčení, že tyto měny představují konkurenci
+bitcoinu a že by v budoucnu některá z nich mohla bitcoin překonat,
+ve skutečnosti však pro bitcoin konkurenci nepředstavují, neboť nikdy
+nebudou mít vlastnosti, díky kterým bitcoin funguje jako digitální hotovost
+a stabilní měna. Aby mohl nějaký digitální systém fungovat jako digitální
+hotovost, nesmí být ovládán žádnou třetí stranou, jeho provoz se musí
+řídit pouze vůlí uživatelů v souladu s daným protokolem a žádné třetí
+strany nesmění mít možnost zasahovat do probíhajících transakcí. Po letech
+sledování nejrůznějších altcoinů se jeví jako nemožné, že by kterýkoliv
+z nich dokázal vybudovat mezi svými uživateli a dalšími zainteresovanými
+subjekty podobnou rovnováhu, jaká existuje mezi účastníky bitcoinové
+sítě, kde si žádná ze stran nemůže přivlastnit právo plné kontroly nad
+probíhajícími transakcemi.
+
+Bitcoin navrhl programátor vystupující pod pseudonymem, jehož skutečná
+totožnost doposud nebyla odhalena. Svůj návrh zveřejnil na obskurním
+mailingovém listu pro programátory, kteří se zajímají o kryptografii,
+a po několikaměsíční zpětné vazbě společně s Halem Finneym (který zemřel
+v srpnu 2014) síť spustil. Po pár dnech, kdy si s Finneym navzájem
+posílali transakce a experimentovali se softwarem, se k síti začali připojovat
+další účastníci, kteří prováděli transakce a těžili bitcoiny. Nakamoto zmizel
+v polovině roku 2010, kdy se vlastními slovy "přesunul k dalším projektům".
+Od té doby o něm už nikdo neslyšel. 
+
+(* Nakamoto od té doby možná učinil dvě další prohlášení. Jedním z nich je
+odmítnutí tvrzení, že je aponsko-americkým inženýrem jménem 
+Dorian Prentice Satoshi Nakamoto,kterého Newsweek označil za skutečného Nakamota
+čistě na základě shody jmen a znalosti počítačů. Druhým Nakamotovým prohlášením
+bylo vyjádření názoru na postup debaty ohledně škálování bitcoinu. Není zřejmé,
+jestli tato dvě prohlášení pocházejí od skutečného Nakamota, nebo jestli se někdo
+jiný zmocnil jeho účtu, obvzláště když je známo, že do e-mailového účtu, který
+Nakamoto používal, skutečně někdo pronikl.)
+
+Na adresách, které patřily
+Nakamotovi, je pravděpodobně k dnešnímu dni uložen 1 milion bitcoinů, 
+avšak žádné z těchto digitálních mincí se nikdy nepřesunuly. Nakamoto si
+dal ohromnou práci s tím, aby zajistil, že nikdo nikdy neodhalí jeho pravou
+totožnost, a do dnešního dne skutečně neexistuje přesvědčiý důkaz o tom,
+kdo je skutečný Nakamoto. Pokud by o to stál, již by svou totožnost odhalil.
+Pokud by zanechal stopy, pomocí kterých by bylo možné ho odhalit, už by
+jej někdo vystopoval. Mnozí novináři a další pátrači usilovně zkoumali
+veškeré jeho zprávy, ale bezvýsledně. Je načase, aby všichni, kdo se zabývají
+bitcoinem, přestali po Nakamotově totožnosti pátrat a smířili se s tím, že
+pro fungování sítě není důležité, kdo Nakamoto je, stejně jako už dávno
+nezáleží na tom, kdo vynalezl kolo.
+
+Protože Nakamoto a Finney zde už nejsou, bitcoin nemá žádnou centrální
+autoritu nebo lídra, který by mohl určovat směr, nebo jej alespoň
+ovlivňovat. Dokonce ani Gavin Andersen, který byl s Nakamotem v blízkém
+styku a je jednou z nejznámnějších tváří bitcoinu, ve svých pokusech
+o ovlivnění vývoje bitcoinu opakovaně neuspěl. V tisku je často citován
+email, který prý je poslední Nakamotovou zprávou, kde se píše: "Já už se
+zabývám něčím dalším. U Gavina a ostatních je bitcoin v dobrých rukou.
+
+(* Nakamoto, Satoshi. "Re: I had a few other things on my mind (as always)..."
+Doručeno Miku Hearnovi, 23. dubna 2011. Poznámka: Autor této knihy není schopen
+ověřit pravost e-mailu, svou výpovědní hodnotu ale má, že je tento e-mail čsto
+citován, a to do té míry, že časopis MIT technology review otiskl dlouhý článek
+věnovaný Andresenovi s názvem "The Man Who Really Built Bitcoin", ve kterém
+tvrdí, že Andresen byl pro vývoj bitcoinu dokonce ještě důležitější,než
+Nakamoto.)
+
+Andresen se opakovaně pokoušel zvýšit velikost bitcoinových bloků, žádný
+z jeho pokusů si ale nezískal přízeň provozovatelů uzlů.
+
+Bitcoin podle všech měřítek uvedených v kapitole 8 stále roste a vliv
+jednotlivců nebo skupin na něj se zmenšil téměř k nule. Bitcoin můžeme
+chápat jako zcela autonomní program, jelikož neexistuje žádná vnější
+autorita, která by mohla kontrolovat jeho chování. Bitcoin se řídí jen svými
+vlastními pravidly a možnost, že by se tato pravidla jakýmkoliv významným
+způsobem změnila, je v podstatě jen teoretická, jelikož všichni účastníci
+sítě jsou silně ekonomicky motivování udržovat status quo.
+
+Je to právě svrchovanost bitcoinového kódu, technicky podpořená systémem
+důkazu o vykonané práci, která z bitcoinu činí efektivní řešení
+problému dvojí útraty a úspěšnou digitální hotovost. Je to právě absence
+nutnosti důvěry, která schází všem digitálním měnám, jež přišly po bitcoinu.
+Každá digitální měna kráčející ve stopách bitcoinu stojí před složitou
+existenční otázkou: vzhledem k tomu, že už zde je bitcoin, který je
+bezpečnější, disponuje větší výpočetní kapacitou a zavedenou uživatelskou
+základnou, tak každý, kdo má zájem o digitální hotovost, jej nutně
+upřednostní před menšími a méně bezpečnými alternativami. Vzhledem k tomu,
+že okopírování zdrojového kódu bitcoinu a založení nové kryptoměny
+téměř nic nestojí, a napodobeninami bitcoinu se to proto jen hemží, žádná
+nová kryptoměna nemá šanci na úspěch bez podpory týmu lidí, kteří se 
+starají o růst její sítě, zdrojový kód a zabezpečení. Protože byl prvním
+vynálezem svého druhu, prokázal bitcoin svou hodnotu jako digitální hotovost
+a tvrdé peníze a zájem o něj se vytvořil organicky. Bitcoin uspěl i přesto,
+že jedinou osobou, která za ním stála, byl anonymní programátor, který
+neutratil v podstatě žádné peníze za reklamu. Altcoiny jsou však ze své
+podstaty pouhými kopiemi bitcoinu, které je velmi snadné vytvořit, avšak
+neexistue o ně mezi lidmi přirozený zájem, a je proto nutné jej budovat.
+
+Z tohoto důvodu téměř za všemi altcoiny stojí nějaký tým, který musí
+projekt založit, propagovat, vyrobit marketignové materiály, psát a vydávat
+tiskové zprávy. Tento tým má samozřejmě také možnost natěžit si velké
+množství kryptomněny ještě před tím, než vejde ve známost. Členové těchto
+týmů jsou veřejně znýmí, a i když se o to mohou usilovně snažit, nikdy se
+jim nepodaří věrohodně dokázat, že nemají kontrolu nad směrem, kterým
+se příslušná kryptoměna bude ubírat. Z tohoto důvodu žádná z alternativ
+bitcoinu nemůže plnit funkci digitální hotovosti, kterou neovládá žádná
+třetí strana. Jinými slovy, džin jménem bitcoin byl již vypuštěn z lahve
+a kdokoliv se pokusí vytvořit alternativní kryptoměnu, musí do ní bohatě
+investovat, čímž nad ní v podstatě získává kontrolu. Dokud je digitální
+měna ovládána nějakým jedincem, nebo skupinou, nelze ji chápat jako digitální
+hotovost, nýbrž pouze jako platební prostředek, který je navíc velmi 
+neefektivní.
+
+Tvůrci alternativnch měn stoj před dilematem: bez aktivního řízení
+týmem vývojářů a marketérů žádná digitální měna v záplavě více než 1000
+podobných měn ničím nezaujme. Je-li však měna aktivně podporována
+nejakým vývojářským a marketingovým týmem, nikdy nelze věrohodně
+prokázat, že tento tým měnu neovládá. Když skupina vývojářů vlastní
+většinu digitálních mincí, výpočetní kapacity i znalosti o zdrojovém kódu,
+příslušná měna je v podstatě centralizovaná a její vývoj je uročován zájmy
+vývojářů. Na centralizovaných digitálních měnách není v principu nic
+špatného. Na trhu, který by nebyl omezen státem, by spolu takové měny
+mohly soutěžit. Je však něco bytostně v nepořádku s centralizovanou
+měnou, která používá těžkopádný a neefektivní systém, jehož jedinou
+výhodou je právě odstranění centrální autority.
+
+Tento problém je ještě markantnější u digitálních měn, které nabízejí
+Initial Coin Offering, úvodní nabíkdu mincí, kde skupina vývojářů veřejně
+komunikuje s potenciálními investory, čímž se celý projekt stává centralizovaným
+i v očích veřejnosti. Názornou ukázkou budiž Ethereum, druhá
+největší digitální měna po bitcoinu.
+
+Decentralizovaná Autonomní Organizace (DAO) byla prví implementací
+smart kontraktů v síti Ethereum. Poté, co bylo do tohoto smart kontraktu
+investováno více než 150 miliónů dolarů, dokázal útočník naprogramovat
+kód takovým způsobem, že odvedl přiližně třetinu všech aktiv DAO
+na svůj vlastní účet. Bylo by nepřesné tento útok označit za krádež, protože
+všichni vkladatelé souhlasili s tím, že jejich peníze budou kontrolovány
+zdrojovým kódem a ničím jiným, a útočník pouze spustil kód schválený
+vkladateli. V návaznosti na útok proti DAO vývojáři Etherea vytvořili
+novou verzi Etherea, v jejíž historii k této nepříjemné chybě vůbec nedošlo,
+přechodem a novou větev zabavili úútočníkovi ukradené prostředky
+a poslali je zpět původním majitelům. Tento opětovný zásah subjektivního
+lidského faktoru je zcela v rozporu s cílem vytvořit z počítačového kódu
+zákon a zpochybňuje celou koncepci smart kontraktů.
+
+Je extrémně obtížné si představit, že by se některá z takto soukromě
+vydávaných měn, za kterou stojí konkrétní tým, mohl stát globální měnou.
+Pokud by se některá taková měna významně zhodnotila, malý tým jejich
+tvůrců by extrémně zbohatl a měl by nárako na čistý výnos z vydávání
+digitálních mincí, tedy právo, jaké mají v moderním světě jen národní státy.
+Centrálním bankám a vládám by se jistě nezamlouvalo takové podrývání
+jejich autority. Pro centrální banky by bylo relativně snadné kterýkoliv
+takový tým přinutit, aby měnu zrušil nebo zmněnil její pravidla tak, aby
+nemohla soupeřit s národními měnami. Žádný altcoin se doposud ani nepřiblížil
+odolnosti vůči změně, jakou se pyšní bitcoin a která spočívá v jeho
+skutečné decentralizaci a silné motivaci všech účastníků udržovat pravidla
+konsenzu. Bitcoin tyto vlastnsti získal až poté, co se devět let vyvíjel 
+v internetové džungli zcela přirozeně, aniž by jej ovládla jakákoliv autorita.
+Úspěšně za tu dobu odolal řadě organizovaných a dobře financovaných
+pokusů o změnu jeho vývoje. U altcoinů naproti tomu panuje nepochybně
+přátelská atmosféra, kde milí lidé společně pracují na týmovém projektu..
+Ačkoliv pro klasický startup je taková atmosféra požehnáním, pro projekt,
+který chce prokázat svou oddanost neměnné monetární politice, je
+polibkem smrti. Pokud by se tým vyvíjející kterýkoliv altcoi rozhodl
+změnit monetární politiku daného altcoinu, bylo by poměrně snadné toho
+docílit. Například Ethereum ještě nemá jasnou vizi, jakými pravidly by se
+do budoucna chtělo řídit, a jeho vývoj je předmětem diskuse mezi jeho
+uživateli. Přestože to mezi uživateli buduje úžasnou komunitu, není to
+způsob, jak vytvořit globální tvrdou měnu, a ke cti Etherea slouží, že takové
+ambice nechová.
+
+(* Toto tvrzení na začátku roku 2022 již neplatí, jelikož Ethereum se chystá vstoupit
+do fáze 2.é, kdy opustí systém důkazu o vykonané práci, přejde na systém proof-of-stake
+(důkaz o držení mincí) a dojde k rozdělení jeho transakčních záznamů mezi větší množštví
+paralelních blockchainů. Samotný přechod na nový systém je stále diskutabilní, jelikož se
+vše neustále oddaluje - je tudíž možné, že ETH 2.0 nebude nikdy spuštěno a síť postupně
+zanikne, jelikož nebude moci škálovat)
+
+Většina altcoinů se neprezentuje jako konkurence bitcoinu, ale jako alternativa, která nabízí
+jiné výhody.
+Buď si jsou jejich vývojáři vědomi problematičnosti usilování o vytvoření tvrdé měny, nebo
+se chtějí vyhnout sporům s politickými autoritami anebo se prostě jedná
+o marketingový trik.
+
+Altcoiny by měly plnit funkce, které bitcoin kvůli svým pravidlům 
+plnit nedokáže, avšak žádný altcoin doposud nedokázal takovou funkci 
+nabídnout. Naopak, altcoiny nedokázaly nabídnout ani to, co nabízí bitcoin. 
+Přesto všechny altcoiny mají svou vlastní, volně směnitelnou měnu, která
+je prý nezbytná pro fungování budoucích online aplikací.
+
+Představa, že každá nová webová aplikace bude mít svou vlastní decentralizovanou
+měnu, je naivní. Je to jako myslet si, že lze vydělat na 
+návratu k problém nedostatku souběhu potřeb. To, že každý podnik běžně
+nevydává svou vlastní měnu, má své opodstatnění. Kdo by chtěl držet
+měnu, kterou lze platit jen za zboží a služby jednoho konkrétního
+výrobce? Základní vlastností peněz je právě jejich likvidita: lze jimi snadno
+a rychle platit, kdykoliv je potřeba. Peníze, kterými lze platit je v určitých
+obchodech mají velmi nízkou likviditu a ztrácejí smysl. Lidé přirozeně
+upřednostňují likvidní platební prostředky a podnik který trvá na platbě
+ve své vlastní volně směnitelné měně, jen zvyšuje náklady a riziko pro své 
+potenciální zákazníky.
+
+I u podniků, které běžně používají různé tokeny, jako například kasina
+nebo lunaparky, mají toky vždy pevně danou hodnotu vůči běžně používané
+likvidní měně. Zákazníci tak vždy vědí, jakou hodnotu získávají,
+a mohou dělat přesné ekonomické odhady. Je proto nepředstavitelné, že
+i kdyby některý z údajně revolučních decentralizovaných projektů našel
+praktické využití, tak by se za něj platilo vlastní volatilní měnou.
+
+Touto oblastní se zabývám dlouhé roky a zatím jsem nenarazil na žádnou
+digitální měnu, která by nabízela nějaký produkt či slubu, po kterých by 
+panovala relálná tržní poptávka. Inzerované decentralizované aplikace
+budoucnosti stálne nepřicházejí, zatímco každý měsíc vznikají stovky nových
+tokenů, které jsou údajně nezbytné pro jejich fungování. Nelzen si nepoložit
+otázku, zdali jediným účelem těchto revolučních měn není obohacení jejich
+tvůrců.
+
+Žádná kryptomněna kromě bitcoinu ...
+(* Ačkoliv je v médiích a i literatuře
+béžné označovat bitcoin za kryptoměnu, striktně vzato se nejedná o měnu,
+ale o peníze. Měny historicky vznikly jako denominaci či reprezentace
+peněz - v posledních staletích existovalo velké množství měn (libry, marky, dolary...), ale
+je jedny peníze: zlato (potažmo stříbro), kterými byly měny kryté a za nět byly směnitelné.
+Bitcoin nepředstavuje reprezentaci žádných podkladových peněz, jelikož již je samotnými
+penězi, obdobně jako jimi bylo zlato. Vzhledem k tomu, že důsledné dodržování ozačení
+bitcoinu za peníze by vyžadovalo značné zásahy do původního testu, na místech, kde
+autor v originále použil spojení bitcoinu jako kryptoměny, jsme toto označení ponechali)
+
+... o sobě nemůže věrohodně tvrdit,
+že není ovládána žádným jednotlivcem, či skupinou. Hodnota vytváření
+nových a nových kryptoměn na stejné bázi ja tak diskutabilní. Není nic
+těžkého ani originálního na tom, okopírovat bitcoin a vytvořit tak další
+napodobeninu, kterých už existují tisíce. Lze očekáva, že s postupujícím
+časem budou na trh vstupovat další a další alternativní kryptoměny, které
+budou je dále znehodnocovat všechny ostatní napodobeniny bitcoinu.
+Všechny digitální měny kromě bitcoinu lze v souhrnu označit za snadné
+peníze. Žádný altcoin není vyjímečný, protože všechny plní stejnou funkci,
+jakou plní i bitcoin, až na to, že systém a objem alternativních mincí lze
+snadno měnit, zatímco monetární politika bitcoinu je záměrně neměnná.
+
+Zůstává otázkou, jestli některá z těchto měn uspěje a podaří se jí vytvořit
+jinou službu, než kterou nabízí bitcoin a po které tak vznikne poptávka.
+Pokud jde o plnění funkce digitální hotovosti nevyžadující důvěru ke třetí
+straně, je zřejmé, že s bitcoinem žádná alternativní digitální měna nemůže
+soupeřit. To, že altcoiny kopírují systém bitcoinu a zároveň předstírají,
+že plní funkci, kterou bitcoin neplní,nevzbuzuje důvěru, že by mohly
+dosáhnout čehokoliv jiného, než obohatit tvůrce. Tisíce napodobenin
+Nakamotova systému jsou sice pro bitcoin lichotivé, ale jejich opakovaná
+neúspěšnost poukazuje na to, ja jedinečný ve skutečnosti Nakamotův systém
+je. Jediné hodnotné úpravy bitcoinu uskutečnili schopní programátoři,
+kteří doborovolně věnovali hodiny svého času k vylepšení zdrojového kódu
+bitcoinu. Mnoho méně schopných programátoru pak pohádkově zbohatlo 
+na tom, že Nakamotův systém zabalili do prázdných marketingových hesel,
+aniž by přidali jakékoliv funkce, po kterých by byla skutečná poptávka.
+Růst altcoinů nelze chápat mimo kontext levných peněz hledajících rychlé
+spekulace. Jedná se o nafukování investičních bublin a masivní misalokaci
+kapitálu.
