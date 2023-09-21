@@ -11,22 +11,62 @@ import sqlite3
 
 # CLASSES #
 class ViewUsers:
-    """ View for users """
-    user_id = 'id_lidi'
-    name = 'jmeno'
-    surname = 'prijmeni'
-    year = 'rok_narozeni'
-    table = 'lidi'
+    """A class representing a view of users in a database."""
+
+    # Define a dictionary to map user attributes to their corresponding column names in the database.
+    users_table = {
+        'user_id': 'id_lidi',
+        'name': 'jmeno',
+        'surname': 'prijmeni',
+        'year': 'rok_narozeni',
+        'table': 'lidi',
+    }
+
+    @classmethod
+    def __init__(cls,
+                 order_by=None,  # Optional parameter to specify the column to order the results by.
+                 order=None,  # Optional parameter to specify the order in which to sort the results.
+                 ):
+        """
+        Initializes the ViewUsers class.
+
+        Args:
+        - order_by: Optional. The column to order the results by.
+        - order: Optional. The order in which to sort the results.
+        """
+        # If the order_by parameter is provided, add it to the users_table dictionary.
+        if order_by:
+            cls.users_table['order_by'] = order_by
+
+        # If the order parameter is provided, add it to the users_table dictionary.
+        if order:
+            cls.users_table['order'] = order
 
     @classmethod
     def __str__(cls):
-        return str(f"SELECT "
-                   f"{cls.user_id},"
-                   f"{cls.name}, "
-                   f"{cls.surname},"
-                   f"{cls.year}"
-                   f" FROM "
-                   f"{cls.table}")
+        # Create initial string with column names and table name for SELECT query
+        output_str = f"SELECT " \
+                     f"{cls.users_table['user_id']}," \
+                     f"{cls.users_table['name']}, " \
+                     f"{cls.users_table['surname']}," \
+                     f"{cls.users_table['year']}" \
+                     f" FROM " \
+                     f"{cls.users_table['table']}"
+
+        # Check if 'order_by' key exists in users_table dictionary
+        if 'order_by' in cls.users_table.keys():
+            # Get the corresponding column name from the dictionary using the 'order_by' key
+            order_by_key = cls.users_table[cls.users_table['order_by']]
+            # Add ORDER BY clause to the query with the corresponding column name
+            output_str += f" ORDER BY {order_by_key}"
+
+        # Check if both 'order' and 'order_by' keys exist in users_table dictionary
+        if {'order', 'order_by'}.issubset(cls.users_table.keys()):
+            # Add the sorting order to the query
+            output_str += f" {cls.users_table['order']}"
+
+        # Return the final string as a string object
+        return str(output_str)
 
 
 class DB:
@@ -54,9 +94,17 @@ class DB:
                 with open('default_db.sql', 'r', encoding='utf8') as f_init_query:
                     init_query = f_init_query.read()
 
-            except FileNotFoundError:
-                print(f"Necessary file not found, exiting program.")
+            except FileNotFoundError as err:
+                print(f"Necessary file not found, exiting program: {str(err)}")
                 exit(3)
+
+            except sqlite3.Error as err:
+                print(f"Sqlite error: {str(err)}")
+                exit(4)
+
+            except IOError as err:
+                print(f"I/O error: {str(err)}")
+                exit(5)
 
             # Creating a default structure
             for row in str(init_query).split(';'):
@@ -99,7 +147,7 @@ class DB:
         db_cursor = self.db_conn.cursor()
 
         # SQL query string
-        sql_get_users = str(ViewUsers())
+        sql_get_users = str(ViewUsers(order_by='surname', order='desc'))
 
         # Retrieve data
         users_data = db_cursor.execute(sql_get_users).fetchall()
