@@ -11,8 +11,12 @@ from src.Window import MainWindow
 
 class App:
     def __init__(self):
-        pass
+        self.main_window = MainWindow()
+
+    def run(self):
+        self.main_window.run()
 
 
 if __name__ == "__main__":
-    main_window = App()
+    app = App()
+    app.run()
