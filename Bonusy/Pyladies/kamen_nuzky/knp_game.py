@@ -48,7 +48,8 @@ class Game:
         if end_game:
             output += f"Detailní statistika:\n{60 * '#'}\n"
             for game_round, game in enumerate(self.game_moves_history):
-                output += f"Kolo: {game_round + 1}: {game[0]} proti {game[1]}, {'vyhrál uživatel' if game[2] == 'u' else 'remíza' if game[2] == 'd' else 'vyhrál počítač'}\n"
+                output += (f"Kolo: {game_round + 1}: {game[0]} proti {game[1]}, "
+                           f"{'vyhrál uživatel' if game[2] == 'u' else 'remíza' if game[2] == 'd' else 'vyhrál počítač'}\n")
 
             output += f"{60 * '#'}\n"
 
@@ -154,7 +155,6 @@ class App:
                 # Print some statistics
                 self.game_history.add_game(user_input, ai_move, winner)
                 print(f"Stav her je po této hře:\n{self.game_history.get_statistics()}")
-
 
         except KeyboardInterrupt as kb_err:
             print("\n\nNatvrdo ukončuji.\n", kb_err)
