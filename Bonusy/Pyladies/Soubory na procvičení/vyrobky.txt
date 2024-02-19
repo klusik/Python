@@ -1,0 +1,10 @@
+máslo 45
+mouka 25
+mléko 22
+kaiserka 4.5
+šunka 35
+sýr 45
+ledový_čaj 38
+džus 42
+tablety_do_myčky 150
+čistič_odpadu 69
