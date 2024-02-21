@@ -1,25 +1,16 @@
 """
-    Zadání 3:
+    Zadání 4: (mírně už pokročilé pro ty, kteří jsou už trošku napřed)
 
-    Vyrobte porgram, který vytvoří nákupní seznam
-    s cenou sečtenou podle toho, co si uživatel vymyslí.
+    Vytvořte prográmek z úkolu 3, ale bude si pamatovat nejen celkovou cenu,
+    ale kompletně celý nákup, tedy na konci vypíše třeba:
 
-    Zadávání bude vypadat např. takto:
+    Budete nakupovat:
+    3krát mléko, celkem 3 × 22 = 66 Kč
+    1krát mouka, celkem 1 × 25 = 25 Kč
+    5krát kaiserka, celkem 5 × 4.5 = 22,5 Kč
 
-    Výpis: Máte k dispozici následující výrobky: mléko, mouka, ... (výpis všech).
-    Který výrobek zakoupit?
-
-    uživatel zadá třeba 'mléko'
-
-    program se zeptá: Kolik?
-
-    uživatel zadá třeba 3
-
-    Program si připočte k ceně cenu 3×22 za mléka.
-
-    Na konci prográmek vypíše, kolik Kč bude takový nákup stát.
+    Celková cena nákupu: 113,5 Kč
 """
-
 def vypis_vyrobky():
     """
     Funkce vypíše výrobky, které máme k dispozici
@@ -60,8 +51,47 @@ def zjisti_cenu_vyrobku(vyrobek_uzivatel):
 
     print("Něco je špatně :-)")
 
+def vycisti_soubor():
+    """
+    Vyčistí soubor
+    """
+    with open('seznam.txt', 'w') as f_cisteni:
+        f_cisteni.write('')
+
+def uloz_vyrobek_do_souboru(vyrobek, cena, mnozstvi):
+    with open('seznam.txt', 'a', encoding='utf-8') as f_seznam:
+        f_seznam.write(f"{vyrobek} {cena} {mnozstvi}\n")
+
+def precti_nakupni_seznam():
+    try:
+        with open('seznam.txt', 'r', encoding='utf-8') as f_seznam:
+            seznam = f_seznam.read().split('\n')
+
+        # vyčištění výstupního textu (příprava)
+        vystupni_text = ""
+        celkova_cena = 0
+
+        for polozka in seznam:
+            polozky = polozka.split()
+
+            if len(polozky) == 3:
+                vystupni_text += f"{polozky[0]} za {polozky[1]} Kč, počet: {polozky[2]}\n"
+
+                celkova_cena += float(polozky[1]) * float(polozky[2])
+
+        vystupni_text += f"\nCelková cena je {celkova_cena} Kč."
+
+        print(vystupni_text)
+        return(vystupni_text)
+
+    except FileNotFoundError as fnf_err:
+        print("Nákupní seznam je prázdný :-)")
+        return None
+
 # Tady se budu uživatele ptát na výrobek atd.
+# Vyčistíme soubor
 celkova_cena = 0
+vycisti_soubor()
 while True:
     # Zeptáme se uživatele na název výrobku
     print(f"Celková cena nákupu je zatím {celkova_cena} Kč.")
@@ -81,9 +111,9 @@ while True:
         cena_vyrobku = zjisti_cenu_vyrobku(vyrobek_uzivatel)
 
         # celkova_cena = ceslkova_cena + cena_vyrobku * pocet_uzivatel
-        celkova_cena += cena_vyrobku * pocet_uzivatel
+        uloz_vyrobek_do_souboru(vyrobek_uzivatel, cena_vyrobku, pocet_uzivatel)
     else:
         print("Výrobek není v seznamu, zadejte validní výrobkem!")
 
-print(f"Celková cena výrobků je {celkova_cena} Kč.")
+precti_nakupni_seznam()
 
