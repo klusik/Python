@@ -53,7 +53,7 @@ def cena_nakupniho_seznamu(nakupni_seznam):
     @return: float s cenou nákupního seznamu
     """
 
-    return float(sum(nakupni_seznam.items()[1]))
+    return float(sum(nakupni_seznam.values()))
 
 def main():
     while True:
@@ -86,9 +86,30 @@ def main():
                         # nadále budeme ignorovat drahý výrobek, odstraníme ho
                         vyrobky.pop(0)  # odstranění nejdražšího výrobku z výrobků
                         continue  # vnitřní smyčka běží dál
+                    else:
+                        # Výrobkem jsme nepřesáhli max_cenu
+                        if cena_min <= cena_nakupniho_seznamu(nakupni_seznam) <= cena_max:
+                            # trefili jsme se
+                            break
+                        else:
+                            # máme málo, přidáme další položku do seznamu
+                            if list(vyrobky.keys())[0] in nakupni_seznam:
+                                # výrobek už jsme použili, jen zvýšíme jeho počet
+                                nakupni_seznam[list(vyrobky.keys())[0]] += 1
+                            else:
+                                # výrobek v nákupním seznmau ještě nemáme
+                                nakupni_seznam[list(vyrobky.keys())[0]] = 1
                 else:
                     # Nemáme výrobky
                     break
+
+
+            # Kontrola, jestli máme něco v nákupním seznamu
+            if len(nakupni_seznam):
+                print("Nákupní seznam vypadá takto: ")
+                print(nakupni_seznam)
+            else:
+                print("Nepodařilo se sestavit vhodný nákupní seznam.")
 
 
 
