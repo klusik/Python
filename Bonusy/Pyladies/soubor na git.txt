@@ -2,3 +2,5 @@ Nový soubor
 
 
 Uděláum první úprvau
+
+Udělám pouze lokální úpravu.
