@@ -21,8 +21,8 @@ class App:
         self._json_data = self._load_data_from_file()
         self.json_sync()
 
-    @staticmethod
-    def _load_data_from_file(file=None) -> dict:
+
+    def _load_data_from_file(self, file=None) -> dict:
         """
         Loads data from a data file
         :param file: File name to access
@@ -47,6 +47,7 @@ class App:
             with open(file, 'r', encoding=Config.default_encoding()) as f_data:
                 finaces_data = json.load(f_data)
 
+            self._json_data = finaces_data
             return finaces_data
 
         except FileNotFoundError as fnf_err:
@@ -96,23 +97,14 @@ class App:
         # Add new income
         self._json_data['incomes'].append(
             {
-                "ammount": income,
+                "amount": income,
                 "description": income_description,
                 "date": datetime.datetime.now().strftime("%d. %m. %Y"),
             }
         )
 
         # Update the file
-        try:
-            with open(Config.data_file(), 'w', encoding=Config.default_encoding()) as f_json:
-                json.dump(self._json_data, f_json, ensure_ascii=False, indent=Config.json_indent())
-
-            # Success
-            return True
-
-        except json.JSONDecodeError as json_err:
-            logging.error("Error during updating the data file.\n", str(json_err))
-            return False
+        self.json_sync()
 
     def add_expense(self, expense: float, expense_description: str) -> bool:
         """
@@ -130,21 +122,14 @@ class App:
         # Adding expense
         self._json_data['expenses'].append(
             {
-                "ammount": expense,
+                "amount": expense,
                 "description": expense_description,
                 "date": datetime.datetime.now().strftime("%d. %m. %Y"),
             }
         )
 
         # Update the file
-        try:
-            with open(Config.data_file(), 'w', encoding=Config.default_encoding()) as f_data:
-                json.dump(self._json_data, f_data, ensure_ascii=False, indent=Config.json_indent())
-
-            return True
-        except json.JSONDecodeError as json_err:
-            logging.error("Error during updating the data file\n", str(json_err))
-            return False
+        self.json_sync()
 
     def print_list(self) -> None:
         """
@@ -161,7 +146,7 @@ class App:
 
     def print_total(self, mode=None) -> float:
         """
-        Print total ammount of expenses, incomes or both
+        Print total amount of expenses, incomes or both
         :param mode: Mode is either None, 'incomes' or 'expenses'
         :return: Float value of total sum
         :rtype: float
@@ -173,22 +158,22 @@ class App:
         # What mode selected
         if mode in ['incomes', 'expenses', None]:
             if mode == 'incomes':
-                sum_ammount = sum([ammount['ammount'] for ammount in self._json_data['incomes']])
-                print(f"Total sum of incomes: {sum_ammount}")
-                return sum_ammount
+                sum_amount = sum([amount['amount'] for amount in self._json_data['incomes']])
+                print(f"Total sum of incomes: {sum_amount}")
+                return sum_amount
 
             elif mode == 'expenses':
-                sum_ammount = sum([ammount['ammount'] for ammount in self._json_data['expenses']])
-                print(f"Total sum of expenses: {sum_ammount}")
-                return sum_ammount
+                sum_amount = sum([amount['amount'] for amount in self._json_data['expenses']])
+                print(f"Total sum of expenses: {sum_amount}")
+                return sum_amount
 
             elif not mode:
-                sum_ammount = (
-                    sum([ammount['ammount'] for ammount in self._json_data['incomes']])
-                    - sum([ammount['ammount'] for ammount in self._json_data['expenses']])
+                sum_amount = (
+                    sum([amount['amount'] for amount in self._json_data['incomes']])
+                    - sum([amount['amount'] for amount in self._json_data['expenses']])
                 )
-                print(f"Total income/expense: {sum_ammount}")
-                return sum_ammount
+                print(f"Total income/expense: {sum_amount}")
+                return sum_amount
 
             else:
                 print('Invalid mode')
@@ -200,18 +185,18 @@ class App:
         :return: None
         """
 
-        print("Income list\n{:<15} {:<15} {}".format("Date", "Ammount", "Description"))
+        print("Income list\n{:<15} {:<15} {}".format("Date", "Amount", "Description"))
         for income in self._json_data['incomes']:
-            print("{:<15} {:>15} {}".format(income['date'], income['ammount'], income['description']))
+            print("{:<15} {:>15} {}".format(income['date'], income['amount'], income['description']))
 
     def print_expenses(self) -> None:
         """
         Prints only expenses
         :return: None
         """
-        print("Expense list\n{:<15} {:<15} {}".format("Date", "Ammount", "Description"))
+        print("Expense list\n{:<15} {:<15} {}".format("Date", "Amount", "Description"))
         for expense in self._json_data['expenses']:
-            print("{:<15} {:>15} {}".format(expense['date'], expense['ammount'], expense['description']))
+            print("{:<15} {:>15} {}".format(expense['date'], expense['amount'], expense['description']))
 
 
 # RUNTIME #
@@ -263,9 +248,9 @@ def main():
 
             if user_input.lower() == 'pay':
                 expense_desc = input("Enter the description of the expense: ")
-                expense_ammount = float(input("Enter the expense: "))
+                expense_amount = float(input("Enter the expense: "))
 
-                app.add_expense(expense_ammount, expense_desc)
+                app.add_expense(expense_amount, expense_desc)
 
     except KeyboardInterrupt as kbd_intr:
         exit()
