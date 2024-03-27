@@ -21,7 +21,6 @@ class App:
         self._json_data = self._load_data_from_file()
         self.json_sync()
 
-
     def _load_data_from_file(self, file=None) -> dict:
         """
         Loads data from a data file
@@ -169,8 +168,8 @@ class App:
 
             elif not mode:
                 sum_amount = (
-                    sum([amount['amount'] for amount in self._json_data['incomes']])
-                    - sum([amount['amount'] for amount in self._json_data['expenses']])
+                        sum([amount['amount'] for amount in self._json_data['incomes']])
+                        - sum([amount['amount'] for amount in self._json_data['expenses']])
                 )
                 print(f"Total income/expense: {sum_amount}")
                 return sum_amount
