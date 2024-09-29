@@ -88,7 +88,6 @@ class LanguageModel:
         return total_size / 1024  # Convert bytes to kilobytes
 
 
-# Rest of the LanguageModelApp class remains the same, but now it uses the updated LanguageModel class.
 class LanguageModelApp:
     def __init__(self, max_n=3):
         """
