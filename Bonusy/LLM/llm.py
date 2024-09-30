@@ -20,6 +20,16 @@ def clean_text(text):
     return text.strip()
 
 
+def wrap_text(text, width=80):
+    """
+    Wrap the text so that each line is no longer than 'width' characters.
+    :param text: The input text to wrap.
+    :param width: The maximum number of characters per line.
+    :return: Wrapped text with newlines after every 'width' characters.
+    """
+    return '\n'.join([text[i:i + width] for i in range(0, len(text), width)])
+
+
 class LanguageModel:
     def __init__(self, max_n=1):
         """
@@ -76,7 +86,7 @@ class LanguageModel:
         Generate text based on the trained model starting from a given sequence.
         :param start_sequence: The initial sequence of characters to start generation.
         :param generating_length: The number of characters to generate.
-        :return: The cleaned generated text string.
+        :return: The cleaned and wrapped generated text string.
         """
         current_sequence = start_sequence.lower()
         generated_text = current_sequence
@@ -86,7 +96,9 @@ class LanguageModel:
             current_sequence = generated_text[-self.max_n:]  # Use max_n characters as context
 
         # Clean the generated text to remove extra spaces/newlines
-        return clean_text(generated_text)
+        cleaned_text = clean_text(generated_text)
+        # Wrap the text to 80 characters per line
+        return wrap_text(cleaned_text)
 
     def get_model_memory_usage(self):
         """
