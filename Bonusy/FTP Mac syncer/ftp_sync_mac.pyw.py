@@ -1,5 +1,4 @@
 import os
-import time
 import ftplib
 import json
 import tkinter as tk
@@ -43,9 +42,14 @@ class App:
         self.root = tk.Tk()
         self.root.title("FTP Sync App")
 
+        # Initialize instance attributes
         self.local_folder = ""
         self.remote_folder = ""
         self.ftp_connection = None
+        self.ftp_settings = {}
+        self.local_button = None
+        self.remote_button = None
+        self.status_label = None
 
         self.load_settings()
         self.create_widgets()
@@ -62,12 +66,12 @@ class App:
         self.status_label = tk.Label(self.root, text="Status: Waiting...")
         self.status_label.pack()
 
-    def select_local_folder(self):
+    def select_local_folder(self, *args):
         self.local_folder = filedialog.askdirectory()
         self.status_label.config(text=f"Local folder set to: {self.local_folder}")
         self.save_settings()
 
-    def connect_and_set_remote(self):
+    def connect_and_set_remote(self, *args):
         if not self.ftp_connection:
             self.ftp_connection = FTPConnection(self.ftp_settings.get("host", "ftp.example.com"),
                                                 self.ftp_settings.get("username", "user"),
@@ -82,7 +86,8 @@ class App:
         if self.ftp_connection.connection and self.local_folder:
             for filename in self.ftp_connection.connection.nlst(self.remote_folder):
                 local_file_path = os.path.join(self.local_folder, os.path.basename(filename))
-                self.ftp_connection.download_file(filename, local_file_path)
+                with open(local_file_path, 'wb') as file:
+                    self.ftp_connection.download_file(filename, local_file_path)
 
     def periodic_check(self):
         if self.local_folder and self.remote_folder:
