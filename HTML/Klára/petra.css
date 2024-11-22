@@ -1,0 +1,244 @@
+/* RUDOLF REVIEW: Vždycky je fajn na začátku napsat nějakou hlavičku, např.
+
+This CSS is for Petra Web (address)
+Author: KN 2024
+
+*/
+* { /* Tohle je dost nebezpečný, dát ÚPLNĚ VŠEM objektům na webu nějaký globální nastavení */
+    box-sizing: border-box;
+    padding: 0;
+    margin: O;
+}
+
+@font-face {
+  /* RUDOLF REVIEW:
+    U fontů bych nastavil hlavně nějaký fallback font pro zařízení, který "poppins"
+    neumí zobrazit atd. Aby to vypadalo nějak takto:
+
+    font-family: 'Poppins', 'Arial', sans-serif;
+    */
+    font-family: Poppins;
+    src: url(fonty/Poppins-Regular.ttf);
+    font-weight: normal;
+}
+@font-face {
+    font-family: Poppins;
+    src: url(fonty/Poppins-ExtraBold.ttf);
+    font-weight: bold;
+}
+
+body {
+    font-family: Poppins;
+    font-size: 14px;
+    color:#414042;
+    background: #f9f9f9;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 100px 0px 0px 0px;
+    min-width: 960px;
+    text-align: justify;
+}
+
+.centrovany {
+    text-align: center;
+}
+
+article header {
+    height: 80px;
+}
+
+article {
+    max-width: 960px;
+    margin: auto;
+    padding: 50px 50px 10px 50px;
+}
+
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+    padding: 10px 0;
+    color: #00386b;
+}
+
+article h1 {
+    margin: 0;
+    font-size: 2.3em;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-bottom: 4px solid #EF6534;
+    width: max-content;
+    }
+
+article h2 {
+    font-size: 2em;
+}
+
+article section p {
+    margin-bottom: 1.5em;
+    line-height: 1.8em;
+}
+
+article section a {
+    color: #ef6534
+}
+
+.petraf1 {
+    float: left;
+    width: 300px;
+    padding-right: 10px;
+    }
+
+img.petraf2 {
+        float: left;
+        width: 250px;
+        padding-right: 10px;
+        border-radius: 25px;
+        }
+
+.cistic {
+    clear: both;
+}
+
+div.reference-tlacitko {
+    background: #c84444;
+    color: white;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    margin-top: 45px;
+}
+
+a {
+    text-decoration: none;
+}
+
+body > header {
+    height: 100px;
+    width: 100%;
+    background: #ee8f8f;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    border-radius: 50px;
+}
+
+div img logo_petra {
+    border-radius: 25 px;
+}
+
+
+#logopetra {
+    height: 40px;
+    margin: auto 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: url('images2/logo_petra.png') no-repeat;
+    background-size: 40px 40px;
+    border-radius: 40px;
+}
+
+nav ul {
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+nav ul li {
+    padding: 0 25px;
+    margin: 0 5px;
+    font-size: 1em;
+    line-height: 4.3em;
+    }
+
+nav ul a {
+    color: white;
+    padding: 8px 0;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+nav ul a:hover, .aktivni a {
+    border-bottom: 2px solid #c84444
+}
+
+.kontakt-tlacitko {
+    background: #c84444;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.kontakt-tlacitko:hover,
+.reference-tlacitko:hover {
+    filter: brightness(115%) contrast(85%);
+    border: 0;
+}
+
+html {
+    background: #414042;
+}
+
+footer {
+    box-sizing: border-box;
+    text-align: center;
+    height: 100px;
+    color: white;
+    background: #414042;
+    padding: 50px 0 0 0;
+    clip-path: polygon(0 30px, 100% 0, 100% 105%, 0 105%);
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.vlevo {
+    float: left;
+}
+
+#dovednosti td{
+    width: 33%;
+    padding: 10px;
+    vertical-align: top;
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+
+#reference img {
+    border: 1px solid gray;
+    padding: 6px;
+    box-shadow: 3px 3px 6px #999999;
+    margin-right: 6px;
+}
+
+#reference a {
+    text-decoration: none;
+}
+
+#reference a:hover {
+    text-decoration: none;
+}
+
+.cojsem{
+    text-transform: lowercase;
+}
+
+/* RUDOLF REVIEW: Tady to sepíšu celý, protože ve zbytku CSS nevidím až tak moc
+nějakých problémů, až na jednu věc -- neskutečně střídáš kontext. Prostě -- máš tam chvilku
+předdefinovaný formátování H1, pak najednou vlastní tagy, pak zase nějaký předdefinovaný,
+na konci ID tagy a pak zase svůj nějaký class tag.
+
+Prostě -- trošku pořádek, vidíš, jak se dělá komentář do kódu, tak klidně okomentuj,
+co co znamená. Napířklad už v HTML zmíněný class "čistič," ať je jasný, co dělá
+a proč tam je. */
