@@ -1,4 +1,5 @@
 import os
+import re
 import tkinter as tk
 from tkinter import filedialog
 
@@ -38,24 +39,20 @@ class App:
 
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
-                lines = file.readlines()
+                content = file.read()
 
-            processed_lines = [self.fix_line(line) for line in lines]
+            processed_content = self.fix_content(content)
 
             with open(file_path, 'w', encoding='utf-8') as file:
-                file.writelines(processed_lines)
+                file.write(processed_content)
 
             self.show_message("File processed successfully!")
         except Exception as e:
             self.show_error(f"Error processing file: {e}")
 
-    def fix_line(self, line):
-        words = line.split()
-        for i in range(len(words) - 1):
-            if len(words[i]) == 1 and words[i].isalpha() and words[i + 1].isalnum():
-                words[i] = words[i] + "~" + words[i + 1]
-                words.pop(i + 1)
-        return " ".join(words) + "\n"
+    def fix_content(self, content):
+        # Use regex to replace one-letter words followed by a space and a word or number
+        return re.sub(r'\b([a-zA-Z])\s+(?=[a-zA-Z0-9])', r'\1~', content)
 
     def show_error(self, message):
         tk.messagebox.showerror("Error", message)
