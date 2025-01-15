@@ -32,4 +32,14 @@ def validate_battlefield(battlefield: [int, int]) -> bool:
     :return: True/False
     :rtype: bool
     """
-   
+
+    # Main approach:
+    #
+    # Go through all the points, check diagonals around every found "1". If any diagonal is 1,
+    # field is invalid. Automatically invalidates the Z shapes ships etc.
+    #
+    # Next step, identifying all the ships and their length. Ship goes either right or down. Ship is identified by
+    # the first element, lenght and way (down or right).
+    #
+    # If there is mismatch in numbers of the ships (4x 1, 3x 2, 2x 3 and 1x 4), battlefield is invalid
+    pass
