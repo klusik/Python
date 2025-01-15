@@ -23,3 +23,13 @@
     This is all you need to solve this kata. If you're interested in more information about the game, visit this link.
 
 """
+
+
+def validate_battlefield(battlefield: [int, int]) -> bool:
+    """
+    Validates the battlefield
+    :param battlefield: Battlefield to validate
+    :return: True/False
+    :rtype: bool
+    """
+   
