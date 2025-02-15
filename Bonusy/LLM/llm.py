@@ -3,7 +3,31 @@ from collections import defaultdict, Counter
 import os
 import sys
 import glob
-import pickle  # For saving and loading the model
+import pickle
+import gc  # For explicit garbage collection
+import re  # For cleaning text
+
+
+def clean_text(text):
+    """
+    Cleans the input text by removing unnecessary newlines and spaces.
+    :param text: The input text to clean.
+    :return: Cleaned text.
+    """
+    # Replace multiple newlines or spaces with a single space
+    text = re.sub(r'\s+', ' ', text)
+    # Strip leading/trailing whitespace
+    return text.strip()
+
+
+def wrap_text(text, width=80):
+    """
+    Wrap the text so that each line is no longer than 'width' characters.
+    :param text: The input text to wrap.
+    :param width: The maximum number of characters per line.
+    :return: Wrapped text with newlines after every 'width' characters.
+    """
+    return '\n'.join([text[i:i + width] for i in range(0, len(text), width)])
 
 
 class LanguageModel:
@@ -14,27 +38,26 @@ class LanguageModel:
         :param max_n: The maximum size of the n-gram (number of characters in the sequence).
         """
         self.max_n = max_n
-        # Create multiple models, one for each n from 2 to max_n
         self.models = {n: defaultdict(Counter) for n in range(2, max_n + 1)}
 
-    def train(self, training_text):
+    def train(self, training_text_chunk):
         """
-        Train the language model on the provided text for all n-grams from 2 to max_n.
-        :param training_text: The text data used for training the model.
+        Train the language model on a chunk of text for all n-grams from 2 to max_n.
+        :param training_text_chunk: The text data chunk used for training the model.
         :return: The number of words processed during training.
         """
-        training_text = training_text.lower()
-        words = training_text.split()  # Split text to count words
-        text_length = len(training_text)
+        training_text_chunk = clean_text(training_text_chunk.lower())  # Clean the input text
+        words = training_text_chunk.split()  # Split text to count words
+        text_length = len(training_text_chunk)
 
         # Train for all n-grams from n=2 to n=max_n
         for n in range(2, self.max_n + 1):
             for i in range(text_length - n):
-                sequence = training_text[i:i + n]
-                next_character = training_text[i + n]
+                sequence = training_text_chunk[i:i + n]
+                next_character = training_text_chunk[i + n]
                 self.models[n][sequence][next_character] += 1
 
-        return len(words)  # Return the number of words processed
+        return len(words)
 
     def predict(self, sequence):
         """
@@ -46,7 +69,7 @@ class LanguageModel:
         sequence_length = len(sequence)
 
         # Try to predict using the largest n-gram possible (based on the input sequence length)
-        for n in range(min(sequence_length, self.max_n), 1, -1):  # Start with the largest n and work backward
+        for n in range(min(sequence_length, self.max_n), 1, -1):
             sub_sequence = sequence[-n:]  # Get the last n characters
             if sub_sequence in self.models[n]:
                 next_characters = self.models[n][sub_sequence]
@@ -63,7 +86,7 @@ class LanguageModel:
         Generate text based on the trained model starting from a given sequence.
         :param start_sequence: The initial sequence of characters to start generation.
         :param generating_length: The number of characters to generate.
-        :return: The generated text string.
+        :return: The cleaned and wrapped generated text string.
         """
         current_sequence = start_sequence.lower()
         generated_text = current_sequence
@@ -71,7 +94,11 @@ class LanguageModel:
             next_character = self.predict(current_sequence)
             generated_text += next_character
             current_sequence = generated_text[-self.max_n:]  # Use max_n characters as context
-        return generated_text
+
+        # Clean the generated text to remove extra spaces/newlines
+        cleaned_text = clean_text(generated_text)
+        # Wrap the text to 80 characters per line
+        return wrap_text(cleaned_text)
 
     def get_model_memory_usage(self):
         """
@@ -127,7 +154,7 @@ class LanguageModelApp:
         Handle the 'prompt:' command to generate text based on user input.
         :param user_input_text: The entire user input string containing the prompt.
         """
-        prompt_text = user_input_text[7:].strip()
+        prompt_text = clean_text(user_input_text[7:].strip())  # Clean the input prompt
         if not prompt_text:
             print("Please provide a prompt after 'prompt:'.")
             return
@@ -150,21 +177,25 @@ class LanguageModelApp:
         """
         pattern = user_input_text[5:].strip()  # Extract the filename or pattern after 'load '
 
+        # If no pattern is provided, load from the 'save.kls' file
         if not pattern:
-            # Load from save.kls if no pattern is provided
             if os.path.exists("save.kls"):
                 try:
+                    # Explicitly reinitialize the model to free up memory before loading the new one
+                    del self.language_model  # Delete the current model to free memory
+                    gc.collect()  # Force garbage collection to release memory
+
                     with open("save.kls", "rb") as f:
-                        self.language_model = pickle.load(f)
+                        self.language_model = pickle.load(f)  # Load the saved model
                     print("Successfully loaded the language model from 'save.kls'.")
-                    self.display_memory_usage()
+                    self.display_memory_usage()  # Display memory usage after loading
                 except Exception as e:
                     print(f"Error loading 'save.kls': {e}")
             else:
                 print("No save.kls file found. Please train the model or load a file.")
             return
 
-        # Use glob to match files based on the provided pattern (e.g., '*.txt')
+        # If a pattern is provided, load text files
         files_to_load = glob.glob(pattern)
 
         if not files_to_load:
@@ -175,12 +206,15 @@ class LanguageModelApp:
         for filename in files_to_load:
             if os.path.isfile(filename):
                 try:
+                    # Read file in chunks to save memory
                     with open(filename, 'r', encoding='utf-8') as file:
-                        training_text = file.read()
-                    num_words = self.language_model.train(training_text)
-                    total_words_processed += num_words
+                        for chunk in iter(lambda: file.read(1024 * 1024), ''):  # Read in 1MB chunks
+                            num_words = self.language_model.train(chunk)
+                            total_words_processed += num_words
+                            del chunk  # Explicitly delete the chunk to free memory
+                            gc.collect()  # Force garbage collection to ensure memory is freed
                     print(f"Successfully loaded and trained on '{filename}'.")
-                    print(f"Number of words processed from '{filename}': {num_words}")
+                    print(f"Number of words processed from '{filename}': {total_words_processed}")
                 except Exception as e:
                     print(f"Error reading '{filename}': {e}")
             else:
@@ -196,7 +230,8 @@ class LanguageModelApp:
         """
         try:
             with open("save.kls", "wb") as f:
-                pickle.dump(self.language_model, f)
+                pickle.dump(self.language_model, f,
+                            protocol=pickle.HIGHEST_PROTOCOL)  # Use highest protocol for efficiency
             print("Successfully saved the language model to 'save.kls'.")
         except Exception as e:
             print(f"Error saving the language model: {e}")
@@ -227,5 +262,5 @@ class LanguageModelApp:
 
 
 if __name__ == "__main__":
-    app = LanguageModelApp(max_n=8)
+    app = LanguageModelApp(max_n=6)  # Learn with all n's from 2 to 6
     app.run()
