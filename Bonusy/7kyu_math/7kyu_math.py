@@ -7,63 +7,59 @@
     # "1plus2plus3plus4"  --> "10"
     # "1plus2plus3minus4" -->  "2"
 
-    Author:     klusik@klusik.cz
+    Author: klusik@klusik.cz
 """
 
 # RUNTIME #
 def parse_input(input_string):
-    """ Returns a number, reads a string """
-
-    # This function tries to read all numbers and 'plus' or 'minus'
-    # substrings, ignores all other stuff.
-    # It should be okay for 'pl us' and so on.
-
-    # Empty input
+    """Returns a number, reads a string"""
     if len(input_string) == 0:
         return False
 
-    # Not empty input
-    plus = False            # Plus trigger
-    minus = False           # Minus trigger
-    number = list()         # List of detected numbers (build up numbers)
-    running_sum = list()    # List of previously found numbers and operations
+    def is_digit(char):
+        return str(char).isnumeric()
 
-    for index, character in enumerate(input_string):
-        if not (plus and minus):
-            # Basic branch -- no sign of sign detected yet
+    def is_sign_char(char):
+        return str(char).lower() in ('p', 'm')
 
-            # Is a character character or a digit?
-            if str(character).isnumeric():
-                # It's a number
-                number.append(character)
+    def process_number(digits_list, sum_list):
+        if digits_list:
+            sum_list.append(int("".join(digits_list)))
+            digits_list.clear()
 
-                # reset plus or minus
+    plus = False
+    minus = False
+    current_number_digits = []
+    running_sum = []
+
+    for character in input_string:
+        if not (plus or minus):
+            # Not in a sign state
+            if is_digit(character):
+                current_number_digits.append(character)
                 plus = False
                 minus = False
-
-            if str(character).isalpha():
-                # Begining of 'plus' or 'minus' (maybe)
+            elif is_sign_char(character):
+                # Identify if it's a plus or minus
                 if str(character).lower() == 'p':
                     plus = True
                     minus = False
-
-                if str(character).lower() == 'm':
+                elif str(character).lower() == 'm':
                     minus = True
                     plus = False
+                # Process existing number before switching sign state
+                process_number(current_number_digits, running_sum)
+            # else ignore other characters
+        else:
+            # Handle cases where sign has been indicated
+            # (Add your logic here if needed, currently not handled in original code)
+            pass
 
-                # Handling previous numbers
-                if len(number) > 0:
-                    # Not empty list of digits
-                    running_sum.append(int("".join(number)))
+    # Process any remaining number at the end
+    process_number(current_number_digits, running_sum)
 
-                    # Place for a new number
-                    number.clear()
-
-            # Next character
-            continue
-
-
-        # In the case of plus or minus
+    # Assuming the function should return sum or final number
+    return sum(running_sum) if running_sum else False
 
 def main():
     """ Main function """
