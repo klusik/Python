@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fenix A320 CEO Checklist Cards - CFM / IAE</title>
+  <style>
+    /* Basic page variables used throughout the single-file app. */
+    :root {
+      --background-color: #0f172a;
+      --panel-color: #111827;
+      --panel-color-soft: #1f2937;
+      --panel-color-strong: #0b1220;
+      --accent-color: #38bdf8;
+      --accent-color-strong: #0ea5e9;
+      --success-color: #22c55e;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --text-color: #f8fafc;
+      --muted-text-color: #cbd5e1;
+      --border-color: #334155;
+      --shadow-color: rgba(0, 0, 0, 0.35);
+      --font-size-base: 21px;
+      --font-size-small: 18px;
+      --font-size-large: 24px;
+      --font-size-title: 32px;
+      --card-radius: 18px;
+      --button-radius: 14px;
+      --checkbox-size: 28px;
+      --spacing-small: 10px;
+      --spacing-medium: 16px;
+      --spacing-large: 22px;
+      --spacing-xl: 28px;
+      --max-content-width: 1400px;
+    }
+
+    
+/* Ultra compact collapsed HUD (target height ~220px) */
+.top-toolbar.collapsed .banner-row {
+  display:none;
+}
+
+.top-toolbar.collapsed .stats-grid {
+  display:none;
+}
+
+.top-toolbar.collapsed .app-subtitle {
+  display:none;
+}
+
+.top-toolbar.collapsed .toolbar-content {
+  padding-top:6px;
+  padding-bottom:6px;
+}
+
+.top-toolbar.collapsed .control-grid {
+  grid-template-columns: repeat(3, minmax(180px,1fr));
+  margin-bottom:8px;
+}
+
+.top-toolbar.collapsed .control-card {
+  padding:8px;
+}
+
+.top-toolbar.collapsed .control-card label {
+  font-size:14px;
+  margin-bottom:4px;
+}
+
+.top-toolbar.collapsed .control-card select,
+.top-toolbar.collapsed .control-card input[type="search"] {
+  min-height:36px;
+  font-size:16px;
+}
+
+.top-toolbar.collapsed .button-row {
+  gap:8px;
+}
+
+.top-toolbar.collapsed button {
+  padding:6px 10px;
+  font-size:14px;
+}
+
+/* Reset the most common browser defaults so the layout is predictable. */
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+      color: var(--text-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: var(--font-size-base);
+      line-height: 1.35;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    a {
+      color: var(--accent-color);
+    }
+
+    .page-shell {
+      width: min(100%, var(--max-content-width));
+      margin: 0 auto;
+      padding: var(--spacing-large);
+    }
+
+    /* Sticky top control area kept large for tablets and phones. */
+    .top-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 18, 32, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 10px 18px var(--shadow-color);
+      margin: calc(var(--spacing-large) * -1);
+      margin-bottom: var(--spacing-large);
+      padding: var(--spacing-medium);
+    }
+
+    
+/* Collapsed HUD mode hides informational banners and large spacing so the toolbar becomes compact. */
+.top-toolbar.collapsed .banner-row {
+  display: none;
+}
+
+.top-toolbar.collapsed .app-subtitle {
+  display: none;
+}
+
+.top-toolbar.collapsed .app-title {
+  font-size: 22px;
+}
+
+.top-toolbar.collapsed .toolbar-actions {
+  display: none;
+}
+
+    .toolbar-content {
+      width: min(100%, var(--max-content-width));
+      margin: 0 auto;
+    }
+
+    .app-title {
+      margin: 0 0 8px 0;
+      font-size: var(--font-size-title);
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    .app-subtitle {
+      margin: 0 0 var(--spacing-medium) 0;
+      color: var(--muted-text-color);
+      font-size: var(--font-size-small);
+    }
+
+    .banner-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--spacing-medium);
+      margin-bottom: var(--spacing-medium);
+    }
+
+    .info-banner {
+      background: rgba(31, 41, 55, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: var(--spacing-medium);
+      box-shadow: 0 6px 16px var(--shadow-color);
+    }
+
+    .info-banner strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: var(--font-size-small);
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--spacing-medium);
+      margin-bottom: var(--spacing-medium);
+    }
+
+    .control-card {
+      background: rgba(31, 41, 55, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: var(--spacing-medium);
+    }
+
+    .control-card label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted-text-color);
+      font-size: var(--font-size-small);
+    }
+
+    .control-card select,
+    .control-card input[type="search"] {
+      width: 100%;
+      min-height: 56px;
+      border: 1px solid var(--border-color);
+      background: var(--panel-color-strong);
+      color: var(--text-color);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: var(--font-size-base);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-small);
+      margin-bottom: var(--spacing-medium);
+    }
+
+    button {
+      min-height: 56px;
+      border: 1px solid var(--border-color);
+      background: var(--panel-color-soft);
+      color: var(--text-color);
+      border-radius: var(--button-radius);
+      padding: 12px 18px;
+      font-size: var(--font-size-small);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px var(--shadow-color);
+    }
+
+    button:hover {
+      border-color: var(--accent-color-strong);
+    }
+
+    button.primary {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      border-color: #0ea5e9;
+    }
+
+    button.success {
+      background: linear-gradient(180deg, #15803d 0%, #166534 100%);
+      border-color: #22c55e;
+    }
+
+    button.warning {
+      background: linear-gradient(180deg, #a16207 0%, #854d0e 100%);
+      border-color: #f59e0b;
+    }
+
+    button.danger {
+      background: linear-gradient(180deg, #b91c1c 0%, #991b1b 100%);
+      border-color: #ef4444;
+    }
+
+    .hud-toggle-button {
+      background: linear-gradient(180deg, #312e81 0%, #1e1b4b 100%);
+      border-color: #818cf8;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--spacing-medium);
+    }
+
+    .stat-card {
+      background: rgba(31, 41, 55, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: var(--spacing-medium);
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 34px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      color: var(--muted-text-color);
+      font-size: var(--font-size-small);
+    }
+
+    /* Main checklist sections. */
+    .section-card {
+      background: rgba(17, 24, 39, 0.94);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      margin-bottom: var(--spacing-large);
+      box-shadow: 0 10px 20px var(--shadow-color);
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--spacing-medium);
+      align-items: start;
+      padding: var(--spacing-large);
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(17, 24, 39, 0.95) 100%);
+    }
+
+    .section-header:hover {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.98) 0%, rgba(31, 41, 55, 0.98) 100%);
+    }
+
+    .section-complete-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      padding-top: 6px;
+    }
+
+    .section-header-text {
+      min-width: 0;
+    }
+
+    .section-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+      background: rgba(56, 189, 248, 0.12);
+      color: #bae6fd;
+    }
+
+    .section-badge.normal {
+      background: rgba(34, 197, 94, 0.12);
+      color: #bbf7d0;
+    }
+
+    .section-badge.supplementary {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fde68a;
+    }
+
+    .section-badge.abnormal {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fecaca;
+    }
+
+    .section-description {
+      margin: 0 0 10px 0;
+      color: var(--muted-text-color);
+      font-size: var(--font-size-small);
+    }
+
+    .section-progress-text {
+      color: var(--muted-text-color);
+      font-size: var(--font-size-small);
+      font-weight: 700;
+    }
+
+    .section-header-right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: end;
+      min-width: 150px;
+    }
+
+    .section-status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: var(--font-size-small);
+      font-weight: 800;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .section-status-chip.complete {
+      background: rgba(34, 197, 94, 0.18);
+      color: #bbf7d0;
+      border-color: rgba(34, 197, 94, 0.45);
+    }
+
+    .section-status-chip.partial {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fde68a;
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    .section-status-chip.empty {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fecaca;
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .section-open-indicator {
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .section-body {
+      padding: 0 var(--spacing-large) var(--spacing-large) var(--spacing-large);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .section-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-small);
+      margin: var(--spacing-large) 0;
+    }
+
+    .section-items {
+      display: grid;
+      gap: var(--spacing-small);
+    }
+
+    .checklist-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--spacing-medium);
+      align-items: start;
+      background: rgba(31, 41, 55, 0.64);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 14px 14px;
+    }
+
+    .checklist-item.hidden-by-engine,
+    .section-card.hidden-by-filter,
+    .section-card.hidden-by-search {
+      display: none;
+    }
+
+    .item-main {
+      min-width: 0;
+    }
+
+    .item-text {
+      font-size: var(--font-size-base);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .item-meta {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted-text-color);
+      font-size: 15px;
+    }
+
+    .item-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .item-meta-note {
+      max-width: 520px;
+    }
+
+    .item-sort-index {
+      color: var(--muted-text-color);
+      font-size: var(--font-size-small);
+      min-width: 52px;
+      text-align: right;
+      padding-top: 2px;
+    }
+
+    .checkbox-shell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+    }
+
+    input[type="checkbox"] {
+      width: var(--checkbox-size);
+      height: var(--checkbox-size);
+      cursor: pointer;
+      accent-color: var(--success-color);
+      margin: 0;
+      flex: 0 0 auto;
+    }
+
+    .collapsed .section-body {
+      display: none;
+    }
+
+    .footer-notes {
+      margin-top: var(--spacing-xl);
+      background: rgba(17, 24, 39, 0.94);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: var(--spacing-large);
+      box-shadow: 0 10px 20px var(--shadow-color);
+    }
+
+    .footer-notes h2 {
+      margin-top: 0;
+      font-size: 26px;
+    }
+
+    .footer-notes ul {
+      margin: 0;
+      padding-left: 26px;
+    }
+
+    .footer-notes li {
+      margin-bottom: 10px;
+    }
+
+    .small-print {
+      color: var(--muted-text-color);
+      font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .section-header {
+        grid-template-columns: auto 1fr;
+      }
+
+      .section-header-right {
+        grid-column: 1 / -1;
+        align-items: start;
+      }
+
+      .checklist-item {
+        grid-template-columns: auto 1fr;
+      }
+
+      .item-sort-index {
+        grid-column: 2;
+        text-align: left;
+        padding-top: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --font-size-base: 19px;
+        --font-size-small: 17px;
+        --font-size-large: 22px;
+        --font-size-title: 28px;
+        --checkbox-size: 30px;
+      }
+
+      .page-shell {
+        padding: 16px;
+      }
+
+      .top-toolbar {
+        margin: -16px;
+        margin-bottom: 16px;
+        padding: 14px;
+      }
+
+      .section-header,
+      .section-body,
+      .footer-notes {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-toolbar collapsed" id="mainToolbar">
+    <div class="toolbar-content">
+      <h1 class="app-title">Fenix A320 CEO Checklist Cards</h1>
+      <p class="app-subtitle">
+        Single-file operational checklist page for Fenix A320 CEO, switchable between CFM56 and IAE V2500.
+        State is saved locally in your browser with <strong>localStorage</strong>, so no server is required.
+      </p>
+
+      <div class="banner-row">
+        <div class="info-banner">
+          <strong>How engine selection works</strong>
+          Select CFM or IAE below. Shared items remain visible. Engine-specific items, tags and notes will switch automatically.
+        </div>
+        <div class="info-banner">
+          <strong>How abnormal and emergency cards are intended to be used</strong>
+          In Fenix, ECAM remains the primary source of truth for active failures. These cards are quick action prompts and memory-style handling aids for flight use.
+        </div>
+        <div class="info-banner">
+          <strong>How state saving works</strong>
+          Your progress is saved inside the browser on the current device. It persists when you close and reopen the page, unless the browser clears site data.
+        </div>
+      </div>
+
+      <div class="control-grid">
+        <div class="control-card">
+          <label for="engineVariantSelect">Engine variant</label>
+          <select id="engineVariantSelect">
+            <option value="CFM">CFM56</option>
+            <option value="IAE">IAE V2500</option>
+          </select>
+        </div>
+
+        <div class="control-card">
+          <label for="sectionCategorySelect">Section category filter</label>
+          <select id="sectionCategorySelect">
+            <option value="ALL">All categories</option>
+            <option value="NORMAL">Normal</option>
+            <option value="SUPPLEMENTARY">Supplementary</option>
+            <option value="ABNORMAL">Abnormal / Emergency</option>
+          </select>
+        </div>
+
+        <div class="control-card">
+          <label for="searchInput">Search items or section titles</label>
+          <input id="searchInput" type="search" placeholder="Search, for example engine fire, de-ice, CAT 3, smoke..." />
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="expandAllButton" class="primary" type="button">Expand all</button>
+        <button id="collapseAllButton" type="button">Collapse all</button>
+        <button id="markVisibleCompleteButton" class="success" type="button">Complete visible sections</button>
+        <button id="clearVisibleButton" class="warning" type="button">Clear visible sections</button>
+        <button id="resetAllButton" class="danger" type="button">Reset everything</button>
+        <button id="exportStateButton" type="button">Export progress</button>
+        <button id="importStateButton" type="button">Import progress</button>
+        <button id="toolbarPinButton" class="hud-toggle-button" type="button">Expand HUD</button>
+      </div>
+
+      <div class="stats-strip">
+        <div class="stat-card">
+          <span class="stat-value" id="completedItemsCount">0</span>
+          <span class="stat-label">Completed items</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="visibleItemsCount">0</span>
+          <span class="stat-label">Visible items</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="completedSectionsCount">0</span>
+          <span class="stat-label">Completed sections</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="visibleSectionsCount">0</span>
+          <span class="stat-label">Visible sections</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="page-shell" id="checklistContainer"></main>
+
+  <section class="page-shell footer-notes">
+    <h2>Notes</h2>
+    <ul>
+      <li>Normal checklists are laid out for practical Fenix use and quick scanning during flight phases.</li>
+      <li>Supplementary cards include common sim-relevant operational variants such as single-engine taxi, de-icing, low visibility, non-standard starts and return-to-gate style actions.</li>
+      <li>Abnormal and emergency cards prioritize quick cockpit handling prompts. They are not intended to replace ECAM logic or airline-specific QRH pages.</li>
+      <li>Engine differences are applied where they are operationally relevant for Fenix cockpit use, especially on start, restart and engine-specific notes.</li>
+      <li class="small-print">This page is for simulation use. Always follow Fenix aircraft indications, ECAM, Fenix EFB performance tools and your chosen SOP where applicable.</li>
+    </ul>
+  </section>
+
+  <script>
+    /*
+      This application is intentionally written as a single-file HTML page.
+
+      The data model is plain JavaScript objects.
+      The render path is simple:
+      1. Load static checklist data.
+      2. Load saved browser state from localStorage.
+      3. Render sections and items.
+      4. Recompute progress whenever the user changes anything.
+      5. Persist state again after each change.
+
+      The local browser storage key is stable so the page will remember progress
+      on the same device and inside the same browser profile.
+    */
+
+    const browserStorageKey = "fenix_a320_ceo_checklist_state_v1";
+
+    /*
+      Each section contains:
+      - id: unique section identifier
+      - title: section title shown in the UI
+      - category: NORMAL, SUPPLEMENTARY, or ABNORMAL
+      - description: short helper text under the title
+      - items: an array of checklist items
+
+      Each item contains:
+      - id: unique item identifier within the full page
+      - text: the main checklist text
+      - engines: ["ALL"], ["CFM"], or ["IAE"]
+      - note: optional small secondary note
+      - tags: optional short tags for filtering context or quick interpretation
+    */
+    const checklistSections = [
+      {
+        id: "normal-cockpit-preparation",
+        title: "Cockpit Preparation",
+        category: "NORMAL",
+        description: "Cold and dark or turnaround cockpit setup before pushback.",
+        items: [
+          { id: "norm-cp-001", text: "Parking brake - SET", engines: ["ALL"], tags: ["safety"] },
+          { id: "norm-cp-002", text: "Landing gear lever - DOWN", engines: ["ALL"], tags: ["gear"] },
+          { id: "norm-cp-003", text: "Engine master 1 and 2 - OFF", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-cp-004", text: "Engine mode selector - NORM", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-cp-005", text: "Weather radar - AS REQUIRED / OFF FOR GROUND", engines: ["ALL"], tags: ["wx"] },
+          { id: "norm-cp-006", text: "Windshear / PWS - AS REQUIRED", engines: ["ALL"], tags: ["wx"] },
+          { id: "norm-cp-007", text: "Wipers - OFF", engines: ["ALL"], tags: ["misc"] },
+          { id: "norm-cp-008", text: "Battery 1 and 2 - ON", engines: ["ALL"], tags: ["elec"] },
+          { id: "norm-cp-009", text: "External power - ON if available", engines: ["ALL"], tags: ["elec"] },
+          { id: "norm-cp-010", text: "APU master - ON if required", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-cp-011", text: "APU start - AS REQUIRED", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-cp-012", text: "ADIRS 1, 2, 3 - NAV", engines: ["ALL"], tags: ["irs"] },
+          { id: "norm-cp-013", text: "Oxygen crew supply - ON", engines: ["ALL"], tags: ["safety"] },
+          { id: "norm-cp-014", text: "ECAM recall - CHECK", engines: ["ALL"], tags: ["ecam"] },
+          { id: "norm-cp-015", text: "Fire test - CHECK", engines: ["ALL"], tags: ["fire"] },
+          { id: "norm-cp-016", text: "Radio management panels - SET", engines: ["ALL"], tags: ["comms"] },
+          { id: "norm-cp-017", text: "Flight deck displays brightness - SET", engines: ["ALL"], tags: ["displays"] },
+          { id: "norm-cp-018", text: "EFB data and airport charts - READY", engines: ["ALL"], tags: ["efb"] },
+          { id: "norm-cp-019", text: "MCDU initialization - COMPLETE", engines: ["ALL"], tags: ["fms"] },
+          { id: "norm-cp-020", text: "Loadsheet / fuel / zero fuel weight - INSERTED", engines: ["ALL"], tags: ["perf"] },
+          { id: "norm-cp-021", text: "Performance initialization - COMPLETE", engines: ["ALL"], tags: ["perf"] },
+          { id: "norm-cp-022", text: "FCU initial altitude, heading / track, speed - SET", engines: ["ALL"], tags: ["fcu"] },
+          { id: "norm-cp-023", text: "Takeoff briefing - COMPLETE", engines: ["ALL"], tags: ["briefing"] },
+          { id: "norm-cp-024", text: "Takeoff data, flex temp, V-speeds - SET", engines: ["ALL"], tags: ["perf"] },
+          { id: "norm-cp-025", text: "Transponder - AS REQUIRED", engines: ["ALL"], tags: ["atc"] },
+          { id: "norm-cp-026", text: "Seat belt signs - ON", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-cp-027", text: "No smoking signs - AS REQUIRED", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-cp-028", text: "Fuel quantity - CHECK", engines: ["ALL"], tags: ["fuel"] },
+          { id: "norm-cp-029", text: "Hydraulic panel - CHECK", engines: ["ALL"], tags: ["hyd"] },
+          { id: "norm-cp-030", text: "Brake pressure and accumulator - CHECK", engines: ["ALL"], tags: ["brakes"] }
+        ]
+      },
+      {
+        id: "normal-before-start",
+        title: "Before Start",
+        category: "NORMAL",
+        description: "Ready for pushback and engine start.",
+        items: [
+          { id: "norm-bs-001", text: "Doors and slides - CHECK", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-bs-002", text: "Beacon - ON", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-bs-003", text: "Windows and doors - CLOSED", engines: ["ALL"], tags: ["safety"] },
+          { id: "norm-bs-004", text: "Pushback clearance - OBTAINED", engines: ["ALL"], tags: ["atc"] },
+          { id: "norm-bs-005", text: "Ground crew - ADVISED", engines: ["ALL"], tags: ["ground"] },
+          { id: "norm-bs-006", text: "Fuel pumps - ON", engines: ["ALL"], tags: ["fuel"] },
+          { id: "norm-bs-007", text: "APU bleed - ON if APU supplying start air", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-bs-008", text: "PACK 1 and 2 - OFF or AS SOP FOR START", engines: ["ALL"], tags: ["air"] },
+          { id: "norm-bs-009", text: "Engine mode selector - IGN/START", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-bs-010", text: "Parking brake - SET", engines: ["ALL"], tags: ["brakes"] },
+          { id: "norm-bs-011", text: "NW steering disconnect - CONFIRM if pushback", engines: ["ALL"], tags: ["ground"] },
+          { id: "norm-bs-012", text: "Takeoff memo - CHECK NO BLUE", engines: ["ALL"], tags: ["ecam"] },
+          { id: "norm-bs-013", text: "Cabin ready - RECEIVED", engines: ["ALL"], tags: ["cabin"] }
+        ]
+      },
+      {
+        id: "normal-engine-start-cfm",
+        title: "Engine Start - CFM56",
+        category: "NORMAL",
+        description: "Standard automatic engine start sequence for CFM56 aircraft.",
+        items: [
+          { id: "norm-cfm-start-001", text: "Engine mode selector - IGN/START", engines: ["CFM"], tags: ["engine", "cfm"] },
+          { id: "norm-cfm-start-002", text: "Engine 2 master - ON", engines: ["CFM"], tags: ["engine", "cfm"] },
+          { id: "norm-cfm-start-003", text: "Engine parameters - MONITOR", engines: ["CFM"], tags: ["monitoring", "cfm"], note: "Check N2 rise, fuel flow, EGT rise, oil pressure and stable idle." },
+          { id: "norm-cfm-start-004", text: "Engine 2 stable idle - CONFIRM", engines: ["CFM"], tags: ["engine", "cfm"] },
+          { id: "norm-cfm-start-005", text: "Engine 1 master - ON", engines: ["CFM"], tags: ["engine", "cfm"] },
+          { id: "norm-cfm-start-006", text: "Engine parameters - MONITOR", engines: ["CFM"], tags: ["monitoring", "cfm"], note: "Check N2 rise, fuel flow, EGT rise, oil pressure and stable idle." },
+          { id: "norm-cfm-start-007", text: "Engine 1 stable idle - CONFIRM", engines: ["CFM"], tags: ["engine", "cfm"] },
+          { id: "norm-cfm-start-008", text: "Engine mode selector - NORM", engines: ["CFM"], tags: ["engine", "cfm"] },
+          { id: "norm-cfm-start-009", text: "ECAM engine page - CHECK", engines: ["CFM"], tags: ["ecam", "cfm"] },
+          { id: "norm-cfm-start-010", text: "Warm-up before takeoff thrust - OBSERVE", engines: ["CFM"], tags: ["cfm"], note: "Allow practical warm-up time before applying high thrust." }
+        ]
+      },
+      {
+        id: "normal-engine-start-iae",
+        title: "Engine Start - IAE V2500",
+        category: "NORMAL",
+        description: "Standard automatic engine start sequence for IAE V2500 aircraft.",
+        items: [
+          { id: "norm-iae-start-001", text: "Engine mode selector - IGN/START", engines: ["IAE"], tags: ["engine", "iae"] },
+          { id: "norm-iae-start-002", text: "Engine 2 master - ON", engines: ["IAE"], tags: ["engine", "iae"] },
+          { id: "norm-iae-start-003", text: "Engine parameters - MONITOR", engines: ["IAE"], tags: ["monitoring", "iae"], note: "Check N2 rise, fuel flow, EGT rise, oil pressure and stable idle." },
+          { id: "norm-iae-start-004", text: "Engine 2 stable idle - CONFIRM", engines: ["IAE"], tags: ["engine", "iae"] },
+          { id: "norm-iae-start-005", text: "Engine 1 master - ON", engines: ["IAE"], tags: ["engine", "iae"] },
+          { id: "norm-iae-start-006", text: "Engine parameters - MONITOR", engines: ["IAE"], tags: ["monitoring", "iae"], note: "Check N2 rise, fuel flow, EGT rise, oil pressure and stable idle." },
+          { id: "norm-iae-start-007", text: "Engine 1 stable idle - CONFIRM", engines: ["IAE"], tags: ["engine", "iae"] },
+          { id: "norm-iae-start-008", text: "Engine mode selector - NORM", engines: ["IAE"], tags: ["engine", "iae"] },
+          { id: "norm-iae-start-009", text: "ECAM engine page - CHECK", engines: ["IAE"], tags: ["ecam", "iae"] },
+          { id: "norm-iae-start-010", text: "Warm-up before takeoff thrust - OBSERVE", engines: ["IAE"], tags: ["iae"], note: "Allow practical warm-up time before applying high thrust." }
+        ]
+      },
+      {
+        id: "normal-after-start",
+        title: "After Start",
+        category: "NORMAL",
+        description: "Configured and ready for taxi after both engines are stable.",
+        items: [
+          { id: "norm-as-001", text: "APU bleed - OFF when no longer required", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-as-002", text: "PACK 1 and 2 - ON", engines: ["ALL"], tags: ["air"] },
+          { id: "norm-as-003", text: "Engine anti-ice - AS REQUIRED", engines: ["ALL"], tags: ["ice"] },
+          { id: "norm-as-004", text: "Wing anti-ice - AS REQUIRED", engines: ["ALL"], tags: ["ice"] },
+          { id: "norm-as-005", text: "APU master - OFF if not required", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-as-006", text: "Nose wheel steering - RECONNECTED", engines: ["ALL"], tags: ["ground"] },
+          { id: "norm-as-007", text: "Flight controls - CHECK", engines: ["ALL"], tags: ["controls"] },
+          { id: "norm-as-008", text: "Pitch trim - SET", engines: ["ALL"], tags: ["controls"] },
+          { id: "norm-as-009", text: "Flaps - SET FOR TAKEOFF", engines: ["ALL"], tags: ["flaps"] },
+          { id: "norm-as-010", text: "Spoilers - ARM", engines: ["ALL"], tags: ["spoilers"] },
+          { id: "norm-as-011", text: "Rudder trim - ZERO", engines: ["ALL"], tags: ["controls"] },
+          { id: "norm-as-012", text: "Autobrake - MAX or AS REQUIRED", engines: ["ALL"], tags: ["brakes"] },
+          { id: "norm-as-013", text: "Brake temperature - CHECK", engines: ["ALL"], tags: ["brakes"] },
+          { id: "norm-as-014", text: "Ground equipment - CLEAR", engines: ["ALL"], tags: ["ground"] },
+          { id: "norm-as-015", text: "Taxi clearance - OBTAINED", engines: ["ALL"], tags: ["atc"] }
+        ]
+      },
+      {
+        id: "normal-taxi",
+        title: "Taxi",
+        category: "NORMAL",
+        description: "Taxi out and before line-up items.",
+        items: [
+          { id: "norm-tx-001", text: "Brake check - PERFORM", engines: ["ALL"], tags: ["brakes"] },
+          { id: "norm-tx-002", text: "Flight instruments - CHECK", engines: ["ALL"], tags: ["instruments"] },
+          { id: "norm-tx-003", text: "Compass / heading indication - CHECK", engines: ["ALL"], tags: ["instruments"] },
+          { id: "norm-tx-004", text: "Takeoff briefing - REVIEW if needed", engines: ["ALL"], tags: ["briefing"] },
+          { id: "norm-tx-005", text: "ECAM memo - CHECK", engines: ["ALL"], tags: ["ecam"] },
+          { id: "norm-tx-006", text: "Taxi lights - ON", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-tx-007", text: "Runway turnoff lights - AS REQUIRED", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-tx-008", text: "Weather radar and terrain display - AS REQUIRED", engines: ["ALL"], tags: ["wx"] },
+          { id: "norm-tx-009", text: "Cabin secure - CONFIRM", engines: ["ALL"], tags: ["cabin"] }
+        ]
+      },
+      {
+        id: "normal-before-takeoff",
+        title: "Before Takeoff",
+        category: "NORMAL",
+        description: "Immediate pre-departure verification at holding point or on runway as SOP.",
+        items: [
+          { id: "norm-bto-001", text: "Cabin crew - ADVISED", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-bto-002", text: "Takeoff config test - PRESS / CHECK", engines: ["ALL"], tags: ["ecam"] },
+          { id: "norm-bto-003", text: "Takeoff memo - GREEN", engines: ["ALL"], tags: ["ecam"] },
+          { id: "norm-bto-004", text: "Flight controls - FREE AND CORRECT", engines: ["ALL"], tags: ["controls"] },
+          { id: "norm-bto-005", text: "Auto thrust - ARMED", engines: ["ALL"], tags: ["athr"] },
+          { id: "norm-bto-006", text: "Exterior lights - SET FOR TAKEOFF", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-bto-007", text: "Transponder - TA/RA OR AS REQUIRED", engines: ["ALL"], tags: ["atc"] },
+          { id: "norm-bto-008", text: "ECAM engine and warning panel - CHECK", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-bto-009", text: "Runway entry clearance - OBTAINED", engines: ["ALL"], tags: ["atc"] },
+          { id: "norm-bto-010", text: "Chrono - READY", engines: ["ALL"], tags: ["misc"] }
+        ]
+      },
+      {
+        id: "normal-lineup",
+        title: "Line-up",
+        category: "NORMAL",
+        description: "Items commonly performed entering the runway.",
+        items: [
+          { id: "norm-lu-001", text: "Cabin crew - NOTIFY TAKEOFF", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-lu-002", text: "Landing lights - ON", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-lu-003", text: "Strobe lights - ON", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-lu-004", text: "Runway - CONFIRMED", engines: ["ALL"], tags: ["safety"] },
+          { id: "norm-lu-005", text: "FCU and FMA - CHECK", engines: ["ALL"], tags: ["fcu"] }
+        ]
+      },
+      {
+        id: "normal-takeoff",
+        title: "Takeoff and Initial Climb",
+        category: "NORMAL",
+        description: "Post-thrust-set and lift-off actions.",
+        items: [
+          { id: "norm-to-001", text: "Takeoff thrust - SET", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-to-002", text: "Engine indications - CHECK", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-to-003", text: "Airspeed alive - CHECK", engines: ["ALL"], tags: ["instruments"] },
+          { id: "norm-to-004", text: "Positive climb - GEAR UP", engines: ["ALL"], tags: ["gear"] },
+          { id: "norm-to-005", text: "Ground spoilers - CHECK RETRACTED", engines: ["ALL"], tags: ["spoilers"] },
+          { id: "norm-to-006", text: "SRS / RWY / NAV / AP / ATHR modes - MONITOR", engines: ["ALL"], tags: ["fma"] },
+          { id: "norm-to-007", text: "Acceleration altitude - MANAGE", engines: ["ALL"], tags: ["perf"] },
+          { id: "norm-to-008", text: "Climb thrust - SET / CONFIRM", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-to-009", text: "Flaps - RETRACT ON SCHEDULE", engines: ["ALL"], tags: ["flaps"] },
+          { id: "norm-to-010", text: "Packs - CONFIRM ON", engines: ["ALL"], tags: ["air"] }
+        ]
+      },
+      {
+        id: "normal-climb-cruise",
+        title: "Climb and Cruise",
+        category: "NORMAL",
+        description: "En route housekeeping and standard checks.",
+        items: [
+          { id: "norm-cc-001", text: "Engine and systems - CHECK", engines: ["ALL"], tags: ["systems"] },
+          { id: "norm-cc-002", text: "Pressurization - CHECK", engines: ["ALL"], tags: ["pressurization"] },
+          { id: "norm-cc-003", text: "Fuel quantity and balance - CHECK", engines: ["ALL"], tags: ["fuel"] },
+          { id: "norm-cc-004", text: "Navigation accuracy and route - CHECK", engines: ["ALL"], tags: ["nav"] },
+          { id: "norm-cc-005", text: "Cabin signs - AS REQUIRED", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-cc-006", text: "Anti-ice - AS REQUIRED", engines: ["ALL"], tags: ["ice"] },
+          { id: "norm-cc-007", text: "Descent and arrival briefing - PREPARE", engines: ["ALL"], tags: ["briefing"] }
+        ]
+      },
+      {
+        id: "normal-descent-approach",
+        title: "Descent and Approach",
+        category: "NORMAL",
+        description: "Approach setup, landing data and approach checks.",
+        items: [
+          { id: "norm-da-001", text: "Arrival briefing - COMPLETE", engines: ["ALL"], tags: ["briefing"] },
+          { id: "norm-da-002", text: "Approach performance - SET", engines: ["ALL"], tags: ["perf"] },
+          { id: "norm-da-003", text: "QNH / minimums - SET", engines: ["ALL"], tags: ["instruments"] },
+          { id: "norm-da-004", text: "Approach phase - ACTIVATE", engines: ["ALL"], tags: ["fms"] },
+          { id: "norm-da-005", text: "Seat belts - ON", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-da-006", text: "Landing data and VAPP - CHECK", engines: ["ALL"], tags: ["perf"] },
+          { id: "norm-da-007", text: "Auto brake - SET", engines: ["ALL"], tags: ["brakes"] },
+          { id: "norm-da-008", text: "Landing memo - CHECK", engines: ["ALL"], tags: ["ecam"] },
+          { id: "norm-da-009", text: "LS / ILS / approach aids - AS REQUIRED", engines: ["ALL"], tags: ["nav"] },
+          { id: "norm-da-010", text: "Engine anti-ice / wing anti-ice - AS REQUIRED", engines: ["ALL"], tags: ["ice"] }
+        ]
+      },
+      {
+        id: "normal-landing",
+        title: "Landing",
+        category: "NORMAL",
+        description: "Configured final approach and rollout items.",
+        items: [
+          { id: "norm-ld-001", text: "Landing gear - DOWN", engines: ["ALL"], tags: ["gear"] },
+          { id: "norm-ld-002", text: "Flaps - FULL or CONF 3", engines: ["ALL"], tags: ["flaps"] },
+          { id: "norm-ld-003", text: "Spoilers - ARMED", engines: ["ALL"], tags: ["spoilers"] },
+          { id: "norm-ld-004", text: "Green dot / managed speed / VAPP - CHECK", engines: ["ALL"], tags: ["speed"] },
+          { id: "norm-ld-005", text: "Cabin - SECURED", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-ld-006", text: "Auto thrust and FMA - CHECK", engines: ["ALL"], tags: ["athr"] },
+          { id: "norm-ld-007", text: "Landing lights - ON", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-ld-008", text: "Reverse thrust - AS REQUIRED", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-ld-009", text: "Spoilers - DEPLOY CONFIRM", engines: ["ALL"], tags: ["spoilers"] },
+          { id: "norm-ld-010", text: "Deceleration - MONITOR", engines: ["ALL"], tags: ["brakes"] }
+        ]
+      },
+      {
+        id: "normal-after-landing",
+        title: "After Landing",
+        category: "NORMAL",
+        description: "Vacated runway and taxi-in configuration.",
+        items: [
+          { id: "norm-al-001", text: "Spoilers - DISARM", engines: ["ALL"], tags: ["spoilers"] },
+          { id: "norm-al-002", text: "Flaps - RETRACT", engines: ["ALL"], tags: ["flaps"] },
+          { id: "norm-al-003", text: "APU - START AS REQUIRED", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-al-004", text: "Exterior lights - SET FOR TAXI", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-al-005", text: "Transponder - AS REQUIRED", engines: ["ALL"], tags: ["atc"] },
+          { id: "norm-al-006", text: "Weather radar and terrain - AS REQUIRED", engines: ["ALL"], tags: ["wx"] },
+          { id: "norm-al-007", text: "Brake temperatures - CHECK", engines: ["ALL"], tags: ["brakes"] },
+          { id: "norm-al-008", text: "Engine anti-ice / wing anti-ice - OFF if not required", engines: ["ALL"], tags: ["ice"] }
+        ]
+      },
+      {
+        id: "normal-parking-shutdown",
+        title: "Parking and Shutdown",
+        category: "NORMAL",
+        description: "At stand after arrival.",
+        items: [
+          { id: "norm-ps-001", text: "Parking brake - SET", engines: ["ALL"], tags: ["brakes"] },
+          { id: "norm-ps-002", text: "Chocks - INSERTED", engines: ["ALL"], tags: ["ground"] },
+          { id: "norm-ps-003", text: "Engine master 1 and 2 - OFF", engines: ["ALL"], tags: ["engine"] },
+          { id: "norm-ps-004", text: "Fuel pumps - OFF as SOP", engines: ["ALL"], tags: ["fuel"] },
+          { id: "norm-ps-005", text: "Beacon - OFF", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-ps-006", text: "Seat belt signs - OFF", engines: ["ALL"], tags: ["cabin"] },
+          { id: "norm-ps-007", text: "APU bleed - OFF", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-ps-008", text: "External power - ON if available", engines: ["ALL"], tags: ["elec"] },
+          { id: "norm-ps-009", text: "APU - OFF if external power is used and no longer required", engines: ["ALL"], tags: ["apu"] },
+          { id: "norm-ps-010", text: "Parking checklist - COMPLETE", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "normal-securing",
+        title: "Securing Aircraft",
+        category: "NORMAL",
+        description: "Full secure state after flight.",
+        items: [
+          { id: "norm-sec-001", text: "Oxygen crew supply - OFF", engines: ["ALL"], tags: ["safety"] },
+          { id: "norm-sec-002", text: "ADIRS - OFF", engines: ["ALL"], tags: ["irs"] },
+          { id: "norm-sec-003", text: "Battery 1 and 2 - OFF if aircraft is to be left unpowered", engines: ["ALL"], tags: ["elec"] },
+          { id: "norm-sec-004", text: "Exterior lights - OFF", engines: ["ALL"], tags: ["lights"] },
+          { id: "norm-sec-005", text: "Documents and technical log - COMPLETE", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+
+      {
+        id: "supplementary-turnaround",
+        title: "Turnaround",
+        category: "SUPPLEMENTARY",
+        description: "Quick stand turnaround between sectors.",
+        items: [
+          { id: "supp-ta-001", text: "Parking brake - SET", engines: ["ALL"], tags: ["brakes"] },
+          { id: "supp-ta-002", text: "External power or APU - AVAILABLE", engines: ["ALL"], tags: ["elec"] },
+          { id: "supp-ta-003", text: "Fueling status - COORDINATED", engines: ["ALL"], tags: ["fuel"] },
+          { id: "supp-ta-004", text: "FMS route and performance - UPDATE", engines: ["ALL"], tags: ["fms"] },
+          { id: "supp-ta-005", text: "Doors and ground servicing - MONITOR", engines: ["ALL"], tags: ["ground"] }
+        ]
+      },
+      {
+        id: "supplementary-single-engine-taxi-out",
+        title: "Single Engine Taxi Out",
+        category: "SUPPLEMENTARY",
+        description: "Reduced fuel burn taxi-out technique when conditions permit.",
+        items: [
+          { id: "supp-seto-001", text: "Taxi conditions and company policy - SUITABLE", engines: ["ALL"], tags: ["ops"] },
+          { id: "supp-seto-002", text: "One engine - STARTED", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-seto-003", text: "Second engine - DEFERRED FOR TAXI", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-seto-004", text: "Hydraulic and electrical availability - CHECK", engines: ["ALL"], tags: ["hyd"] },
+          { id: "supp-seto-005", text: "Flight controls - DELAY FULL CHECK UNTIL BOTH ENGINES RUNNING", engines: ["ALL"], tags: ["controls"] },
+          { id: "supp-seto-006", text: "Second engine start - COMPLETE BEFORE TAKEOFF CHECK", engines: ["ALL"], tags: ["engine"] }
+        ]
+      },
+      {
+        id: "supplementary-single-engine-taxi-in",
+        title: "Single Engine Taxi In",
+        category: "SUPPLEMENTARY",
+        description: "Taxi-in with one engine shutdown when conditions permit.",
+        items: [
+          { id: "supp-seti-001", text: "Taxi-in conditions - SUITABLE", engines: ["ALL"], tags: ["ops"] },
+          { id: "supp-seti-002", text: "APU - START AS REQUIRED", engines: ["ALL"], tags: ["apu"] },
+          { id: "supp-seti-003", text: "Affected engine master - OFF", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-seti-004", text: "Hydraulic and electrical status - CHECK", engines: ["ALL"], tags: ["hyd"] },
+          { id: "supp-seti-005", text: "Taxi speed and braking - MANAGE CAREFULLY", engines: ["ALL"], tags: ["brakes"] }
+        ]
+      },
+      {
+        id: "supplementary-deicing-antiicing",
+        title: "Ground De-icing / Anti-icing",
+        category: "SUPPLEMENTARY",
+        description: "Pre-departure de-icing and anti-icing considerations.",
+        items: [
+          { id: "supp-di-001", text: "De-icing requirement - CONFIRM", engines: ["ALL"], tags: ["ice"] },
+          { id: "supp-di-002", text: "APU / engines state - CONFIGURE AS PROCEDURE REQUIRES", engines: ["ALL"], tags: ["apu", "ice"] },
+          { id: "supp-di-003", text: "Wing anti-ice - OFF DURING GROUND TREATMENT UNLESS REQUIRED", engines: ["ALL"], tags: ["ice"] },
+          { id: "supp-di-004", text: "Flight controls contamination - CHECK", engines: ["ALL"], tags: ["ice"] },
+          { id: "supp-di-005", text: "Holdover time - MONITOR", engines: ["ALL"], tags: ["ice"] },
+          { id: "supp-di-006", text: "Contamination check before takeoff - COMPLETE", engines: ["ALL"], tags: ["ice"] }
+        ]
+      },
+      {
+        id: "supplementary-low-visibility",
+        title: "Low Visibility Operations",
+        category: "SUPPLEMENTARY",
+        description: "Quick setup prompts for low visibility departure and approach.",
+        items: [
+          { id: "supp-lvo-001", text: "Low visibility procedures - ACTIVE", engines: ["ALL"], tags: ["lvp"] },
+          { id: "supp-lvo-002", text: "Exterior lights - SET", engines: ["ALL"], tags: ["lights"] },
+          { id: "supp-lvo-003", text: "Autopilot - PREPARED FOR EARLY USE", engines: ["ALL"], tags: ["ap"] },
+          { id: "supp-lvo-004", text: "Approach aids and minima - VERIFIED", engines: ["ALL"], tags: ["nav"] },
+          { id: "supp-lvo-005", text: "CAT 2 / CAT 3 capability - CONFIRMED", engines: ["ALL"], tags: ["landing"] },
+          { id: "supp-lvo-006", text: "Autoland and FMA annunciations - MONITOR", engines: ["ALL"], tags: ["fma"] }
+        ]
+      },
+      {
+        id: "supplementary-engine-start-malfunction-cfm",
+        title: "Engine Start Malfunction - CFM56",
+        category: "SUPPLEMENTARY",
+        description: "Quick handling prompt for start interruption, hot start or hung start on CFM56.",
+        items: [
+          { id: "supp-cfm-sm-001", text: "Engine parameters abnormal - IDENTIFY", engines: ["CFM"], tags: ["cfm", "engine"] },
+          { id: "supp-cfm-sm-002", text: "Engine master affected side - OFF ON ECAM / AS REQUIRED", engines: ["CFM"], tags: ["cfm", "engine"] },
+          { id: "supp-cfm-sm-003", text: "Engine mode selector - CRANK OR AS REQUIRED", engines: ["CFM"], tags: ["cfm", "engine"] },
+          { id: "supp-cfm-sm-004", text: "EGT, N2, fuel flow and oil pressure - MONITOR", engines: ["CFM"], tags: ["cfm", "monitoring"] },
+          { id: "supp-cfm-sm-005", text: "Cooling time before new attempt - OBSERVE", engines: ["CFM"], tags: ["cfm"], note: "Respect simulator and engine cooling logic before another attempt." },
+          { id: "supp-cfm-sm-006", text: "Consider manual / crossbleed / external air start - AS REQUIRED", engines: ["CFM"], tags: ["cfm", "pneumatic"] }
+        ]
+      },
+      {
+        id: "supplementary-engine-start-malfunction-iae",
+        title: "Engine Start Malfunction - IAE V2500",
+        category: "SUPPLEMENTARY",
+        description: "Quick handling prompt for start interruption, hot start or hung start on IAE V2500.",
+        items: [
+          { id: "supp-iae-sm-001", text: "Engine parameters abnormal - IDENTIFY", engines: ["IAE"], tags: ["iae", "engine"] },
+          { id: "supp-iae-sm-002", text: "Engine master affected side - OFF ON ECAM / AS REQUIRED", engines: ["IAE"], tags: ["iae", "engine"] },
+          { id: "supp-iae-sm-003", text: "Engine mode selector - CRANK OR AS REQUIRED", engines: ["IAE"], tags: ["iae", "engine"] },
+          { id: "supp-iae-sm-004", text: "EGT, N2, fuel flow and oil pressure - MONITOR", engines: ["IAE"], tags: ["iae", "monitoring"] },
+          { id: "supp-iae-sm-005", text: "Cooling time before new attempt - OBSERVE", engines: ["IAE"], tags: ["iae"], note: "Respect simulator and engine cooling logic before another attempt." },
+          { id: "supp-iae-sm-006", text: "Consider manual / crossbleed / external air start - AS REQUIRED", engines: ["IAE"], tags: ["iae", "pneumatic"] }
+        ]
+      },
+      {
+        id: "supplementary-manual-engine-start",
+        title: "Manual Engine Start",
+        category: "SUPPLEMENTARY",
+        description: "Non-standard manual start prompt when automatic start is unsuitable.",
+        items: [
+          { id: "supp-mes-001", text: "Bleed source - AVAILABLE", engines: ["ALL"], tags: ["pneumatic"] },
+          { id: "supp-mes-002", text: "PACKS - OFF", engines: ["ALL"], tags: ["air"] },
+          { id: "supp-mes-003", text: "Crossbleed - AS REQUIRED", engines: ["ALL"], tags: ["pneumatic"] },
+          { id: "supp-mes-004", text: "Engine mode selector - IGN/START", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-mes-005", text: "Manual start conditions - MONITOR CLOSELY", engines: ["ALL"], tags: ["monitoring"] },
+          { id: "supp-mes-006", text: "Abnormal trend - ABORT START", engines: ["ALL"], tags: ["engine"] }
+        ]
+      },
+      {
+        id: "supplementary-crossbleed-start",
+        title: "Crossbleed Start",
+        category: "SUPPLEMENTARY",
+        description: "Crossbleed-assisted start using running engine.",
+        items: [
+          { id: "supp-cbs-001", text: "Operating engine - STABLE", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-cbs-002", text: "PACKS - OFF", engines: ["ALL"], tags: ["air"] },
+          { id: "supp-cbs-003", text: "APU bleed - OFF unless needed", engines: ["ALL"], tags: ["apu"] },
+          { id: "supp-cbs-004", text: "Crossbleed valve - OPEN", engines: ["ALL"], tags: ["pneumatic"] },
+          { id: "supp-cbs-005", text: "Operating engine thrust - INCREASE AS REQUIRED", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-cbs-006", text: "Affected engine start - PERFORM", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-cbs-007", text: "Crossbleed valve - RESET NORMAL AFTER START", engines: ["ALL"], tags: ["pneumatic"] }
+        ]
+      },
+      {
+        id: "supplementary-engine-relight",
+        title: "Engine Relight",
+        category: "SUPPLEMENTARY",
+        description: "In-flight engine relight prompt.",
+        items: [
+          { id: "supp-rel-001", text: "Affected engine master - ON", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-rel-002", text: "Engine mode selector - IGN/START", engines: ["ALL"], tags: ["engine"] },
+          { id: "supp-rel-003", text: "Speed and altitude envelope - SUITABLE", engines: ["ALL"], tags: ["perf"] },
+          { id: "supp-rel-004", text: "Crossbleed / APU bleed - AS REQUIRED", engines: ["ALL"], tags: ["pneumatic"] },
+          { id: "supp-rel-005", text: "Engine parameters - MONITOR", engines: ["ALL"], tags: ["monitoring"] },
+          { id: "supp-rel-006", text: "Relight unsuccessful - PREPARE ONE ENGINE INOP PROCEDURE", engines: ["ALL"], tags: ["engine"] }
+        ]
+      },
+      {
+        id: "supplementary-hot-turnaround",
+        title: "Hot Turnaround",
+        category: "SUPPLEMENTARY",
+        description: "Quick gate turnaround while keeping systems available.",
+        items: [
+          { id: "supp-ht-001", text: "Ground power / APU support - AVAILABLE", engines: ["ALL"], tags: ["elec"] },
+          { id: "supp-ht-002", text: "MCDU route and performance - UPDATE", engines: ["ALL"], tags: ["fms"] },
+          { id: "supp-ht-003", text: "Fuel and payload change - INSERT", engines: ["ALL"], tags: ["perf"] },
+          { id: "supp-ht-004", text: "Doors and servicing - MONITOR", engines: ["ALL"], tags: ["ground"] },
+          { id: "supp-ht-005", text: "Before start status - RE-VERIFY", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+
+      {
+        id: "abnormal-ecam-philosophy",
+        title: "General ECAM / Failure Handling",
+        category: "ABNORMAL",
+        description: "Universal high-level handling logic for most Fenix failures.",
+        items: [
+          { id: "abn-ecam-001", text: "Aircraft control - MAINTAIN", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ecam-002", text: "Autopilot - USE IF HELPFUL", engines: ["ALL"], tags: ["automation"] },
+          { id: "abn-ecam-003", text: "Thrust and flight path - STABILIZE", engines: ["ALL"], tags: ["flying"] },
+          { id: "abn-ecam-004", text: "ECAM title and level - IDENTIFY", engines: ["ALL"], tags: ["ecam"] },
+          { id: "abn-ecam-005", text: "Memory items - APPLY IF REQUIRED", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ecam-006", text: "ECAM actions - PERFORM IN ORDER", engines: ["ALL"], tags: ["ecam"] },
+          { id: "abn-ecam-007", text: "STATUS page - REVIEW", engines: ["ALL"], tags: ["ecam"] },
+          { id: "abn-ecam-008", text: "Landing performance and limitations - REASSESS", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-ecam-009", text: "ATC and cabin - ADVISE", engines: ["ALL"], tags: ["atc", "cabin"] }
+        ]
+      },
+      {
+        id: "abnormal-rejected-takeoff",
+        title: "Rejected Takeoff",
+        category: "ABNORMAL",
+        description: "Quick stop actions for takeoff rejection.",
+        items: [
+          { id: "abn-rto-001", text: "Thrust levers - IDLE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-rto-002", text: "Reverse thrust - MAX AS REQUIRED", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-rto-003", text: "Maximum braking - APPLY", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-rto-004", text: "Spoilers - CONFIRM DEPLOYED", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-rto-005", text: "Autobrake - MONITOR", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-rto-006", text: "Parking brake - SET AFTER STOP", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-rto-007", text: "ATC - INFORM", engines: ["ALL"], tags: ["atc"] },
+          { id: "abn-rto-008", text: "ECAM actions - PERFORM", engines: ["ALL"], tags: ["ecam"] }
+        ]
+      },
+      {
+        id: "abnormal-engine-failure-after-v1",
+        title: "Engine Failure After V1",
+        category: "ABNORMAL",
+        description: "One engine inoperative handling immediately after takeoff.",
+        items: [
+          { id: "abn-eof-001", text: "Directional control - MAINTAIN", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-eof-002", text: "Rotate and positive climb - CONTINUE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-eof-003", text: "Landing gear - UP", engines: ["ALL"], tags: ["gear"] },
+          { id: "abn-eof-004", text: "TOGA / SRS / engine-out guidance - FOLLOW", engines: ["ALL"], tags: ["fma"] },
+          { id: "abn-eof-005", text: "Acceleration altitude - DELAY IF NEEDED FOR ENGINE SECURING", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-eof-006", text: "Affected engine - IDENTIFY", engines: ["ALL"], tags: ["engine"] },
+          { id: "abn-eof-007", text: "ECAM actions - PERFORM", engines: ["ALL"], tags: ["ecam"] },
+          { id: "abn-eof-008", text: "Green dot or engine-out speed - MAINTAIN", engines: ["ALL"], tags: ["speed"] },
+          { id: "abn-eof-009", text: "Rudder trim - USE", engines: ["ALL"], tags: ["controls"] }
+        ]
+      },
+      {
+        id: "abnormal-engine-fire-ground",
+        title: "Engine Fire On Ground",
+        category: "ABNORMAL",
+        description: "Ground engine fire handling.",
+        items: [
+          { id: "abn-efg-001", text: "Parking brake - SET", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-efg-002", text: "Affected engine master - OFF", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-efg-003", text: "Engine fire pushbutton - PRESS", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-efg-004", text: "Agent 1 - DISCH", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-efg-005", text: "If fire persists - AGENT 2 DISCH", engines: ["ALL"], tags: ["fire"] },
+          { id: "abn-efg-006", text: "Evacuation - CONSIDER", engines: ["ALL"], tags: ["evac"] }
+        ]
+      },
+      {
+        id: "abnormal-engine-fire-flight",
+        title: "Engine Fire In Flight",
+        category: "ABNORMAL",
+        description: "In-flight engine fire handling.",
+        items: [
+          { id: "abn-eff-001", text: "Affected thrust lever - IDLE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-eff-002", text: "Affected engine master - OFF", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-eff-003", text: "Affected engine fire pushbutton - PRESS", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-eff-004", text: "Agent 1 - DISCH", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-eff-005", text: "If fire persists - AGENT 2 DISCH", engines: ["ALL"], tags: ["fire"] },
+          { id: "abn-eff-006", text: "Single engine performance - ASSESS", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-eff-007", text: "Diversion - INITIATE", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-engine-severe-damage",
+        title: "Engine Severe Damage / Failure / Separation",
+        category: "ABNORMAL",
+        description: "Severe engine malfunction handling prompt.",
+        items: [
+          { id: "abn-esd-001", text: "Aircraft control - MAINTAIN", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-esd-002", text: "Autothrust - DISCONNECT IF REQUIRED", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-esd-003", text: "Affected thrust lever - IDLE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-esd-004", text: "Affected engine master - OFF", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-esd-005", text: "Affected fire pushbutton - PRESS IF REQUIRED", engines: ["ALL"], tags: ["fire"] },
+          { id: "abn-esd-006", text: "Speed - MANAGE TO REDUCE VIBRATION / DRAG", engines: ["ALL"], tags: ["speed"] },
+          { id: "abn-esd-007", text: "Landing ASAP - PLAN", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-apu-fire",
+        title: "APU Fire",
+        category: "ABNORMAL",
+        description: "APU fire on ground or in flight.",
+        items: [
+          { id: "abn-apuf-001", text: "APU fire pushbutton - PRESS", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-apuf-002", text: "APU master - OFF", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-apuf-003", text: "Agent discharge - MONITOR / CONFIRM", engines: ["ALL"], tags: ["fire"] },
+          { id: "abn-apuf-004", text: "Ground crew / cabin - NOTIFY", engines: ["ALL"], tags: ["ground"] }
+        ]
+      },
+      {
+        id: "abnormal-smoke-fumes-avionics",
+        title: "Smoke / Fumes / Avionics Smoke",
+        category: "ABNORMAL",
+        description: "Immediate smoke and fumes handling prompt.",
+        items: [
+          { id: "abn-smk-001", text: "Oxygen masks and regulators - USE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-smk-002", text: "Crew communications - ESTABLISH", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-smk-003", text: "Smoke source - IDENTIFY IF POSSIBLE", engines: ["ALL"], tags: ["smoke"] },
+          { id: "abn-smk-004", text: "ECAM / smoke procedure - PERFORM", engines: ["ALL"], tags: ["ecam"] },
+          { id: "abn-smk-005", text: "Cabin and ATC - ADVISE", engines: ["ALL"], tags: ["atc", "cabin"] },
+          { id: "abn-smk-006", text: "Landing - PLAN ASAP", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-cabin-altitude",
+        title: "Cabin Altitude Warning / Rapid Depressurization",
+        category: "ABNORMAL",
+        description: "Pressurization emergency prompt.",
+        items: [
+          { id: "abn-cab-001", text: "Oxygen masks - ON", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-cab-002", text: "Crew communications - ESTABLISH", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-cab-003", text: "Emergency descent - INITIATE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-cab-004", text: "Seat belt signs - ON", engines: ["ALL"], tags: ["cabin"] },
+          { id: "abn-cab-005", text: "ATC MAYDAY / emergency - DECLARE", engines: ["ALL"], tags: ["atc"] },
+          { id: "abn-cab-006", text: "Transponder - 7700 IF REQUIRED", engines: ["ALL"], tags: ["atc"] },
+          { id: "abn-cab-007", text: "Terrain and MSA - MONITOR", engines: ["ALL"], tags: ["terrain"] }
+        ]
+      },
+      {
+        id: "abnormal-emergency-descent",
+        title: "Emergency Descent",
+        category: "ABNORMAL",
+        description: "Dedicated emergency descent quick card.",
+        items: [
+          { id: "abn-ed-001", text: "Autopilot - USE IF AVAILABLE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ed-002", text: "Thrust levers - IDLE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ed-003", text: "Speed brakes - FULL AS REQUIRED", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ed-004", text: "Target altitude - SET", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ed-005", text: "Turn away from terrain or traffic - AS REQUIRED", engines: ["ALL"], tags: ["terrain"] },
+          { id: "abn-ed-006", text: "ATC and cabin - ADVISE", engines: ["ALL"], tags: ["atc"] }
+        ]
+      },
+      {
+        id: "abnormal-unreliable-airspeed",
+        title: "Unreliable Airspeed / ADR Issues",
+        category: "ABNORMAL",
+        description: "Unreliable airspeed handling prompt.",
+        items: [
+          { id: "abn-uas-001", text: "Flight path and attitude - STABILIZE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-uas-002", text: "Thrust and pitch known values - APPLY", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-uas-003", text: "Autopilot / autothrust - DISCONNECT AS REQUIRED", engines: ["ALL"], tags: ["automation"] },
+          { id: "abn-uas-004", text: "ADR check and compare - PERFORM", engines: ["ALL"], tags: ["instruments"] },
+          { id: "abn-uas-005", text: "Configuration changes - MINIMIZE UNTIL STABLE", engines: ["ALL"], tags: ["flying"] },
+          { id: "abn-uas-006", text: "Landing configuration and performance - REASSESS", engines: ["ALL"], tags: ["perf"] }
+        ]
+      },
+      {
+        id: "abnormal-windshear",
+        title: "Windshear",
+        category: "ABNORMAL",
+        description: "Predictive or reactive windshear escape prompt.",
+        items: [
+          { id: "abn-ws-001", text: "TOGA - SET", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ws-002", text: "Pitch - FOLLOW SRS / WINDSHEAR GUIDANCE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ws-003", text: "Configuration - DO NOT CHANGE UNTIL SAFE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ws-004", text: "Speedbrakes - RETRACT", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ws-005", text: "Autopilot - KEEP OR DISCONNECT AS GUIDANCE / CONTROL DEMANDS", engines: ["ALL"], tags: ["ap"] }
+        ]
+      },
+      {
+        id: "abnormal-tcas-ra",
+        title: "TCAS RA",
+        category: "ABNORMAL",
+        description: "Resolution advisory response.",
+        items: [
+          { id: "abn-tcas-001", text: "Autopilot - DISCONNECT IF REQUIRED", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-tcas-002", text: "Follow RA - PROMPTLY", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-tcas-003", text: "Vertical speed green band - FLY", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-tcas-004", text: "ATC - INFORM AFTER RESPONSE", engines: ["ALL"], tags: ["atc"] },
+          { id: "abn-tcas-005", text: "Return to cleared profile - WHEN CLEAR OF CONFLICT", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-egpws",
+        title: "EGPWS / GPWS Warnings",
+        category: "ABNORMAL",
+        description: "Terrain and system warning reactions.",
+        items: [
+          { id: "abn-gpws-001", text: "TERRAIN PULL UP warning - APPLY ESCAPE MANEUVER", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-gpws-002", text: "TOGA - SET", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-gpws-003", text: "Wings - LEVEL", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-gpws-004", text: "Pitch - MAXIMUM SAFE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-gpws-005", text: "Configuration - DO NOT CHANGE UNTIL TERRAIN CLEAR", engines: ["ALL"], tags: ["memory"] }
+        ]
+      },
+      {
+        id: "abnormal-brake-hot",
+        title: "Hot Brakes",
+        category: "ABNORMAL",
+        description: "Brake overheat handling prompt.",
+        items: [
+          { id: "abn-bh-001", text: "Brake temperatures - MONITOR", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-bh-002", text: "Parking brake use - MINIMIZE IF CONDITIONS ALLOW", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-bh-003", text: "Brake fans - USE IF FITTED / AVAILABLE", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-bh-004", text: "Ground crew - NOTIFY", engines: ["ALL"], tags: ["ground"] },
+          { id: "abn-bh-005", text: "Takeoff - DELAY UNTIL ACCEPTABLE", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-wheel-tire-damage",
+        title: "Wheel / Tire Damage Suspected",
+        category: "ABNORMAL",
+        description: "Handling prompt after suspected tire burst or wheel issue.",
+        items: [
+          { id: "abn-wtd-001", text: "Aircraft control and braking - MANAGE CAREFULLY", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-wtd-002", text: "Gear retraction - CONSIDER AIRCRAFT STATE", engines: ["ALL"], tags: ["gear"] },
+          { id: "abn-wtd-003", text: "Flight control and vibration indications - MONITOR", engines: ["ALL"], tags: ["monitoring"] },
+          { id: "abn-wtd-004", text: "Landing performance and stopping distance - REASSESS", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-wtd-005", text: "Emergency services - CONSIDER", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-brake-steering",
+        title: "Anti-skid / Nosewheel Steering / Braking Fault",
+        category: "ABNORMAL",
+        description: "Handling prompt for degraded ground braking or steering.",
+        items: [
+          { id: "abn-bs-001", text: "Taxi speed - REDUCE", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-bs-002", text: "Braking action - ASSESS", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-bs-003", text: "Autobrake / anti-skid availability - CHECK", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-bs-004", text: "Landing distance - RECALCULATE", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-bs-005", text: "Towing after stop - CONSIDER", engines: ["ALL"], tags: ["ground"] }
+        ]
+      },
+      {
+        id: "abnormal-emergency-electrical",
+        title: "Emergency Electrical Configuration",
+        category: "ABNORMAL",
+        description: "Quick summary when the aircraft is in electrical emergency configuration.",
+        items: [
+          { id: "abn-ee-001", text: "RAT and emergency electrical state - IDENTIFY", engines: ["ALL"], tags: ["elec"] },
+          { id: "abn-ee-002", text: "Maximum speed 320 kt - OBSERVE", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ee-003", text: "Approach with FLAPS 3 - PLAN", engines: ["ALL"], tags: ["landing"] },
+          { id: "abn-ee-004", text: "CAT 2 / CAT 3 - NOT AVAILABLE", engines: ["ALL"], tags: ["landing"] },
+          { id: "abn-ee-005", text: "Braking and nosewheel steering degradation - EXPECT", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-ee-006", text: "Landing performance - REASSESS IN EFB", engines: ["ALL"], tags: ["perf"] }
+        ]
+      },
+      {
+        id: "abnormal-hydraulic-summary",
+        title: "Hydraulic Dual System Loss Summary",
+        category: "ABNORMAL",
+        description: "Quick planning card for major hydraulic degradation.",
+        items: [
+          { id: "abn-hyd-001", text: "ECAM hydraulic page - REVIEW", engines: ["ALL"], tags: ["hyd"] },
+          { id: "abn-hyd-002", text: "Flight control law and spoiler availability - CHECK", engines: ["ALL"], tags: ["controls"] },
+          { id: "abn-hyd-003", text: "Maximum speed limitations - OBSERVE", engines: ["ALL"], tags: ["speed"] },
+          { id: "abn-hyd-004", text: "Alternate braking / antiskid availability - CHECK", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-hyd-005", text: "Landing configuration limitations - APPLY", engines: ["ALL"], tags: ["landing"] },
+          { id: "abn-hyd-006", text: "Landing performance - REASSESS", engines: ["ALL"], tags: ["perf"] }
+        ]
+      },
+      {
+        id: "abnormal-fuel-imbalance",
+        title: "Fuel Imbalance / Fuel Quantity Unreliable",
+        category: "ABNORMAL",
+        description: "Fuel monitoring and management prompt.",
+        items: [
+          { id: "abn-fi-001", text: "Fuel quantities and used fuel - CROSSCHECK", engines: ["ALL"], tags: ["fuel"] },
+          { id: "abn-fi-002", text: "Fuel transfer or crossfeed action - AS REQUIRED", engines: ["ALL"], tags: ["fuel"] },
+          { id: "abn-fi-003", text: "Rudder trim and bank correction - USE IF ONE ENGINE INOP", engines: ["ALL"], tags: ["controls"] },
+          { id: "abn-fi-004", text: "FMS fuel predictions - TREAT WITH CAUTION IF UNRELIABLE", engines: ["ALL"], tags: ["fuel"] },
+          { id: "abn-fi-005", text: "Diversion fuel status - REASSESS", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-fuel-leak",
+        title: "Fuel Leak",
+        category: "ABNORMAL",
+        description: "Fuel leak handling prompt.",
+        items: [
+          { id: "abn-fl-001", text: "Fuel imbalance or quantity trend - IDENTIFY", engines: ["ALL"], tags: ["fuel"] },
+          { id: "abn-fl-002", text: "Affected side / source - DETERMINE IF POSSIBLE", engines: ["ALL"], tags: ["fuel"] },
+          { id: "abn-fl-003", text: "Crossfeed and pump configuration - MANAGE CAREFULLY", engines: ["ALL"], tags: ["fuel"] },
+          { id: "abn-fl-004", text: "Landing at nearest suitable airport - CONSIDER", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-flaps-slats",
+        title: "Flap / Slat Fault",
+        category: "ABNORMAL",
+        description: "Degraded high-lift system handling prompt.",
+        items: [
+          { id: "abn-fs-001", text: "Current configuration - MAINTAIN", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-fs-002", text: "ECAM and F/CTL status - REVIEW", engines: ["ALL"], tags: ["ecam"] },
+          { id: "abn-fs-003", text: "Approach speed and landing distance - REASSESS", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-fs-004", text: "Go-around considerations - REVIEW", engines: ["ALL"], tags: ["landing"] },
+          { id: "abn-fs-005", text: "Longer landing roll - EXPECT", engines: ["ALL"], tags: ["landing"] }
+        ]
+      },
+      {
+        id: "abnormal-gear-gravity-extension",
+        title: "Landing Gear Gravity Extension",
+        category: "ABNORMAL",
+        description: "Manual gear extension planning card.",
+        items: [
+          { id: "abn-gge-001", text: "Landing gear alternate extension - PERFORM", engines: ["ALL"], tags: ["gear"] },
+          { id: "abn-gge-002", text: "Gear position indication - CHECK", engines: ["ALL"], tags: ["gear"] },
+          { id: "abn-gge-003", text: "Airspeed limitation after extension - OBSERVE", engines: ["ALL"], tags: ["speed"] },
+          { id: "abn-gge-004", text: "Nosewheel steering availability - EXPECT DEGRADATION", engines: ["ALL"], tags: ["gear"] },
+          { id: "abn-gge-005", text: "Landing distance and ground handling - REASSESS", engines: ["ALL"], tags: ["perf"] }
+        ]
+      },
+      {
+        id: "abnormal-lost-braking-reverser",
+        title: "Landing With Degraded Braking / No Reverser",
+        category: "ABNORMAL",
+        description: "Quick planning prompt for stopping capability reduction.",
+        items: [
+          { id: "abn-lbr-001", text: "Landing distance - RECALCULATE", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-lbr-002", text: "Runway length and surface - VERIFY", engines: ["ALL"], tags: ["landing"] },
+          { id: "abn-lbr-003", text: "Autobrake - BEST AVAILABLE", engines: ["ALL"], tags: ["brakes"] },
+          { id: "abn-lbr-004", text: "Reverse thrust availability - CONFIRM", engines: ["ALL"], tags: ["engine"] },
+          { id: "abn-lbr-005", text: "Emergency services - CONSIDER", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-go-around-failure",
+        title: "Go-around With Failure Present",
+        category: "ABNORMAL",
+        description: "Quick handling prompt for go-around during degraded state.",
+        items: [
+          { id: "abn-gaf-001", text: "TOGA or available go-around thrust - APPLY", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-gaf-002", text: "Configuration and flap limitations - RESPECT", engines: ["ALL"], tags: ["flying"] },
+          { id: "abn-gaf-003", text: "Single engine or degraded performance - MONITOR", engines: ["ALL"], tags: ["perf"] },
+          { id: "abn-gaf-004", text: "Missed approach path - FLY OR MODIFY AS NEEDED", engines: ["ALL"], tags: ["nav"] }
+        ]
+      },
+      {
+        id: "abnormal-evacuation",
+        title: "Evacuation",
+        category: "ABNORMAL",
+        description: "Ground evacuation quick card.",
+        items: [
+          { id: "abn-evac-001", text: "Parking brake - SET", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-evac-002", text: "ATC / cabin crew - NOTIFY", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-evac-003", text: "Engine masters - OFF", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-evac-004", text: "APU master - OFF", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-evac-005", text: "If required, fire pushbuttons - PRESS", engines: ["ALL"], tags: ["fire"] },
+          { id: "abn-evac-006", text: "Evacuation command - INITIATE", engines: ["ALL"], tags: ["memory"] }
+        ]
+      },
+      {
+        id: "abnormal-ditching",
+        title: "Ditching",
+        category: "ABNORMAL",
+        description: "Water landing preparation prompt.",
+        items: [
+          { id: "abn-ditch-001", text: "Landing site and headings - SELECT", engines: ["ALL"], tags: ["ops"] },
+          { id: "abn-ditch-002", text: "Ditching pushbutton - ON IF FITTED / REQUIRED", engines: ["ALL"], tags: ["memory"] },
+          { id: "abn-ditch-003", text: "Cabin and brace preparation - COMPLETE", engines: ["ALL"], tags: ["cabin"] },
+          { id: "abn-ditch-004", text: "Flaps and gear strategy - REVIEW", engines: ["ALL"], tags: ["landing"] },
+          { id: "abn-ditch-005", text: "Emergency services / transponder / ELT logic - CONSIDER", engines: ["ALL"], tags: ["atc"] }
+        ]
+      },
+      {
+        id: "abnormal-forced-landing",
+        title: "Forced Landing",
+        category: "ABNORMAL",
+        description: "Off-airport forced landing preparation prompt.",
+        items: [
+          { id: "abn-flnd-001", text: "Landing area - SELECT", engines: ["ALL"], tags: ["ops"] },
+          { id: "abn-flnd-002", text: "Cabin and passenger briefing - COMPLETE", engines: ["ALL"], tags: ["cabin"] },
+          { id: "abn-flnd-003", text: "Flaps and gear strategy - REVIEW", engines: ["ALL"], tags: ["landing"] },
+          { id: "abn-flnd-004", text: "Transponder / MAYDAY - ACTIVATE", engines: ["ALL"], tags: ["atc"] },
+          { id: "abn-flnd-005", text: "Evacuation after stop - PREPARE", engines: ["ALL"], tags: ["evac"] }
+        ]
+      },
+      {
+        id: "abnormal-medical",
+        title: "Medical Emergency / Diversion",
+        category: "ABNORMAL",
+        description: "Operational diversion quick card for medical events.",
+        items: [
+          { id: "abn-med-001", text: "Cabin report - OBTAIN", engines: ["ALL"], tags: ["cabin"] },
+          { id: "abn-med-002", text: "Nearest suitable airport - EVALUATE", engines: ["ALL"], tags: ["ops"] },
+          { id: "abn-med-003", text: "ATC priority - REQUEST", engines: ["ALL"], tags: ["atc"] },
+          { id: "abn-med-004", text: "Approach and landing setup - EXPEDITE", engines: ["ALL"], tags: ["ops"] }
+        ]
+      },
+      {
+        id: "abnormal-engine-ice",
+        title: "Engine Icing / Severe Icing Awareness",
+        category: "ABNORMAL",
+        description: "Fenix-specific reminder card for icing effects and engine care.",
+        items: [
+          { id: "abn-ice-001", text: "Engine anti-ice - ON WHEN REQUIRED", engines: ["ALL"], tags: ["ice"] },
+          { id: "abn-ice-002", text: "Airframe icing conditions - MONITOR CLOSELY", engines: ["ALL"], tags: ["ice"] },
+          { id: "abn-ice-003", text: "Engine parameters - MONITOR FOR ABNORMAL TRENDS", engines: ["ALL"], tags: ["engine", "ice"] },
+          { id: "abn-ice-004", text: "Thrust management and anti-ice penalties - CONSIDER", engines: ["ALL"], tags: ["perf"] }
+        ]
+      }
+    ];
+
+    /*
+      Default UI state used when nothing has been saved yet.
+      itemCompletionMap: stores checked state per checklist item id
+      collapsedSectionMap: stores whether a section is collapsed
+      selectedEngine: current engine type
+      selectedCategory: current category filter
+      searchText: current search input value
+    */
+    function createDefaultApplicationState() {
+      return {
+        itemCompletionMap: {},
+        collapsedSectionMap: {},
+        selectedEngine: "CFM",
+        selectedCategory: "ALL",
+        searchText: ""
+      };
+    }
+
+    let applicationState = loadApplicationState();
+
+    const checklistContainerElement = document.getElementById("checklistContainer");
+    const engineVariantSelectElement = document.getElementById("engineVariantSelect");
+    const sectionCategorySelectElement = document.getElementById("sectionCategorySelect");
+    const searchInputElement = document.getElementById("searchInput");
+    const expandAllButtonElement = document.getElementById("expandAllButton");
+    const collapseAllButtonElement = document.getElementById("collapseAllButton");
+    const markVisibleCompleteButtonElement = document.getElementById("markVisibleCompleteButton");
+    const clearVisibleButtonElement = document.getElementById("clearVisibleButton");
+    const resetAllButtonElement = document.getElementById("resetAllButton");
+    const exportStateButtonElement = document.getElementById("exportStateButton");
+    const importStateButtonElement = document.getElementById("importStateButton");
+    const completedItemsCountElement = document.getElementById("completedItemsCount");
+    const visibleItemsCountElement = document.getElementById("visibleItemsCount");
+    const completedSectionsCountElement = document.getElementById("completedSectionsCount");
+    const visibleSectionsCountElement = document.getElementById("visibleSectionsCount");
+
+    initializeApplication();
+
+    function initializeApplication() {
+      applyStateToTopControls();
+      renderChecklistSections();
+      attachTopToolbarEvents();
+      updateVisibleStateAndStatistics();
+    }
+
+    function loadApplicationState() {
+      const defaultState = createDefaultApplicationState();
+
+      try {
+        const rawStoredState = localStorage.getItem(browserStorageKey);
+        if (!rawStoredState) {
+          return defaultState;
+        }
+
+        const parsedStoredState = JSON.parse(rawStoredState);
+        return {
+          ...defaultState,
+          ...parsedStoredState,
+          itemCompletionMap: parsedStoredState.itemCompletionMap || {},
+          collapsedSectionMap: parsedStoredState.collapsedSectionMap || {}
+        };
+      } catch (loadError) {
+        console.error("Failed to load checklist state from browser storage.", loadError);
+        return defaultState;
+      }
+    }
+
+    function saveApplicationState() {
+      try {
+        localStorage.setItem(browserStorageKey, JSON.stringify(applicationState));
+      } catch (saveError) {
+        console.error("Failed to save checklist state to browser storage.", saveError);
+      }
+    }
+
+    function applyStateToTopControls() {
+      engineVariantSelectElement.value = applicationState.selectedEngine;
+      sectionCategorySelectElement.value = applicationState.selectedCategory;
+      searchInputElement.value = applicationState.searchText;
+    }
+
+    function attachTopToolbarEvents() {
+      engineVariantSelectElement.addEventListener("change", function handleEngineVariantChange() {
+        applicationState.selectedEngine = engineVariantSelectElement.value;
+        saveApplicationState();
+        updateVisibleStateAndStatistics();
+      });
+
+      sectionCategorySelectElement.addEventListener("change", function handleSectionCategoryChange() {
+        applicationState.selectedCategory = sectionCategorySelectElement.value;
+        saveApplicationState();
+        updateVisibleStateAndStatistics();
+      });
+
+      searchInputElement.addEventListener("input", function handleSearchInputChange() {
+        applicationState.searchText = searchInputElement.value;
+        saveApplicationState();
+        updateVisibleStateAndStatistics();
+      });
+
+      expandAllButtonElement.addEventListener("click", function handleExpandAllClick() {
+        for (const checklistSection of checklistSections) {
+          applicationState.collapsedSectionMap[checklistSection.id] = false;
+        }
+        saveApplicationState();
+        renderChecklistSections();
+        updateVisibleStateAndStatistics();
+      });
+
+      collapseAllButtonElement.addEventListener("click", function handleCollapseAllClick() {
+        for (const checklistSection of checklistSections) {
+          applicationState.collapsedSectionMap[checklistSection.id] = true;
+        }
+        saveApplicationState();
+        renderChecklistSections();
+        updateVisibleStateAndStatistics();
+      });
+
+      markVisibleCompleteButtonElement.addEventListener("click", function handleMarkVisibleCompleteClick() {
+        const visibleSectionElements = checklistContainerElement.querySelectorAll(".section-card:not(.hidden-by-filter):not(.hidden-by-search)");
+        visibleSectionElements.forEach(function markVisibleSectionComplete(sectionElement) {
+          const checklistItemElements = sectionElement.querySelectorAll(".checklist-item:not(.hidden-by-engine) input[type='checkbox']");
+          checklistItemElements.forEach(function setVisibleItemComplete(checkboxElement) {
+            applicationState.itemCompletionMap[checkboxElement.dataset.itemId] = true;
+            checkboxElement.checked = true;
+          });
+        });
+
+        saveApplicationState();
+        updateVisibleStateAndStatistics();
+      });
+
+      clearVisibleButtonElement.addEventListener("click", function handleClearVisibleClick() {
+        const userConfirmedClear = window.confirm("Clear all currently visible checklist sections?");
+        if (!userConfirmedClear) {
+          return;
+        }
+
+        const visibleSectionElements = checklistContainerElement.querySelectorAll(".section-card:not(.hidden-by-filter):not(.hidden-by-search)");
+        visibleSectionElements.forEach(function clearVisibleSection(sectionElement) {
+          const checklistItemElements = sectionElement.querySelectorAll(".checklist-item:not(.hidden-by-engine) input[type='checkbox']");
+          checklistItemElements.forEach(function clearVisibleItem(checkboxElement) {
+            applicationState.itemCompletionMap[checkboxElement.dataset.itemId] = false;
+            checkboxElement.checked = false;
+          });
+        });
+
+        saveApplicationState();
+        updateVisibleStateAndStatistics();
+      });
+
+      resetAllButtonElement.addEventListener("click", function handleResetAllClick() {
+        const userConfirmedReset = window.confirm("Reset the entire checklist, all sections and all saved progress?");
+        if (!userConfirmedReset) {
+          return;
+        }
+
+        applicationState = createDefaultApplicationState();
+        applyStateToTopControls();
+        saveApplicationState();
+        renderChecklistSections();
+        updateVisibleStateAndStatistics();
+      });
+
+      exportStateButtonElement.addEventListener("click", function handleExportStateClick() {
+        const exportedStateText = JSON.stringify(applicationState, null, 2);
+        window.prompt("Copy your exported checklist progress JSON:", exportedStateText);
+      });
+
+      importStateButtonElement.addEventListener("click", function handleImportStateClick() {
+        const importedStateText = window.prompt("Paste exported checklist progress JSON here:");
+        if (!importedStateText) {
+          return;
+        }
+
+        try {
+          const parsedImportedState = JSON.parse(importedStateText);
+          applicationState = {
+            ...createDefaultApplicationState(),
+            ...parsedImportedState,
+            itemCompletionMap: parsedImportedState.itemCompletionMap || {},
+            collapsedSectionMap: parsedImportedState.collapsedSectionMap || {}
+          };
+          applyStateToTopControls();
+          saveApplicationState();
+          renderChecklistSections();
+          updateVisibleStateAndStatistics();
+        } catch (importError) {
+          window.alert("Import failed. The pasted text is not valid checklist JSON.");
+          console.error("Checklist import failed.", importError);
+        }
+      });
+    }
+
+    function renderChecklistSections() {
+      checklistContainerElement.innerHTML = "";
+
+      checklistSections.forEach(function renderSingleSection(checklistSection) {
+        const sectionCardElement = document.createElement("section");
+        sectionCardElement.className = "section-card";
+        sectionCardElement.dataset.sectionId = checklistSection.id;
+        sectionCardElement.dataset.category = checklistSection.category;
+
+        if (applicationState.collapsedSectionMap[checklistSection.id]) {
+          sectionCardElement.classList.add("collapsed");
+        }
+
+        const sectionHeaderElement = document.createElement("div");
+        sectionHeaderElement.className = "section-header";
+        sectionHeaderElement.addEventListener("click", function handleSectionHeaderClick(event) {
+          /*
+            The complete-section checkbox has its own event.
+            Prevent accidental collapse when that checkbox is clicked.
+          */
+          if (event.target && event.target.closest(".section-complete-toggle")) {
+            return;
+          }
+
+          const currentCollapsedState = !!applicationState.collapsedSectionMap[checklistSection.id];
+          applicationState.collapsedSectionMap[checklistSection.id] = !currentCollapsedState;
+          saveApplicationState();
+          renderChecklistSections();
+          updateVisibleStateAndStatistics();
+        });
+
+        const sectionCompleteToggleShellElement = document.createElement("div");
+        sectionCompleteToggleShellElement.className = "section-complete-toggle";
+
+        const sectionCompleteCheckboxElement = document.createElement("input");
+        sectionCompleteCheckboxElement.type = "checkbox";
+        sectionCompleteCheckboxElement.setAttribute("aria-label", "Mark entire section complete");
+        sectionCompleteCheckboxElement.dataset.sectionId = checklistSection.id;
+        sectionCompleteCheckboxElement.addEventListener("click", function stopHeaderToggle(event) {
+          event.stopPropagation();
+        });
+        sectionCompleteCheckboxElement.addEventListener("change", function handleSectionCompleteToggleChange() {
+          const visibleItemDefinitionsForSection = getVisibleItemsForSection(checklistSection);
+          visibleItemDefinitionsForSection.forEach(function setSectionItemCompletion(itemDefinition) {
+            applicationState.itemCompletionMap[itemDefinition.id] = sectionCompleteCheckboxElement.checked;
+          });
+          saveApplicationState();
+          renderChecklistSections();
+          updateVisibleStateAndStatistics();
+        });
+        sectionCompleteToggleShellElement.appendChild(sectionCompleteCheckboxElement);
+
+        const sectionHeaderTextElement = document.createElement("div");
+        sectionHeaderTextElement.className = "section-header-text";
+
+        const titleRowElement = document.createElement("div");
+        titleRowElement.className = "section-title-row";
+
+        const sectionTitleElement = document.createElement("h2");
+        sectionTitleElement.className = "section-title";
+        sectionTitleElement.textContent = checklistSection.title;
+
+        const sectionBadgeElement = document.createElement("span");
+        sectionBadgeElement.className = "section-badge " + checklistSection.category.toLowerCase();
+        sectionBadgeElement.textContent = checklistSection.category === "ABNORMAL" ? "ABNORMAL / EMERGENCY" : checklistSection.category;
+
+        titleRowElement.appendChild(sectionTitleElement);
+        titleRowElement.appendChild(sectionBadgeElement);
+
+        const sectionDescriptionElement = document.createElement("p");
+        sectionDescriptionElement.className = "section-description";
+        sectionDescriptionElement.textContent = checklistSection.description;
+
+        const sectionProgressTextElement = document.createElement("div");
+        sectionProgressTextElement.className = "section-progress-text";
+
+        sectionHeaderTextElement.appendChild(titleRowElement);
+        sectionHeaderTextElement.appendChild(sectionDescriptionElement);
+        sectionHeaderTextElement.appendChild(sectionProgressTextElement);
+
+        const sectionHeaderRightElement = document.createElement("div");
+        sectionHeaderRightElement.className = "section-header-right";
+
+        const sectionStatusChipElement = document.createElement("span");
+        sectionStatusChipElement.className = "section-status-chip";
+
+        const sectionOpenIndicatorElement = document.createElement("span");
+        sectionOpenIndicatorElement.className = "section-open-indicator";
+        sectionOpenIndicatorElement.textContent = applicationState.collapsedSectionMap[checklistSection.id] ? "+" : "−";
+
+        sectionHeaderRightElement.appendChild(sectionStatusChipElement);
+        sectionHeaderRightElement.appendChild(sectionOpenIndicatorElement);
+
+        const sectionBodyElement = document.createElement("div");
+        sectionBodyElement.className = "section-body";
+
+        const sectionToolbarElement = document.createElement("div");
+        sectionToolbarElement.className = "section-toolbar";
+
+        const completeSectionButtonElement = document.createElement("button");
+        completeSectionButtonElement.type = "button";
+        completeSectionButtonElement.className = "success";
+        completeSectionButtonElement.textContent = "Complete section";
+        completeSectionButtonElement.addEventListener("click", function handleCompleteSectionButtonClick() {
+          getVisibleItemsForSection(checklistSection).forEach(function markSectionItemComplete(itemDefinition) {
+            applicationState.itemCompletionMap[itemDefinition.id] = true;
+          });
+          saveApplicationState();
+          renderChecklistSections();
+          updateVisibleStateAndStatistics();
+        });
+
+        const clearSectionButtonElement = document.createElement("button");
+        clearSectionButtonElement.type = "button";
+        clearSectionButtonElement.className = "warning";
+        clearSectionButtonElement.textContent = "Clear section";
+        clearSectionButtonElement.addEventListener("click", function handleClearSectionButtonClick() {
+          getVisibleItemsForSection(checklistSection).forEach(function clearSectionItem(itemDefinition) {
+            applicationState.itemCompletionMap[itemDefinition.id] = false;
+          });
+          saveApplicationState();
+          renderChecklistSections();
+          updateVisibleStateAndStatistics();
+        });
+
+        sectionToolbarElement.appendChild(completeSectionButtonElement);
+        sectionToolbarElement.appendChild(clearSectionButtonElement);
+
+        const sectionItemsContainerElement = document.createElement("div");
+        sectionItemsContainerElement.className = "section-items";
+
+        checklistSection.items.forEach(function renderSingleItem(checklistItem, itemIndex) {
+          const checklistItemElement = document.createElement("div");
+          checklistItemElement.className = "checklist-item";
+          checklistItemElement.dataset.itemId = checklistItem.id;
+          checklistItemElement.dataset.engines = checklistItem.engines.join(",");
+
+          const itemCheckboxShellElement = document.createElement("div");
+          itemCheckboxShellElement.className = "checkbox-shell";
+
+          const itemCheckboxElement = document.createElement("input");
+          itemCheckboxElement.type = "checkbox";
+          itemCheckboxElement.dataset.itemId = checklistItem.id;
+          itemCheckboxElement.checked = !!applicationState.itemCompletionMap[checklistItem.id];
+          itemCheckboxElement.addEventListener("change", function handleChecklistItemChange() {
+            applicationState.itemCompletionMap[checklistItem.id] = itemCheckboxElement.checked;
+            saveApplicationState();
+            updateVisibleStateAndStatistics();
+          });
+
+          itemCheckboxShellElement.appendChild(itemCheckboxElement);
+
+          const itemMainElement = document.createElement("div");
+          itemMainElement.className = "item-main";
+
+          const itemTextElement = document.createElement("div");
+          itemTextElement.className = "item-text";
+          itemTextElement.textContent = checklistItem.text;
+          itemMainElement.appendChild(itemTextElement);
+
+          const itemMetaElement = document.createElement("div");
+          itemMetaElement.className = "item-meta";
+
+          if (checklistItem.engines && !checklistItem.engines.includes("ALL")) {
+            const engineTagElement = document.createElement("span");
+            engineTagElement.className = "item-tag";
+            engineTagElement.textContent = checklistItem.engines.join(" / ");
+            itemMetaElement.appendChild(engineTagElement);
+          }
+
+          if (Array.isArray(checklistItem.tags)) {
+            checklistItem.tags.forEach(function renderItemTag(tagText) {
+              const tagElement = document.createElement("span");
+              tagElement.className = "item-tag";
+              tagElement.textContent = tagText;
+              itemMetaElement.appendChild(tagElement);
+            });
+          }
+
+          if (checklistItem.note) {
+            const noteElement = document.createElement("span");
+            noteElement.className = "item-tag item-meta-note";
+            noteElement.textContent = checklistItem.note;
+            itemMetaElement.appendChild(noteElement);
+          }
+
+          if (itemMetaElement.children.length > 0) {
+            itemMainElement.appendChild(itemMetaElement);
+          }
+
+          const itemSortIndexElement = document.createElement("div");
+          itemSortIndexElement.className = "item-sort-index";
+          itemSortIndexElement.textContent = String(itemIndex + 1).padStart(2, "0");
+
+          checklistItemElement.appendChild(itemCheckboxShellElement);
+          checklistItemElement.appendChild(itemMainElement);
+          checklistItemElement.appendChild(itemSortIndexElement);
+
+          sectionItemsContainerElement.appendChild(checklistItemElement);
+        });
+
+        sectionBodyElement.appendChild(sectionToolbarElement);
+        sectionBodyElement.appendChild(sectionItemsContainerElement);
+
+        sectionHeaderElement.appendChild(sectionCompleteToggleShellElement);
+        sectionHeaderElement.appendChild(sectionHeaderTextElement);
+        sectionHeaderElement.appendChild(sectionHeaderRightElement);
+
+        sectionCardElement.appendChild(sectionHeaderElement);
+        sectionCardElement.appendChild(sectionBodyElement);
+
+        checklistContainerElement.appendChild(sectionCardElement);
+
+        /*
+          After the section is in the document, compute progress and visual status.
+        */
+        updateSectionPresentation(checklistSection, sectionCardElement, sectionCompleteCheckboxElement, sectionProgressTextElement, sectionStatusChipElement);
+      });
+    }
+
+    function getVisibleItemsForSection(checklistSection) {
+      return checklistSection.items.filter(function filterItemsByCurrentEngine(checklistItem) {
+        return checklistItem.engines.includes("ALL") || checklistItem.engines.includes(applicationState.selectedEngine);
+      });
+    }
+
+    function updateSectionPresentation(
+      checklistSection,
+      sectionCardElement,
+      sectionCompleteCheckboxElement,
+      sectionProgressTextElement,
+      sectionStatusChipElement
+    ) {
+      const visibleItemDefinitions = getVisibleItemsForSection(checklistSection);
+      const visibleItemCount = visibleItemDefinitions.length;
+      const completedVisibleItemCount = visibleItemDefinitions.filter(function countCompletedVisibleItems(itemDefinition) {
+        return !!applicationState.itemCompletionMap[itemDefinition.id];
+      }).length;
+
+      sectionProgressTextElement.textContent = completedVisibleItemCount + " / " + visibleItemCount + " visible items complete";
+
+      if (visibleItemCount > 0 && completedVisibleItemCount === visibleItemCount) {
+        sectionCompleteCheckboxElement.checked = true;
+        sectionStatusChipElement.textContent = "COMPLETE";
+        sectionStatusChipElement.classList.add("complete");
+        sectionStatusChipElement.classList.remove("partial");
+        sectionStatusChipElement.classList.remove("empty");
+      } else if (completedVisibleItemCount > 0) {
+        sectionCompleteCheckboxElement.checked = false;
+        sectionStatusChipElement.textContent = "PARTIAL";
+        sectionStatusChipElement.classList.add("partial");
+        sectionStatusChipElement.classList.remove("complete");
+        sectionStatusChipElement.classList.remove("empty");
+      } else {
+        sectionCompleteCheckboxElement.checked = false;
+        sectionStatusChipElement.textContent = "NOT STARTED";
+        sectionStatusChipElement.classList.add("empty");
+        sectionStatusChipElement.classList.remove("complete");
+        sectionStatusChipElement.classList.remove("partial");
+      }
+
+      const allChecklistItemElements = sectionCardElement.querySelectorAll(".checklist-item");
+      allChecklistItemElements.forEach(function updateChecklistItemVisibility(itemElement) {
+        const engineListForItem = (itemElement.dataset.engines || "").split(",");
+        const isVisibleForEngine = engineListForItem.includes("ALL") || engineListForItem.includes(applicationState.selectedEngine);
+        itemElement.classList.toggle("hidden-by-engine", !isVisibleForEngine);
+      });
+    }
+
+    function updateVisibleStateAndStatistics() {
+      applySectionCategoryFilter();
+      applySearchFilter();
+      refreshAllSectionProgressDisplays();
+      refreshStatistics();
+    }
+
+    function applySectionCategoryFilter() {
+      const sectionElements = checklistContainerElement.querySelectorAll(".section-card");
+
+      sectionElements.forEach(function filterSectionByCategory(sectionElement) {
+        const sectionCategory = sectionElement.dataset.category;
+        const passesCategoryFilter = applicationState.selectedCategory === "ALL" || sectionCategory === applicationState.selectedCategory;
+        sectionElement.classList.toggle("hidden-by-filter", !passesCategoryFilter);
+      });
+    }
+
+    function applySearchFilter() {
+      const normalizedSearchText = (applicationState.searchText || "").trim().toLowerCase();
+      const sectionElements = checklistContainerElement.querySelectorAll(".section-card");
+
+      sectionElements.forEach(function filterSectionBySearch(sectionElement) {
+        if (!normalizedSearchText) {
+          sectionElement.classList.remove("hidden-by-search");
+          return;
+        }
+
+        const sectionTitleText = sectionElement.querySelector(".section-title")?.textContent?.toLowerCase() || "";
+        const visibleChecklistItems = Array.from(sectionElement.querySelectorAll(".checklist-item:not(.hidden-by-engine)"));
+        const sectionHasMatchingTitle = sectionTitleText.includes(normalizedSearchText);
+        const sectionHasMatchingItem = visibleChecklistItems.some(function doesItemMatchSearch(itemElement) {
+          return itemElement.textContent.toLowerCase().includes(normalizedSearchText);
+        });
+
+        const passesSearchFilter = sectionHasMatchingTitle || sectionHasMatchingItem;
+        sectionElement.classList.toggle("hidden-by-search", !passesSearchFilter);
+      });
+    }
+
+    function refreshAllSectionProgressDisplays() {
+      const sectionElements = checklistContainerElement.querySelectorAll(".section-card");
+
+      sectionElements.forEach(function refreshSingleSection(sectionElement) {
+        const sectionIdentifier = sectionElement.dataset.sectionId;
+        const checklistSection = checklistSections.find(function findSectionById(sectionDefinition) {
+          return sectionDefinition.id === sectionIdentifier;
+        });
+
+        if (!checklistSection) {
+          return;
+        }
+
+        const sectionCompleteCheckboxElement = sectionElement.querySelector(".section-complete-toggle input[type='checkbox']");
+        const sectionProgressTextElement = sectionElement.querySelector(".section-progress-text");
+        const sectionStatusChipElement = sectionElement.querySelector(".section-status-chip");
+
+        updateSectionPresentation(
+          checklistSection,
+          sectionElement,
+          sectionCompleteCheckboxElement,
+          sectionProgressTextElement,
+          sectionStatusChipElement
+        );
+      });
+    }
+
+    function refreshStatistics() {
+      const visibleSectionElements = Array.from(
+        checklistContainerElement.querySelectorAll(".section-card:not(.hidden-by-filter):not(.hidden-by-search)")
+      );
+
+      let visibleItemCount = 0;
+      let completedVisibleItemCount = 0;
+      let completedVisibleSectionCount = 0;
+
+      visibleSectionElements.forEach(function countVisibleSection(sectionElement) {
+        const visibleItemElementsForSection = Array.from(
+          sectionElement.querySelectorAll(".checklist-item:not(.hidden-by-engine)")
+        );
+        const completedVisibleItemElementsForSection = visibleItemElementsForSection.filter(function countCompletedItem(itemElement) {
+          const checkboxElement = itemElement.querySelector("input[type='checkbox']");
+          return checkboxElement && checkboxElement.checked;
+        });
+
+        visibleItemCount += visibleItemElementsForSection.length;
+        completedVisibleItemCount += completedVisibleItemElementsForSection.length;
+
+        if (
+          visibleItemElementsForSection.length > 0 &&
+          completedVisibleItemElementsForSection.length === visibleItemElementsForSection.length
+        ) {
+          completedVisibleSectionCount += 1;
+        }
+      });
+
+      completedItemsCountElement.textContent = String(completedVisibleItemCount);
+      visibleItemsCountElement.textContent = String(visibleItemCount);
+      completedSectionsCountElement.textContent = String(completedVisibleSectionCount);
+      visibleSectionsCountElement.textContent = String(visibleSectionElements.length);
+    }
+  
+/* HUD collapse toggle. The page now defaults to compact mode unless a saved state says otherwise. */
+(function(){
+  const toolbar = document.getElementById("mainToolbar");
+  const toggleButton = document.getElementById("toolbarPinButton");
+
+  function refreshHudToggleButtonPresentation() {
+    const toolbarIsCollapsed = toolbar.classList.contains("collapsed");
+    toggleButton.textContent = toolbarIsCollapsed ? "Expand HUD" : "Collapse HUD";
+    toggleButton.title = toolbarIsCollapsed ? "Show the full top control area" : "Hide the large top control area";
+  }
+
+  const savedState = localStorage.getItem("fenixChecklistHudCollapsed");
+  if (savedState === "false") {
+    toolbar.classList.remove("collapsed");
+  } else {
+    toolbar.classList.add("collapsed");
+  }
+
+  refreshHudToggleButtonPresentation();
+
+  toggleButton.addEventListener("click", function(){
+    const collapsed = toolbar.classList.toggle("collapsed");
+    localStorage.setItem("fenixChecklistHudCollapsed", collapsed ? "true" : "false");
+    refreshHudToggleButtonPresentation();
+  });
+})();
+
+</script>
+</body>
+</html>
