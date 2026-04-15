@@ -1,0 +1,1 @@
+"""Thumbnail maker package."""
