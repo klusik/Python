@@ -8,16 +8,19 @@ Simple Tkinter desktop app for creating YouTube-style thumbnail overlays from a 
 - enter top title text
 - enter bottom subtitle text
 - adjust horizontal position for both text lines
+- adjust vertical position for both text lines
 - adjust font size for both text lines
 - live preview in the right panel
 - export both PNG and JPG in one click
 - keeps the original background image aspect ratio
+- keeps rendering logic separate from GUI logic for easier maintenance
 
 ## Project Structure
 
 ```text
 thumb_maker_project/
 ├── app.py
+├── architecture.md
 ├── requirements.txt
 ├── README.md
 └── thumbnail_maker/
@@ -26,6 +29,17 @@ thumb_maker_project/
     ├── gui.py
     └── renderer.py
 ```
+
+## Architecture Notes
+
+The codebase is intentionally split into three responsibilities:
+
+- `app.py` starts the application
+- `thumbnail_maker/gui.py` owns the Tkinter interface and event wiring
+- `thumbnail_maker/renderer.py` owns Pillow-based image rendering
+- `thumbnail_maker/config.py` stores shared defaults and tuning values
+
+For a much more detailed description, see `architecture.md`.
 
 ## Requirements
 
@@ -62,7 +76,7 @@ python app.py
 1. Click **Browse image...**
 2. Select your background image
 3. Enter the top and bottom text
-4. Adjust the horizontal position sliders if needed
+4. Adjust the position sliders if needed
 5. Adjust the font size sliders if needed
 6. Review the preview on the right side
 7. Click **Generate PNG + JPG**
