@@ -1,0 +1,32 @@
+{
+  "title": "Sample Showcase",
+  "description": "A starter gallery included with the system so the layout and interactions are visible immediately.",
+  "cover": "./galleries/sample-gallery/dune.svg",
+  "tags": ["starter", "design", "demo"],
+  "images": [
+    {
+      "src": "./galleries/sample-gallery/dune.svg",
+      "title": "Dune Light",
+      "caption": "Warm layered gradients used as a first sample item.",
+      "alt": "Abstract dunes in warm earth tones"
+    },
+    {
+      "src": "./galleries/sample-gallery/ocean.svg",
+      "title": "Ocean Fold",
+      "caption": "Curved shapes and sea tones for a cooler contrast.",
+      "alt": "Abstract blue waves and a pale sky"
+    },
+    {
+      "src": "./galleries/sample-gallery/city.svg",
+      "title": "City Blocks",
+      "caption": "Geometric forms showing a stylized skyline.",
+      "alt": "Abstract city skyline with block shapes"
+    },
+    {
+      "src": "./galleries/sample-gallery/garden.svg",
+      "title": "Garden Frame",
+      "caption": "Rounded forms and a muted botanical palette.",
+      "alt": "Abstract botanical scene with leaves and a sun"
+    }
+  ]
+}
