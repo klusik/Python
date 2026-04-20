@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Static gallery system powered by HTML, CSS, and JavaScript.">
+  <title>Static Gallery System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="hero">
+      <div class="hero__copy">
+        <p class="eyebrow">Static Gallery System</p>
+        <h1>Responsive image galleries without PHP or a database.</h1>
+        <p class="hero__text">
+          Drop gallery folders into <code>/galleries</code>, update a JSON registry, and the app renders
+          a searchable gallery hub with per-gallery browsing and a lightbox viewer.
+        </p>
+      </div>
+      <div class="hero__meta">
+        <div class="hero-card">
+          <span class="hero-card__label">Entry point</span>
+          <strong>index.html</strong>
+        </div>
+        <div class="hero-card">
+          <span class="hero-card__label">Gallery source</span>
+          <strong>/galleries/*.json</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel panel--filters">
+        <div class="panel__header">
+          <h2>Browse</h2>
+          <p>Search galleries and filter them by tag.</p>
+        </div>
+
+        <label class="search">
+          <span class="search__label">Search</span>
+          <input id="gallery-search" type="search" placeholder="Search by title, tag, or text">
+        </label>
+
+        <section class="filter-group">
+          <div class="filter-group__top">
+            <h3>Tags</h3>
+            <button id="clear-filters" class="text-button" type="button">Reset</button>
+          </div>
+          <div id="tag-filters" class="tag-list" aria-live="polite"></div>
+        </section>
+
+        <section class="help-box">
+          <h3>Folder structure</h3>
+          <p><code>/galleries</code> keeps user content.</p>
+          <p><code>/css</code>, <code>/js</code>, and <code>/src</code> contain the app.</p>
+          <p><code>/img</code> stores internal UI assets.</p>
+        </section>
+      </aside>
+
+      <section class="panel panel--content">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Gallery Hub</p>
+            <h2>Available galleries</h2>
+          </div>
+          <p id="gallery-count" class="section-heading__meta"></p>
+        </div>
+        <div id="gallery-list" class="gallery-list" aria-live="polite"></div>
+
+        <div id="gallery-view" class="gallery-view" hidden>
+          <div class="section-heading section-heading--detail">
+            <div>
+              <p class="eyebrow">Selected Gallery</p>
+              <h2 id="gallery-title"></h2>
+              <p id="gallery-description" class="gallery-view__description"></p>
+            </div>
+            <div class="gallery-view__actions">
+              <button id="back-to-galleries" class="secondary-button" type="button">Back to all galleries</button>
+            </div>
+          </div>
+
+          <div class="gallery-meta">
+            <div class="gallery-meta__block">
+              <span class="gallery-meta__label">Images</span>
+              <strong id="gallery-image-count">0</strong>
+            </div>
+            <div class="gallery-meta__block">
+              <span class="gallery-meta__label">Tags</span>
+              <div id="gallery-tags" class="tag-list tag-list--compact"></div>
+            </div>
+          </div>
+
+          <div id="photo-grid" class="photo-grid" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="lightbox" class="lightbox">
+    <form method="dialog" class="lightbox__backdrop">
+      <button class="lightbox__close" aria-label="Close viewer">×</button>
+    </form>
+    <div class="lightbox__content">
+      <button id="lightbox-prev" class="lightbox__nav" type="button" aria-label="Previous image">‹</button>
+      <figure class="lightbox__figure">
+        <img id="lightbox-image" src="" alt="">
+        <figcaption>
+          <h3 id="lightbox-title"></h3>
+          <p id="lightbox-caption"></p>
+        </figcaption>
+      </figure>
+      <button id="lightbox-next" class="lightbox__nav" type="button" aria-label="Next image">›</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

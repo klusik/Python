@@ -1,0 +1,8 @@
+{
+  "galleries": [
+    {
+      "id": "sample-gallery",
+      "manifest": "./galleries/sample-gallery/gallery.json"
+    }
+  ]
+}
