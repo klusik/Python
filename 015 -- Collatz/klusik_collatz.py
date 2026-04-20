@@ -1,79 +1,68 @@
-# Collatz 
+# Collatz
 #
-# If a number is odd, do 3x + 1
-# If a number is even, do x/2
+# If a number is odd, do 3x + 1.
+# If a number is even, do x / 2.
 #
-# Do as long as the result is back to 1
-# Track all progress
-# Enter the biggest number to test
-
-#imports
-import math
+# Repeat until the result is 1.
+# Track all progress.
+# Enter the biggest number to test.
 
 
-def userInput():
+def user_input():
     while True:
         number = int(input("Input a number n>1: "))
-        if number <= 1: continue
-        break
+        if number > 1:
+            return number
 
-    return number
 
-def isOdd(number):
-    if (number % 2) == 0: 
-        return True
-    else:
-        return False
+def collatz_sequences(max_number):
+    # Cache complete suffixes for starting values within the requested range.
+    # This avoids recomputing shared tails while keeping cache growth bounded.
+    cache = {1: (1,)}
 
-def collatz(maxNumber):
+    for start in range(1, max_number + 1):
+        if start == 1:
+            yield start, (1, 4, 2, 1)
+            continue
 
-    # create an empty list
-    results = []
-    print(f"maxNumber = {maxNumber}")
+        current = start
+        path = []
+        cached_tail = None
 
-    # Look through all the numbers
-    for number in range(1, maxNumber+1):
-        
-        workingNumber = number      # Actual number
-        progress = [number]         # Tracking a progress
-        #print(f"Doing number {workingNumber}")
-        
-
-        while True:
-
-            if isOdd(workingNumber):
-                workingNumber = int(workingNumber / 2)
-            else:
-                workingNumber = (3 * workingNumber) + 1
-
-            progress.append(workingNumber)
-
-            if workingNumber == 1:
+        while cached_tail is None:
+            cached_tail = cache.get(current)
+            if cached_tail is not None:
                 break
 
-            
+            path.append(current)
+            if current & 1:
+                current = (current * 3) + 1
+            else:
+                current >>= 1
 
-        results.append(progress)
-        #print(f"Written {len(progress)} items for number {number}.")
-        progress = []
+        sequence = tuple(path) + cached_tail
 
-    return results
+        # Populate cache only for values inside the requested range.
+        for index, value in enumerate(path):
+            if value <= max_number and value not in cache:
+                cache[value] = sequence[index:]
+
+        yield start, sequence
+
+
+def write_output(max_number, output_path="output.txt"):
+    with open(output_path, "w", encoding="utf-8") as file_link:
+        for start, sequence in collatz_sequences(max_number):
+            file_link.write(
+                f"{start} (length = {len(sequence)}): {list(sequence)}\n"
+            )
 
 
 def main():
-    
-    # User input
-    maxNumber = userInput()
+    max_number = user_input()
+    print(f"maxNumber = {max_number}")
+    write_output(max_number)
 
-    # do magic
-    results = collatz(maxNumber)
 
-    # Output
-    fileLink = open("output.txt", "w")
-
-    for i in range(0, len(results)):
-        fileLink.write(f"{i+1} (length = {len(results[i])}): {results[i]}\n")
-
-    fileLink.close()
-
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()
