@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GET API Learning Demo</title>
+  <style>
+    /*
+      This CSS is intentionally kept inside index.html because the assignment
+      requires only two files in the whole project.
+
+      The styling aims to be:
+      - clean,
+      - readable,
+      - slightly modern,
+      - easy to inspect while learning.
+    */
+
+    :root {
+      /* CSS variables let us keep colors and spacing consistent. */
+      --bg: #f4efe7;
+      --panel: #fffdf8;
+      --panel-strong: #fff7ea;
+      --text: #1f2937;
+      --muted: #5f6b7a;
+      --line: #dfd6c8;
+      --accent: #c76b2f;
+      --accent-dark: #8f4418;
+      --good: #1e8a5b;
+      --shadow: 0 12px 30px rgba(74, 46, 23, 0.10);
+      --radius: 18px;
+    }
+
+    * {
+      /* border-box makes width calculations easier to reason about. */
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #fff3dc 0, transparent 35%),
+        linear-gradient(180deg, #f5f0e7 0%, #efe6d7 100%);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1200px, calc(100% - 32px));
+      margin: 24px auto 40px;
+    }
+
+    .hero,
+    .panel {
+      background: rgba(255, 253, 248, 0.94);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 850px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin-top: 0;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #3e2d1f;
+    }
+
+    .field input,
+    .field select,
+    .field button,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #ccbba5;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      background: #fffdfa;
+      color: var(--text);
+    }
+
+    .inline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      cursor: pointer;
+      background: linear-gradient(180deg, #d98347 0%, #c4662a 100%);
+      color: white;
+      font-weight: bold;
+      transition: transform 120ms ease, opacity 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button.secondary {
+      background: linear-gradient(180deg, #78614e 0%, #5e4b3b 100%);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .stat-card small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-card strong {
+      font-size: 1.3rem;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      background: #f0e2cf;
+      color: #5c3a1e;
+      border: 1px solid #dcc0a1;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+
+    .product-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fffefb;
+      padding: 16px;
+    }
+
+    .product-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .product-card p {
+      margin: 8px 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .meta-list {
+      display: grid;
+      gap: 6px;
+      margin: 10px 0;
+      font-size: 0.95rem;
+    }
+
+    .status {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid #d6c6b1;
+      background: #fff7eb;
+      color: #67462a;
+    }
+
+    .status.error {
+      background: #fff0ee;
+      border-color: #e0b7b0;
+      color: #8a2d24;
+    }
+
+    .api-preview {
+      background: #2d241f;
+      color: #f9efe1;
+      border-radius: 16px;
+      padding: 16px;
+      overflow: auto;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      border: 1px solid #4d3b2f;
+    }
+
+    .details-box {
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fffaf2;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 20px, 1200px);
+      }
+
+      .stats,
+      .inline-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <h1>GET API Learning Demo</h1>
+      <p>
+        This single HTML file talks to the Python server through <strong>GET requests</strong>.
+        It demonstrates how a front-end can call endpoints for lists, details, filtering,
+        sorting, pagination, and summary statistics.
+      </p>
+    </section>
+
+    <div class="layout">
+      <aside class="panel">
+        <h2>API Controls</h2>
+
+        <div class="field">
+          <label for="apiBaseInput">API Base URL</label>
+          <input id="apiBaseInput" type="text" value="">
+        </div>
+
+        <div class="field">
+          <label for="searchInput">Search text</label>
+          <input id="searchInput" type="text" placeholder="Try: coffee, tablet, sports...">
+        </div>
+
+        <div class="field">
+          <label for="categorySelect">Category</label>
+          <select id="categorySelect">
+            <option value="">All categories</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="brandSelect">Brand</label>
+          <select id="brandSelect">
+            <option value="">All brands</option>
+          </select>
+        </div>
+
+        <div class="field inline-grid">
+          <div>
+            <label for="minPriceInput">Min price</label>
+            <input id="minPriceInput" type="number" min="0" step="0.01" placeholder="0">
+          </div>
+          <div>
+            <label for="maxPriceInput">Max price</label>
+            <input id="maxPriceInput" type="number" min="0" step="0.01" placeholder="999">
+          </div>
+        </div>
+
+        <div class="field inline-grid">
+          <div>
+            <label for="minRatingSelect">Min rating</label>
+            <select id="minRatingSelect">
+              <option value="">Any rating</option>
+              <option value="4">4.0+</option>
+              <option value="4.3">4.3+</option>
+              <option value="4.5">4.5+</option>
+              <option value="4.8">4.8+</option>
+            </select>
+          </div>
+          <div>
+            <label for="pageSizeSelect">Page size</label>
+            <select id="pageSizeSelect">
+              <option value="4">4</option>
+              <option value="6" selected>6</option>
+              <option value="8">8</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field inline-grid">
+          <div>
+            <label for="sortBySelect">Sort by</label>
+            <select id="sortBySelect">
+              <option value="id">ID</option>
+              <option value="name">Name</option>
+              <option value="category">Category</option>
+              <option value="brand">Brand</option>
+              <option value="price">Price</option>
+              <option value="rating">Rating</option>
+              <option value="stock">Stock</option>
+              <option value="color">Color</option>
+            </select>
+          </div>
+          <div>
+            <label for="sortDirSelect">Sort direction</label>
+            <select id="sortDirSelect">
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>
+            <input id="inStockCheckbox" type="checkbox">
+            Only show in-stock products
+          </label>
+        </div>
+
+        <div class="field">
+          <label for="productIdInput">Lookup single product by ID</label>
+          <input id="productIdInput" type="number" min="1" placeholder="Example: 3">
+        </div>
+
+        <div class="field button-row">
+          <button id="applyFiltersButton" type="button">Load Products</button>
+          <button id="resetFiltersButton" class="secondary" type="button">Reset Filters</button>
+          <button id="lookupProductButton" class="secondary" type="button">Get One Product</button>
+        </div>
+
+        <p class="footer-note">
+          Tip: open your browser developer tools and inspect the Network tab.
+          Each click here triggers real GET requests to the Python server.
+        </p>
+      </aside>
+
+      <main>
+        <section class="panel">
+          <div id="statusBox" class="status">Waiting for first API request...</div>
+
+          <div class="stats">
+            <div class="stat-card">
+              <small>Filtered items</small>
+              <strong id="statCount">0</strong>
+            </div>
+            <div class="stat-card">
+              <small>Average price</small>
+              <strong id="statAvgPrice">$0.00</strong>
+            </div>
+            <div class="stat-card">
+              <small>Average rating</small>
+              <strong id="statAvgRating">0.00</strong>
+            </div>
+            <div class="stat-card">
+              <small>Total stock</small>
+              <strong id="statTotalStock">0</strong>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <div id="paginationInfo">Page information will appear here.</div>
+            <div class="button-row">
+              <button id="previousPageButton" class="secondary" type="button">Previous Page</button>
+              <button id="nextPageButton" class="secondary" type="button">Next Page</button>
+            </div>
+          </div>
+
+          <div id="activeQueryBox" class="pill">No query sent yet.</div>
+
+          <div id="productsContainer" class="products" style="margin-top: 16px;"></div>
+
+          <div id="detailsBox" class="details-box">
+            <h3>Single Product / Raw Endpoint Preview</h3>
+            <p>This area shows the raw JSON returned by one endpoint.</p>
+            <pre id="apiPreview" class="api-preview">{}</pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    /*
+      This script is intentionally verbose and heavily commented.
+
+      The goal is not "shortest possible code".
+      The goal is "easy to learn from".
+    */
+
+    // We keep all important DOM references in one object so they are easy to find.
+    const elements = {
+      apiBaseInput: document.getElementById("apiBaseInput"),
+      searchInput: document.getElementById("searchInput"),
+      categorySelect: document.getElementById("categorySelect"),
+      brandSelect: document.getElementById("brandSelect"),
+      minPriceInput: document.getElementById("minPriceInput"),
+      maxPriceInput: document.getElementById("maxPriceInput"),
+      minRatingSelect: document.getElementById("minRatingSelect"),
+      pageSizeSelect: document.getElementById("pageSizeSelect"),
+      sortBySelect: document.getElementById("sortBySelect"),
+      sortDirSelect: document.getElementById("sortDirSelect"),
+      inStockCheckbox: document.getElementById("inStockCheckbox"),
+      productIdInput: document.getElementById("productIdInput"),
+      applyFiltersButton: document.getElementById("applyFiltersButton"),
+      resetFiltersButton: document.getElementById("resetFiltersButton"),
+      lookupProductButton: document.getElementById("lookupProductButton"),
+      statusBox: document.getElementById("statusBox"),
+      statCount: document.getElementById("statCount"),
+      statAvgPrice: document.getElementById("statAvgPrice"),
+      statAvgRating: document.getElementById("statAvgRating"),
+      statTotalStock: document.getElementById("statTotalStock"),
+      paginationInfo: document.getElementById("paginationInfo"),
+      activeQueryBox: document.getElementById("activeQueryBox"),
+      productsContainer: document.getElementById("productsContainer"),
+      previousPageButton: document.getElementById("previousPageButton"),
+      nextPageButton: document.getElementById("nextPageButton"),
+      apiPreview: document.getElementById("apiPreview")
+    };
+
+    // Application state stores values that are not directly "the DOM".
+    // This makes it easier to reason about the program.
+    const state = {
+      currentPage: 1,
+      lastPagination: null
+    };
+
+    // If the HTML file is opened directly from disk, location.hostname is usually empty.
+    // In that case we fall back to localhost.
+    const detectedHost = window.location.hostname || "localhost";
+
+    // The default API base points to the Python server's default port.
+    elements.apiBaseInput.value = `http://${detectedHost}:8484`;
+
+    function setStatus(message, isError = false) {
+      /*
+        Centralized UI status updates are useful because:
+        - every API action can show feedback,
+        - success and error styling stays consistent,
+        - messages are easier to maintain.
+      */
+      elements.statusBox.textContent = message;
+      elements.statusBox.classList.toggle("error", isError);
+    }
+
+    function buildApiBase() {
+      /*
+        We remove a possible trailing slash because it is easier to consistently
+        generate URLs as:
+          base + "/api/products"
+        than to worry about:
+          "http://localhost:8484/" + "/api/products"
+      */
+      return elements.apiBaseInput.value.trim().replace(/\/+$/, "");
+    }
+
+    function buildProductsUrl() {
+      /*
+        URL and URLSearchParams are very important browser APIs for GET requests.
+
+        GET requests send data in the URL, not in the request body.
+        Example:
+          /api/products?category=Electronics&sort_by=price
+      */
+      const url = new URL(buildApiBase() + "/api/products");
+
+      // We read each filter from the form and only include it if it has a value.
+      const search = elements.searchInput.value.trim();
+      const category = elements.categorySelect.value;
+      const brand = elements.brandSelect.value;
+      const minPrice = elements.minPriceInput.value;
+      const maxPrice = elements.maxPriceInput.value;
+      const minRating = elements.minRatingSelect.value;
+      const sortBy = elements.sortBySelect.value;
+      const sortDir = elements.sortDirSelect.value;
+      const pageSize = elements.pageSizeSelect.value;
+
+      if (search) url.searchParams.set("search", search);
+      if (category) url.searchParams.set("category", category);
+      if (brand) url.searchParams.set("brand", brand);
+      if (minPrice) url.searchParams.set("min_price", minPrice);
+      if (maxPrice) url.searchParams.set("max_price", maxPrice);
+      if (minRating) url.searchParams.set("min_rating", minRating);
+      if (elements.inStockCheckbox.checked) url.searchParams.set("in_stock", "true");
+
+      // Sorting and pagination are also query parameters.
+      url.searchParams.set("sort_by", sortBy);
+      url.searchParams.set("sort_dir", sortDir);
+      url.searchParams.set("page", String(state.currentPage));
+      url.searchParams.set("page_size", pageSize);
+
+      return url;
+    }
+
+    async function fetchJson(url) {
+      /*
+        This helper does the repetitive fetch boilerplate once.
+
+        Important steps:
+        1. call fetch(url),
+        2. check response.ok,
+        3. parse the JSON body,
+        4. throw a readable error if something failed.
+      */
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        // We attempt to read the response text for better debugging.
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      return response.json();
+    }
+
+    function renderStats(stats) {
+      /*
+        Defensive rendering matters.
+        If stats is missing, we still show stable fallback values.
+      */
+      elements.statCount.textContent = stats?.count ?? 0;
+      elements.statAvgPrice.textContent = `$${Number(stats?.average_price ?? 0).toFixed(2)}`;
+      elements.statAvgRating.textContent = Number(stats?.average_rating ?? 0).toFixed(2);
+      elements.statTotalStock.textContent = stats?.total_stock ?? 0;
+    }
+
+    function renderProducts(items) {
+      /*
+        Convert an array of product objects into HTML cards.
+      */
+      if (!items.length) {
+        elements.productsContainer.innerHTML = `
+          <div class="product-card">
+            <h3>No products matched</h3>
+            <p>Try removing some filters or changing the search text.</p>
+          </div>
+        `;
+        return;
+      }
+
+      elements.productsContainer.innerHTML = items.map((item) => {
+        return `
+          <article class="product-card">
+            <span class="pill">#${item.id} ${item.category}</span>
+            <h3>${escapeHtml(item.name)}</h3>
+            <p>${escapeHtml(item.description)}</p>
+            <div class="meta-list">
+              <div><strong>Brand:</strong> ${escapeHtml(item.brand)}</div>
+              <div><strong>Price:</strong> $${Number(item.price).toFixed(2)}</div>
+              <div><strong>Rating:</strong> ${Number(item.rating).toFixed(1)}</div>
+              <div><strong>Stock:</strong> ${item.stock}</div>
+              <div><strong>Color:</strong> ${escapeHtml(item.color)}</div>
+            </div>
+            <button type="button" onclick="loadSingleProduct(${item.id})">Load This Product</button>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderPagination(pagination) {
+      /*
+        The API tells us whether previous / next pages exist.
+        We use that information to enable or disable buttons.
+      */
+      state.lastPagination = pagination;
+
+      elements.paginationInfo.textContent =
+        `Page ${pagination.page} of ${pagination.total_pages} | ` +
+        `${pagination.total_items} matching item(s)`;
+
+      elements.previousPageButton.disabled = !pagination.has_previous_page;
+      elements.nextPageButton.disabled = !pagination.has_next_page;
+    }
+
+    function renderRawJson(data) {
+      /*
+        Showing raw JSON is very useful in a learning demo because it lets you see
+        the exact server response that the UI is consuming.
+      */
+      elements.apiPreview.textContent = JSON.stringify(data, null, 2);
+    }
+
+    function escapeHtml(value) {
+      /*
+        Very small HTML escaping helper.
+        Since we inject strings into innerHTML, escaping is the safe habit.
+      */
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    async function loadMetadata() {
+      /*
+        This function loads category and brand lists from the API
+        so the dropdowns are filled dynamically.
+      */
+      const base = buildApiBase();
+
+      try {
+        setStatus("Loading categories and brands...");
+
+        const [categoriesData, brandsData] = await Promise.all([
+          fetchJson(base + "/api/categories"),
+          fetchJson(base + "/api/brands")
+        ]);
+
+        populateSelect(elements.categorySelect, categoriesData.items, "All categories");
+        populateSelect(elements.brandSelect, brandsData.items, "All brands");
+
+        setStatus("Metadata loaded. You can now query the API.");
+      } catch (error) {
+        setStatus(`Could not load metadata: ${error.message}`, true);
+      }
+    }
+
+    function populateSelect(selectElement, values, placeholderText) {
+      /*
+        Replace the current select options with:
+        - one empty option,
+        - one option per API value.
+      */
+      selectElement.innerHTML = "";
+
+      const placeholderOption = document.createElement("option");
+      placeholderOption.value = "";
+      placeholderOption.textContent = placeholderText;
+      selectElement.appendChild(placeholderOption);
+
+      values.forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        selectElement.appendChild(option);
+      });
+    }
+
+    async function loadProducts() {
+      /*
+        This is the main action for:
+        - filtering,
+        - sorting,
+        - pagination,
+        - summary display.
+      */
+      const url = buildProductsUrl();
+
+      try {
+        setStatus(`Loading product list from ${url} ...`);
+        elements.activeQueryBox.textContent = url.toString();
+
+        const data = await fetchJson(url);
+
+        renderProducts(data.items);
+        renderStats(data.stats_for_filtered_set);
+        renderPagination(data.pagination);
+        renderRawJson(data);
+
+        setStatus(`Loaded ${data.items.length} item(s) on the current page successfully.`);
+      } catch (error) {
+        renderProducts([]);
+        renderStats(null);
+        renderRawJson({ error: error.message });
+        setStatus(`Failed to load product list: ${error.message}`, true);
+      }
+    }
+
+    async function loadSingleProduct(productIdFromArgument) {
+      /*
+        This function demonstrates a GET request for one specific record.
+        It can be called:
+        - from the "Get One Product" button,
+        - from the per-card "Load This Product" button.
+      */
+      const productId = productIdFromArgument || elements.productIdInput.value.trim();
+
+      if (!productId) {
+        setStatus("Enter a product ID first, or click a product card button.", true);
+        return;
+      }
+
+      const url = buildApiBase() + "/api/products/" + encodeURIComponent(productId);
+
+      try {
+        setStatus(`Loading product ${productId}...`);
+        const data = await fetchJson(url);
+
+        renderRawJson(data);
+        setStatus(`Product ${productId} loaded successfully.`);
+      } catch (error) {
+        renderRawJson({ error: error.message });
+        setStatus(`Failed to load product ${productId}: ${error.message}`, true);
+      }
+    }
+
+    function resetFilters() {
+      /*
+        Resetting UI state is often as important as loading data.
+      */
+      elements.searchInput.value = "";
+      elements.categorySelect.value = "";
+      elements.brandSelect.value = "";
+      elements.minPriceInput.value = "";
+      elements.maxPriceInput.value = "";
+      elements.minRatingSelect.value = "";
+      elements.pageSizeSelect.value = "6";
+      elements.sortBySelect.value = "id";
+      elements.sortDirSelect.value = "asc";
+      elements.inStockCheckbox.checked = false;
+      elements.productIdInput.value = "";
+      state.currentPage = 1;
+
+      setStatus("Filters reset. Ready to load all products again.");
+    }
+
+    function movePage(direction) {
+      /*
+        direction will be -1 for previous page or +1 for next page.
+      */
+      const nextPage = state.currentPage + direction;
+
+      // Prevent invalid page numbers.
+      if (nextPage < 1) {
+        return;
+      }
+
+      state.currentPage = nextPage;
+      loadProducts();
+    }
+
+    function attachEvents() {
+      /*
+        All event wiring is kept in one function so initialization is easy to follow.
+      */
+      elements.applyFiltersButton.addEventListener("click", () => {
+        state.currentPage = 1;
+        loadProducts();
+      });
+
+      elements.resetFiltersButton.addEventListener("click", () => {
+        resetFilters();
+        loadProducts();
+      });
+
+      elements.lookupProductButton.addEventListener("click", () => {
+        loadSingleProduct();
+      });
+
+      elements.previousPageButton.addEventListener("click", () => {
+        movePage(-1);
+      });
+
+      elements.nextPageButton.addEventListener("click", () => {
+        movePage(1);
+      });
+
+      // Pressing Enter in the search field is a nice quality-of-life improvement.
+      elements.searchInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          state.currentPage = 1;
+          loadProducts();
+        }
+      });
+
+      elements.productIdInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          loadSingleProduct();
+        }
+      });
+
+      // If the user changes API base URL, reload metadata so dropdowns stay correct.
+      elements.apiBaseInput.addEventListener("change", () => {
+        state.currentPage = 1;
+        loadMetadata();
+      });
+    }
+
+    async function initializePage() {
+      /*
+        One startup function keeps the app's boot process explicit.
+      */
+      attachEvents();
+      await loadMetadata();
+      await loadProducts();
+    }
+
+    // We expose this function globally because product cards call it from inline onclick.
+    window.loadSingleProduct = loadSingleProduct;
+
+    // Start the page.
+    initializePage();
+  </script>
+</body>
+</html>
