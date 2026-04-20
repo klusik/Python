@@ -1,0 +1,11 @@
+# This project intentionally uses only Python's standard library.
+# There are no third-party dependencies to install.
+#
+# Keeping this file present is still useful because it makes the project
+# structure explicit and signals that dependency management was considered.
+#
+# If you later extend the project, you can add packages here, for example:
+# requests
+# flask
+# pydantic
+
