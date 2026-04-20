@@ -21,6 +21,7 @@ The browser page will call this API using JavaScript fetch().
 """
 
 # We use only Python standard-library modules so the project works out of the box.
+# That keeps the project easy to run on any machine with Python installed.
 import json
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -32,6 +33,7 @@ from urllib.parse import parse_qs, urlparse
 # - a NoSQL database,
 # - a CSV file,
 # - another external API.
+# Here we keep the data inline because the learning goal is to focus on HTTP and GET requests.
 # For learning purposes, a plain Python list of dictionaries is ideal,
 # because it is easy to read and easy to filter.
 PRODUCTS = [
@@ -151,6 +153,7 @@ PRODUCTS = [
 # These are the fields the client is allowed to sort by.
 # Restricting allowed sort fields is good practice.
 # Without this, a typo or unexpected field could cause confusing behavior.
+# This also makes the server safer, because we do not blindly trust user input.
 ALLOWED_SORT_FIELDS = {"id", "name", "category", "brand", "price", "rating", "stock", "color"}
 
 
@@ -169,6 +172,7 @@ def first_value(query_dict, key, default=""):
     we can write:
         first_value(query_dict, "page", "1")
     """
+    # Query string values are stored as lists, so we take the first entry.
     return query_dict.get(key, [default])[0]
 
 
@@ -179,6 +183,8 @@ def try_parse_float(value, fallback=None):
     If conversion fails, return the fallback value instead of crashing.
     This lets the server handle bad input more gracefully.
     """
+    # A failed conversion should not crash the server.
+    # Returning a fallback lets the handler continue with a sensible default.
     try:
         return float(value)
     except (TypeError, ValueError):
@@ -191,6 +197,7 @@ def try_parse_int(value, fallback=None):
 
     Again, we return a fallback instead of throwing an exception.
     """
+    # The same safety rule applies to integers.
     try:
         return int(value)
     except (TypeError, ValueError):
@@ -207,6 +214,7 @@ def product_matches(product, filters):
 
     We apply those one by one.
     """
+    # Pull filter values into local variables so the checks read clearly.
     search_text = filters["search"]
     category = filters["category"]
     brand = filters["brand"]
@@ -218,6 +226,8 @@ def product_matches(product, filters):
     # Text search:
     # We compare against multiple fields so users can find products by
     # name, description, brand, category, or color.
+    # Search is a broad, user-friendly text check.
+    # We intentionally search multiple fields so the demo feels practical.
     if search_text:
         haystack = " ".join(
             [
@@ -232,6 +242,7 @@ def product_matches(product, filters):
             return False
 
     # Exact category match, case-insensitive.
+    # These checks are exact matches, but case-insensitive.
     if category and product["category"].lower() != category:
         return False
 
@@ -240,6 +251,7 @@ def product_matches(product, filters):
         return False
 
     # Numeric filters.
+    # Price range filtering is a classic GET query parameter use case.
     if min_price is not None and product["price"] < min_price:
         return False
 
@@ -251,6 +263,8 @@ def product_matches(product, filters):
 
     # Boolean filter:
     # If the client asks for in_stock=true, we only keep products with stock > 0.
+    # Boolean filters are often represented as text in the query string.
+    # Here we interpret "true" as "only show items with stock remaining".
     if in_stock and product["stock"] <= 0:
         return False
 
@@ -265,6 +279,8 @@ def build_stats(products):
     - raw records,
     - summary metadata about those records.
     """
+    # When nothing matches, we return a stable empty payload.
+    # That keeps the client code simple because it can still render the same shape.
     if not products:
         return {
             "count": 0,
@@ -275,6 +291,7 @@ def build_stats(products):
             "most_expensive_product": None,
         }
 
+    # These aggregations are deliberately simple so the learning path stays clear.
     total_price = sum(product["price"] for product in products)
     total_rating = sum(product["rating"] for product in products)
     total_stock = sum(product["stock"] for product in products)
@@ -321,6 +338,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
         By allowing all origins here, the browser is allowed to call the API.
         This is fine for a small local-learning project.
         """
+        # CORS headers allow the HTML page to call this API from the browser.
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
@@ -332,6 +350,8 @@ class ProductApiHandler(BaseHTTPRequestHandler):
 
         The default log format is OK, but this version is a bit easier to read.
         """
+        # BaseHTTPRequestHandler logs to stderr by default.
+        # This custom format makes the terminal output easier to scan.
         print(f"[HTTP] {self.address_string()} - {format_text % args}")
 
     def do_OPTIONS(self):
@@ -340,6 +360,8 @@ class ProductApiHandler(BaseHTTPRequestHandler):
 
         Our page mainly uses GET requests, but supporting OPTIONS is still a good example.
         """
+        # OPTIONS is often used by browsers as a preflight check.
+        # We do not need a body here, so 204 No Content is appropriate.
         self.send_response(204)
         self.end_headers()
 
@@ -357,10 +379,13 @@ class ProductApiHandler(BaseHTTPRequestHandler):
         - /api/brands
         - /api/stats
         """
+        # Parse the path once, then route based on the clean path and query string.
         parsed_url = urlparse(self.path)
         path = parsed_url.path
         query = parse_qs(parsed_url.query)
 
+        # The root path is a small self-description page in JSON form.
+        # This is helpful when you test the API directly in a browser.
         if path == "/":
             self.respond_json(
                 200,
@@ -379,6 +404,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
             )
             return
 
+        # Each path gets its own handler so the code stays easy to read.
         if path == "/api":
             self.handle_api_info()
             return
@@ -387,6 +413,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
             self.handle_products_list(query)
             return
 
+        # This route handles detail lookup, like /api/products/3.
         if path.startswith("/api/products/"):
             self.handle_single_product(path)
             return
@@ -418,6 +445,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
 
         This teaches the idea that an API can expose self-description.
         """
+        # This endpoint acts like built-in documentation for the demo API.
         self.respond_json(
             200,
             {
@@ -468,6 +496,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
         - paginating records,
         - returning metadata along with the data.
         """
+        # Convert raw query-string text into a normalized filter dictionary.
         filters = {
             "search": first_value(query, "search", "").strip().lower(),
             "category": first_value(query, "category", "").strip().lower(),
@@ -478,12 +507,14 @@ class ProductApiHandler(BaseHTTPRequestHandler):
             "in_stock": first_value(query, "in_stock", "").strip().lower() == "true",
         }
 
+        # Sorting and pagination settings also come from the URL.
         sort_by = first_value(query, "sort_by", "id").strip()
         sort_dir = first_value(query, "sort_dir", "asc").strip().lower()
         page = try_parse_int(first_value(query, "page", "1"), 1)
         page_size = try_parse_int(first_value(query, "page_size", "50"), 50)
 
         # Defensive defaults keep the API stable even when the client sends bad input.
+        # Reject unsupported sort columns by falling back to a safe default.
         if sort_by not in ALLOWED_SORT_FIELDS:
             sort_by = "id"
 
@@ -495,19 +526,23 @@ class ProductApiHandler(BaseHTTPRequestHandler):
 
         # We intentionally cap the maximum page size so the client cannot request
         # an absurdly large response.
+        # Page size is capped so one request cannot ask for too much data.
         if page_size is None or page_size < 1:
             page_size = 5
         page_size = min(page_size, 100)
 
         # Step 1: filter.
+        # Filtering happens first, before sorting and paging.
         filtered_products = [product for product in PRODUCTS if product_matches(product, filters)]
 
         # Step 2: sort.
         reverse = sort_dir == "desc"
+        # Sorting is applied to the filtered result set only.
         filtered_products.sort(key=lambda product: product[sort_by], reverse=reverse)
 
         # Step 3: paginate.
         total_items = len(filtered_products)
+        # Pagination is just slicing a list.
         start_index = (page - 1) * page_size
         end_index = start_index + page_size
         paged_products = filtered_products[start_index:end_index]
@@ -553,6 +588,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
         """
         # Split the path and take the last segment.
         # "/api/products/7" -> "7"
+        # Split once from the right so only the final path segment is treated as the id.
         product_id_text = path.rsplit("/", 1)[-1]
         product_id = try_parse_int(product_id_text)
 
@@ -566,6 +602,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
             )
             return
 
+        # Linear search is perfectly fine for a tiny learning dataset.
         for product in PRODUCTS:
             if product["id"] == product_id:
                 self.respond_json(200, product)
@@ -585,6 +622,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
 
         This is useful for building filter dropdowns on the client.
         """
+        # A set removes duplicates; sorting makes the output stable and pleasant to read.
         categories = sorted({product["category"] for product in PRODUCTS})
         self.respond_json(
             200,
@@ -598,6 +636,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
         """
         Return distinct brand values.
         """
+        # Same pattern as categories, just with a different field.
         brands = sorted({product["brand"] for product in PRODUCTS})
         self.respond_json(
             200,
@@ -614,6 +653,8 @@ class ProductApiHandler(BaseHTTPRequestHandler):
         This endpoint reuses the same filter logic as /api/products.
         That is a good design habit: keep behavior consistent between endpoints.
         """
+        # The stats endpoint uses the same filters as the list endpoint.
+        # Reusing the logic keeps the API behavior consistent.
         filters = {
             "search": first_value(query, "search", "").strip().lower(),
             "category": first_value(query, "category", "").strip().lower(),
@@ -643,6 +684,7 @@ class ProductApiHandler(BaseHTTPRequestHandler):
         - a Content-Type header,
         - the JSON body encoded as bytes.
         """
+        # indent=2 makes manual browser testing easier because the output is readable.
         response_text = json.dumps(data, indent=2)
         response_bytes = response_text.encode("utf-8")
 
@@ -663,16 +705,19 @@ def ask_port():
     """
     default_port = 8484
 
+    # We loop until the user enters a valid port.
     while True:
         user_text = input(f"Enter port to run the API on [{default_port}]: ").strip()
 
         # If the user just presses Enter, we use the default port.
+        # Empty input means "use the default".
         if user_text == "":
             return default_port
 
         parsed_port = try_parse_int(user_text)
 
         # Valid TCP ports are in the range 1..65535.
+        # A real TCP port must be in the valid range.
         if parsed_port is not None and 1 <= parsed_port <= 65535:
             return parsed_port
 
@@ -683,6 +728,7 @@ def main():
     """
     Program entry point.
     """
+    # First we ask for configuration, then we start the server.
     port = ask_port()
     server_address = ("", port)
     httpd = ThreadingHTTPServer(server_address, ProductApiHandler)
@@ -700,6 +746,7 @@ def main():
     print("Press Ctrl+C in this terminal to stop the server.")
     print()
 
+    # serve_forever() blocks until the user interrupts the program.
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

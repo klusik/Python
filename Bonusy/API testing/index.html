@@ -454,9 +454,17 @@
 
       The goal is not "shortest possible code".
       The goal is "easy to learn from".
+
+      The overall workflow is:
+      1. read values from form controls,
+      2. build a GET URL with query parameters,
+      3. fetch JSON from the Python server,
+      4. render the returned data into the page,
+      5. show raw JSON so the API behavior stays visible.
     */
 
     // We keep all important DOM references in one object so they are easy to find.
+    // This is not required, but it prevents the script from becoming a long list of repeated lookups.
     const elements = {
       apiBaseInput: document.getElementById("apiBaseInput"),
       searchInput: document.getElementById("searchInput"),
@@ -488,16 +496,18 @@
 
     // Application state stores values that are not directly "the DOM".
     // This makes it easier to reason about the program.
+    // In this demo the state is tiny, but the same pattern scales to larger apps.
     const state = {
       currentPage: 1,
       lastPagination: null
     };
 
     // If the HTML file is opened directly from disk, location.hostname is usually empty.
-    // In that case we fall back to localhost.
+    // In that case we fall back to localhost so the API URL still makes sense.
     const detectedHost = window.location.hostname || "localhost";
 
     // The default API base points to the Python server's default port.
+    // If you start the server on a different port, you can change this field in the UI.
     elements.apiBaseInput.value = `http://${detectedHost}:8484`;
 
     function setStatus(message, isError = false) {
@@ -507,6 +517,7 @@
         - success and error styling stays consistent,
         - messages are easier to maintain.
       */
+      // Centralizing status updates keeps success and error handling consistent.
       elements.statusBox.textContent = message;
       elements.statusBox.classList.toggle("error", isError);
     }
@@ -519,6 +530,7 @@
         than to worry about:
           "http://localhost:8484/" + "/api/products"
       */
+      // Trailing slashes are removed so URL concatenation is predictable.
       return elements.apiBaseInput.value.trim().replace(/\/+$/, "");
     }
 
@@ -530,9 +542,11 @@
         Example:
           /api/products?category=Electronics&sort_by=price
       */
+      // URL gives us a reliable way to add query parameters without hand-building strings.
       const url = new URL(buildApiBase() + "/api/products");
 
       // We read each filter from the form and only include it if it has a value.
+      // This keeps the URL clean and lets the server use its own defaults.
       const search = elements.searchInput.value.trim();
       const category = elements.categorySelect.value;
       const brand = elements.brandSelect.value;
@@ -543,6 +557,7 @@
       const sortDir = elements.sortDirSelect.value;
       const pageSize = elements.pageSizeSelect.value;
 
+      // Each visible control maps to one query parameter.
       if (search) url.searchParams.set("search", search);
       if (category) url.searchParams.set("category", category);
       if (brand) url.searchParams.set("brand", brand);
@@ -570,10 +585,12 @@
         3. parse the JSON body,
         4. throw a readable error if something failed.
       */
+      // fetch() sends the GET request and gives us a Response object back.
       const response = await fetch(url);
 
       if (!response.ok) {
         // We attempt to read the response text for better debugging.
+        // That way server-side error messages are not hidden from the learner.
         const errorText = await response.text();
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
@@ -586,6 +603,7 @@
         Defensive rendering matters.
         If stats is missing, we still show stable fallback values.
       */
+      // The nullish coalescing operator keeps fallback values explicit.
       elements.statCount.textContent = stats?.count ?? 0;
       elements.statAvgPrice.textContent = `$${Number(stats?.average_price ?? 0).toFixed(2)}`;
       elements.statAvgRating.textContent = Number(stats?.average_rating ?? 0).toFixed(2);
@@ -596,6 +614,7 @@
       /*
         Convert an array of product objects into HTML cards.
       */
+      // An empty result set is still a valid result, so we render a friendly message.
       if (!items.length) {
         elements.productsContainer.innerHTML = `
           <div class="product-card">
@@ -606,6 +625,8 @@
         return;
       }
 
+      // map() turns data objects into card HTML.
+      // join("") merges the array of strings into one HTML block.
       elements.productsContainer.innerHTML = items.map((item) => {
         return `
           <article class="product-card">
@@ -619,6 +640,7 @@
               <div><strong>Stock:</strong> ${item.stock}</div>
               <div><strong>Color:</strong> ${escapeHtml(item.color)}</div>
             </div>
+            <!-- Clicking this button runs a GET request for one specific product. -->
             <button type="button" onclick="loadSingleProduct(${item.id})">Load This Product</button>
           </article>
         `;
@@ -630,6 +652,7 @@
         The API tells us whether previous / next pages exist.
         We use that information to enable or disable buttons.
       */
+      // Save the latest pagination data so the UI reflects the most recent server response.
       state.lastPagination = pagination;
 
       elements.paginationInfo.textContent =
@@ -645,6 +668,7 @@
         Showing raw JSON is very useful in a learning demo because it lets you see
         the exact server response that the UI is consuming.
       */
+      // Pretty-printed JSON is much easier to inspect than minified text.
       elements.apiPreview.textContent = JSON.stringify(data, null, 2);
     }
 
@@ -653,6 +677,7 @@
         Very small HTML escaping helper.
         Since we inject strings into innerHTML, escaping is the safe habit.
       */
+      // Because we use innerHTML for the product cards, strings need escaping.
       return String(value)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -666,11 +691,13 @@
         This function loads category and brand lists from the API
         so the dropdowns are filled dynamically.
       */
+      // Categories and brands come from the server, not from hardcoded UI lists.
       const base = buildApiBase();
 
       try {
         setStatus("Loading categories and brands...");
 
+        // Promise.all lets both requests run at the same time.
         const [categoriesData, brandsData] = await Promise.all([
           fetchJson(base + "/api/categories"),
           fetchJson(base + "/api/brands")
@@ -691,8 +718,10 @@
         - one empty option,
         - one option per API value.
       */
+      // Start from a clean slate each time we refresh the options.
       selectElement.innerHTML = "";
 
+      // The empty option means "no filter".
       const placeholderOption = document.createElement("option");
       placeholderOption.value = "";
       placeholderOption.textContent = placeholderText;
@@ -714,12 +743,14 @@
         - pagination,
         - summary display.
       */
+      // Build the URL from the current UI state, then ask the server for JSON.
       const url = buildProductsUrl();
 
       try {
         setStatus(`Loading product list from ${url} ...`);
         elements.activeQueryBox.textContent = url.toString();
 
+        // The server returns both item data and metadata, so we use both.
         const data = await fetchJson(url);
 
         renderProducts(data.items);
@@ -743,6 +774,7 @@
         - from the "Get One Product" button,
         - from the per-card "Load This Product" button.
       */
+      // The product ID can come from the clicked card or the text field.
       const productId = productIdFromArgument || elements.productIdInput.value.trim();
 
       if (!productId) {
@@ -750,6 +782,7 @@
         return;
       }
 
+      // encodeURIComponent protects the path segment if the value contains unexpected characters.
       const url = buildApiBase() + "/api/products/" + encodeURIComponent(productId);
 
       try {
@@ -768,6 +801,7 @@
       /*
         Resetting UI state is often as important as loading data.
       */
+      // Reset every control so the next request is a true "clean slate" request.
       elements.searchInput.value = "";
       elements.categorySelect.value = "";
       elements.brandSelect.value = "";
@@ -788,9 +822,11 @@
       /*
         direction will be -1 for previous page or +1 for next page.
       */
+      // direction = -1 for previous, +1 for next.
       const nextPage = state.currentPage + direction;
 
       // Prevent invalid page numbers.
+      // There is no page 0 or negative pages.
       if (nextPage < 1) {
         return;
       }
@@ -803,20 +839,24 @@
       /*
         All event wiring is kept in one function so initialization is easy to follow.
       */
+      // The main button loads the filtered list from the API.
       elements.applyFiltersButton.addEventListener("click", () => {
         state.currentPage = 1;
         loadProducts();
       });
 
+      // Resetting filters also reloads the list so the UI updates immediately.
       elements.resetFiltersButton.addEventListener("click", () => {
         resetFilters();
         loadProducts();
       });
 
+      // This button demonstrates the "single resource by id" style of GET endpoint.
       elements.lookupProductButton.addEventListener("click", () => {
         loadSingleProduct();
       });
 
+      // Pagination buttons change state and then trigger a fresh request.
       elements.previousPageButton.addEventListener("click", () => {
         movePage(-1);
       });
@@ -826,6 +866,7 @@
       });
 
       // Pressing Enter in the search field is a nice quality-of-life improvement.
+      // Keyboard shortcuts improve the learning demo's usability.
       elements.searchInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           state.currentPage = 1;
@@ -840,6 +881,7 @@
       });
 
       // If the user changes API base URL, reload metadata so dropdowns stay correct.
+      // If the server port changes, the user can update the base URL without editing code.
       elements.apiBaseInput.addEventListener("change", () => {
         state.currentPage = 1;
         loadMetadata();
@@ -850,12 +892,17 @@
       /*
         One startup function keeps the app's boot process explicit.
       */
+      // Initialization order matters:
+      // 1. wire events,
+      // 2. load dropdown metadata,
+      // 3. fetch the first product page.
       attachEvents();
       await loadMetadata();
       await loadProducts();
     }
 
     // We expose this function globally because product cards call it from inline onclick.
+    // In larger projects, you would usually avoid inline onclick and use event listeners instead.
     window.loadSingleProduct = loadSingleProduct;
 
     // Start the page.
