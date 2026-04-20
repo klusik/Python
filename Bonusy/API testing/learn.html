@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Guide - GET API Project</title>
+  <style>
+    /*
+      This page is a guided lesson, so the design is intentionally calm,
+      readable, and structured.
+
+      The goal is to help a beginner stay oriented while reading long-form text.
+    */
+
+    :root {
+      --bg: #f6f0e6;
+      --panel: #fffaf3;
+      --panel-strong: #fdf3df;
+      --text: #22201d;
+      --muted: #5f564f;
+      --line: #e0d4c1;
+      --accent: #a85d20;
+      --accent-2: #5f6f3d;
+      --code-bg: #27211d;
+      --code-text: #f7eedf;
+      --shadow: 0 16px 40px rgba(72, 46, 23, 0.10);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #fff3dc 0, transparent 30%),
+        radial-gradient(circle at top right, #eff1df 0, transparent 24%),
+        linear-gradient(180deg, #f6f0e6 0%, #efe6d8 100%);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1100px, calc(100% - 32px));
+      margin: 24px auto 48px;
+    }
+
+    .hero,
+    .card,
+    .toc {
+      background: rgba(255, 250, 243, 0.95);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2.1rem, 4vw, 3.4rem);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      margin: 0 0 12px;
+      max-width: 900px;
+      line-height: 1.7;
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .button-row a {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: bold;
+      border: 1px solid transparent;
+    }
+
+    .primary {
+      background: linear-gradient(180deg, #c76c28 0%, #a95b1d 100%);
+      color: white;
+    }
+
+    .secondary {
+      background: #f5ebdc;
+      color: #5b4028;
+      border-color: #d9c6aa !important;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .toc {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
+    }
+
+    .toc h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+    }
+
+    .toc a {
+      display: block;
+      color: var(--accent);
+      text-decoration: none;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.6rem;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      margin-top: 18px;
+      font-size: 1.2rem;
+    }
+
+    p, li {
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      background: #fff4e7;
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin: 16px 0;
+    }
+
+    .good {
+      border-left-color: var(--accent-2);
+      background: #f2f6e9;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #f3eadf;
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #5b3418;
+    }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 14px;
+      padding: 16px;
+      overflow: auto;
+      line-height: 1.55;
+      border: 1px solid #43362d;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .example-box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--panel-strong);
+    }
+
+    .example-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .list-tight li {
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 18px, 1100px);
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <h1>Learning Guide: How This GET API Project Works</h1>
+      <p>
+        This page is for people who are completely new to programming, JavaScript, APIs, and browsers.
+        It explains the project slowly, with concrete examples, so you can understand not just <em>what</em> it does,
+        but <em>why</em> it works that way.
+      </p>
+      <p>
+        If you want to see the live app after reading, open <code>index.html</code>.
+        If you want to see the server code, open <code>server.py</code>.
+      </p>
+      <div class="button-row">
+        <a class="primary" href="index.html">Open the Demo App</a>
+        <a class="secondary" href="readme.md">Open the README</a>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="toc" aria-label="Table of contents">
+        <h2>What You Will Learn</h2>
+        <a href="#big-picture">1. The big picture</a>
+        <a href="#web-basics">2. What HTML, CSS, and JavaScript are</a>
+        <a href="#api-basics">3. What an API is</a>
+        <a href="#get-requests">4. What a GET request is</a>
+        <a href="#query-strings">5. What query strings are</a>
+        <a href="#json">6. What JSON is</a>
+        <a href="#server-side">7. What the Python server does</a>
+        <a href="#client-side">8. What the browser page does</a>
+        <a href="#workflow">9. The full workflow</a>
+        <a href="#endpoints">10. The endpoints in this project</a>
+        <a href="#experiment">11. How to experiment safely</a>
+        <a href="#next-steps">12. What to learn next</a>
+      </nav>
+
+      <main class="content">
+        <section class="card" id="big-picture">
+          <h2>1. The Big Picture</h2>
+          <p>
+            Imagine you are looking at a catalog of products in a store. You want to:
+          </p>
+          <ul class="list-tight">
+            <li>see all products,</li>
+            <li>search for a word like “coffee”,</li>
+            <li>show only one category, like Electronics,</li>
+            <li>sort by price,</li>
+            <li>open a single item to inspect its details.</li>
+          </ul>
+          <p>
+            This project shows how a browser page can ask a Python program for that information.
+            The browser is the <strong>client</strong>. The Python server is the <strong>server</strong>.
+          </p>
+          <div class="note good">
+            Simple version: the browser asks questions, the server answers with data.
+          </div>
+        </section>
+
+        <section class="card" id="web-basics">
+          <h2>2. What HTML, CSS, and JavaScript Are</h2>
+          <p>
+            These three technologies work together in web pages:
+          </p>
+          <div class="grid-2">
+            <div class="example-box">
+              <strong>HTML</strong>
+              <p>
+                HTML is the structure. It says what elements exist on the page:
+                headings, paragraphs, buttons, inputs, and sections.
+              </p>
+            </div>
+            <div class="example-box">
+              <strong>CSS</strong>
+              <p>
+                CSS is the appearance. It controls colors, spacing, layout, borders,
+                fonts, and how the page looks on different screens.
+              </p>
+            </div>
+          </div>
+          <div class="example-box" style="margin-top:14px;">
+            <strong>JavaScript</strong>
+            <p>
+              JavaScript is the behavior. It can read user input, send network requests,
+              process returned data, and update the page without reloading the whole site.
+            </p>
+          </div>
+          <p>
+            In this project, all three live together in <code>index.html</code>.
+            That makes the file long, but it is easier to study because everything is in one place.
+          </p>
+        </section>
+
+        <section class="card" id="api-basics">
+          <h2>3. What an API Is</h2>
+          <p>
+            API stands for <strong>Application Programming Interface</strong>.
+            That sounds complicated, but the idea is simple.
+          </p>
+          <p>
+            An API is a way for one program to ask another program for data or services
+            using a defined set of rules.
+          </p>
+          <div class="note">
+            Think of an API like a waiter in a restaurant. You do not go into the kitchen yourself.
+            You tell the waiter what you want, and the kitchen sends back the result.
+          </div>
+          <p>
+            In this project:
+          </p>
+          <ul class="list-tight">
+            <li>The browser page is the person at the table.</li>
+            <li>The Python server is the kitchen.</li>
+            <li>The API is the waiter who carries the request and the response.</li>
+          </ul>
+        </section>
+
+        <section class="card" id="get-requests">
+          <h2>4. What a GET Request Is</h2>
+          <p>
+            A GET request is a request for data.
+            It is the most common type of request when you want to read information from a server.
+          </p>
+          <p>
+            For example, when the browser visits this URL:
+          </p>
+          <pre><code>http://localhost:8484/api/products</code></pre>
+          <p>
+            it is saying, “Please give me the list of products.”
+          </p>
+          <p>
+            GET is useful because the request is visible in the URL.
+            That means you can copy it, paste it, bookmark it, and test it directly in the browser.
+          </p>
+          <div class="note good">
+            GET is best for reading data. It is not used for changing data in this project.
+          </div>
+        </section>
+
+        <section class="card" id="query-strings">
+          <h2>5. What Query Strings Are</h2>
+          <p>
+            A query string is the part of a URL after the <code>?</code>.
+            It lets you send extra details with a GET request.
+          </p>
+          <pre><code>http://localhost:8484/api/products?category=Electronics&sort_by=price</code></pre>
+          <p>
+            In this example:
+          </p>
+          <ul class="list-tight">
+            <li><code>category=Electronics</code> tells the server to only show Electronics.</li>
+            <li><code>sort_by=price</code> tells the server to sort the result by price.</li>
+          </ul>
+          <p>
+            Each pair is called a <strong>parameter</strong>.
+            The part on the left is the name, and the part on the right is the value.
+          </p>
+          <div class="grid-2">
+            <div class="example-box">
+              <strong>Parameter name</strong>
+              <p><code>category</code>, <code>search</code>, <code>page</code>, <code>sort_by</code></p>
+            </div>
+            <div class="example-box">
+              <strong>Parameter value</strong>
+              <p><code>Electronics</code>, <code>coffee</code>, <code>2</code>, <code>price</code></p>
+            </div>
+          </div>
+          <p>
+            This is one of the most important ideas in web development:
+            the browser can send instructions to the server using a URL.
+          </p>
+        </section>
+
+        <section class="card" id="json">
+          <h2>6. What JSON Is</h2>
+          <p>
+            JSON stands for <strong>JavaScript Object Notation</strong>.
+            It is a text format for storing and exchanging data.
+          </p>
+          <p>
+            JSON looks similar to JavaScript objects, but it is really just text that both
+            servers and browsers can read.
+          </p>
+          <pre><code>{
+  "id": 3,
+  "name": "BaristaPro Coffee Grinder",
+  "price": 64.0,
+  "rating": 4.2
+}</code></pre>
+          <p>
+            The server sends JSON because it is lightweight, easy to read, and very common in APIs.
+          </p>
+          <div class="note good">
+            The browser uses <code>fetch()</code> to get JSON, then converts it into JavaScript objects.
+          </div>
+        </section>
+
+        <section class="card" id="server-side">
+          <h2>7. What the Python Server Does</h2>
+          <p>
+            The server lives in <code>server.py</code>.
+            It does not show a webpage. Its job is to listen for requests and return JSON responses.
+          </p>
+          <p>
+            When a request arrives, the server:
+          </p>
+          <ol class="list-tight">
+            <li>looks at the path in the URL,</li>
+            <li>reads any query parameters,</li>
+            <li>decides which endpoint should handle the request,</li>
+            <li>filters or processes the data,</li>
+            <li>sends back a JSON response.</li>
+          </ol>
+          <h3>Why the data is inside Python</h3>
+          <p>
+            The sample product list is stored directly in a Python variable.
+            That keeps the project simple and avoids the distraction of a database.
+          </p>
+          <p>
+            In a larger app, the data might come from SQLite, PostgreSQL, MongoDB, or an external service.
+          </p>
+        </section>
+
+        <section class="card" id="client-side">
+          <h2>8. What the Browser Page Does</h2>
+          <p>
+            The browser page is written in <code>index.html</code>.
+            It contains the controls, the display area, and the JavaScript that talks to the server.
+          </p>
+          <p>
+            The JavaScript does three important jobs:
+          </p>
+          <ul class="list-tight">
+            <li>reads values from inputs and dropdowns,</li>
+            <li>builds a request URL,</li>
+            <li>updates the page with the returned data.</li>
+          </ul>
+          <p>
+            A good way to think about it:
+            the browser page is the front desk, and the API is the back office.
+          </p>
+          <div class="note">
+            The page is not “hardcoded” to one result. It asks the server again each time you change a filter.
+          </div>
+        </section>
+
+        <section class="card" id="workflow">
+          <h2>9. The Full Workflow</h2>
+          <p>
+            Here is the full loop from user action to on-screen result:
+          </p>
+          <ol class="list-tight">
+            <li>You type a search term like <code>coffee</code>.</li>
+            <li>JavaScript reads that text from the input box.</li>
+            <li>JavaScript builds a URL such as <code>/api/products?search=coffee</code>.</li>
+            <li>The browser sends a GET request to the Python server.</li>
+            <li>The server filters the sample products.</li>
+            <li>The server sends back JSON.</li>
+            <li>JavaScript receives the JSON and renders cards, stats, and the raw response.</li>
+          </ol>
+          <p>
+            That loop is the heart of many real web applications.
+          </p>
+          <div class="note good">
+            If you understand this loop, you understand the basic client-server model used by most APIs.
+          </div>
+        </section>
+
+        <section class="card" id="endpoints">
+          <h2>10. The Endpoints in This Project</h2>
+          <p>
+            An endpoint is just a specific URL path that does one job.
+          </p>
+          <div class="grid-2">
+            <div class="example-box">
+              <strong><code>/api/products</code></strong>
+              <p>Returns the list of products, with filtering, sorting, and pagination.</p>
+            </div>
+            <div class="example-box">
+              <strong><code>/api/products/3</code></strong>
+              <p>Returns one product by ID.</p>
+            </div>
+            <div class="example-box">
+              <strong><code>/api/categories</code></strong>
+              <p>Returns the available categories for dropdowns.</p>
+            </div>
+            <div class="example-box">
+              <strong><code>/api/brands</code></strong>
+              <p>Returns the available brands for dropdowns.</p>
+            </div>
+            <div class="example-box">
+              <strong><code>/api/stats</code></strong>
+              <p>Returns summary information about the filtered result set.</p>
+            </div>
+            <div class="example-box">
+              <strong><code>/api</code></strong>
+              <p>Shows API information and example URLs.</p>
+            </div>
+          </div>
+          <p>
+            The important idea is that different URLs can represent different pieces of data or different actions.
+          </p>
+        </section>
+
+        <section class="card" id="experiment">
+          <h2>11. How to Experiment Safely</h2>
+          <p>
+            The best way to learn this project is to change one thing at a time.
+          </p>
+          <ul class="list-tight">
+            <li>Open the browser devtools and watch the Network tab.</li>
+            <li>Change one filter and note the new request URL.</li>
+            <li>Compare the raw JSON preview with the product cards.</li>
+            <li>Open the API URL directly in a browser to see the JSON without the UI.</li>
+            <li>Try an invalid ID, like <code>/api/products/999</code>, and read the error response.</li>
+          </ul>
+          <div class="note">
+            Learning becomes much faster when you actively test the system instead of only reading it.
+          </div>
+        </section>
+
+        <section class="card" id="next-steps">
+          <h2>12. What to Learn Next</h2>
+          <p>
+            Once you are comfortable with this project, good next topics are:
+          </p>
+          <ul class="list-tight">
+            <li>HTTP methods beyond GET, like POST and DELETE,</li>
+            <li>working with a real database,</li>
+            <li>validation of user input,</li>
+            <li>error handling patterns in APIs,</li>
+            <li>JavaScript event handling,</li>
+            <li>fetching data asynchronously with promises and async/await.</li>
+          </ul>
+          <p>
+            This project gives you the foundation for those topics.
+          </p>
+          <div class="note good">
+            If you want, the next step can be a version with POST requests so you can create new products from the browser.
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

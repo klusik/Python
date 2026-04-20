@@ -27,6 +27,7 @@ Two extra documentation files are included:
 
 - [requirements.txt](./requirements.txt)
 - [readme.md](./readme.md)
+- [learn.html](./learn.html)
 
 `requirements.txt` exists even though the server uses no external packages. That is deliberate: it makes the dependency situation explicit and makes it easy to extend the project later.
 
@@ -429,4 +430,3 @@ Those are all good follow-up steps after you understand the current GET-only ver
 - It uses no third-party Python packages.
 - The API enables CORS so the browser page can call it directly.
 - The dataset is small on purpose so you can see the full result set while learning.
-
