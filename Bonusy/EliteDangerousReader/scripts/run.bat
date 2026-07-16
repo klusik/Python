@@ -9,5 +9,5 @@ if not exist ".venv\Scripts\python.exe" (
 )
 
 call .venv\Scripts\activate.bat
-python -m elite_reader %*
+python run_elite_reader.py %*
 endlocal

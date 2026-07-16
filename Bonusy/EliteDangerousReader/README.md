@@ -31,7 +31,7 @@ EliteDangerousReader/
 ├── docs/                      User, architecture, build, and security notes
 ├── scripts/                   Windows setup, run, check, and build scripts
 ├── assets/                    Application icon
-├── run_elite_reader.py        Packaging-safe launcher
+├── run_elite_reader.py       Packaging-safe launcher
 ├── EliteDangerousReader.spec  PyInstaller build specification
 ├── pyproject.toml             Package and tool configuration
 ├── requirements*.txt          Pinned dependencies
@@ -66,6 +66,21 @@ A specific approved page can be supplied:
 
 ```bat
 scripts\run.bat --url https://www.elitedangerous.com/update-notes/4-4-0-3
+```
+
+Direct execution from the repository root is also supported:
+
+```bat
+python -m pip install -r requirements.txt
+python run_elite_reader.py
+```
+
+Installing the project itself is optional for direct execution. For development, an
+editable installation still provides the `elite-reader` console command:
+
+```bat
+python -m pip install -e .
+elite-reader
 ```
 
 ## Using the reader controls

@@ -5,7 +5,6 @@ from __future__ import annotations
 import sys
 from collections.abc import Sequence
 
-from .app import EliteReaderApplication
 from .cli import parse_arguments
 from .config import SettingsStore
 from .constants import LOG_FILE_NAME
@@ -26,6 +25,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     store = SettingsStore()
 
     try:
+        from .app import EliteReaderApplication
+
         if arguments.reset_settings:
             store.reset()
             logger.info("Settings reset by command-line request")

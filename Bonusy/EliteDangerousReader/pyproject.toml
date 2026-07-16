@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "elite-dangerous-reader"
-version = "1.0.0"
+version = "1.0.1"
 description = "Single-purpose Edge WebView2 reader for elitedangerous.com with configurable readability overrides."
 readme = "README.md"
 requires-python = ">=3.11"
