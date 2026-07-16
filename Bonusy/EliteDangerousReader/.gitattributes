@@ -1,0 +1,11 @@
+# Keep source files consistent across Windows and Unix development environments.
+* text=auto
+*.bat text eol=crlf
+*.py text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.png binary
+*.ico binary
