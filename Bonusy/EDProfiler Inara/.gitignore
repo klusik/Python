@@ -1,0 +1,46 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE/editor files
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Application-generated files
+output/
+logs/
+deploy/
+settings.json
+*.log
+inara_profile.json
+inara_profile_*.json
+
+# Credentials and local secrets
+.env
+.env.*
+*.key
+*.secret
+api_key.txt
+
+# Build and distribution artifacts
+build/
+dist/
+*.egg-info/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
