@@ -76,7 +76,8 @@ flew.
 - Current location and Powerplay state
 - Raw, manufactured and encoded materials
 - Odyssey backpack and ship locker companion files
-- Current ship and latest known loadout for each previously flown ship
+- Current ship, always included even when its matching loadout snapshot is missing
+- Latest known loadout for each previously flown ship, explicitly marked current/historical/stale/missing
 - Stored ships and stored modules
 - Engineer unlock/progress state
 - Active and recently changed missions
@@ -106,3 +107,12 @@ The JSON can include:
 
 Review it before publishing publicly. Uploading it privately for analysis is the
 intended workflow.
+
+## Git ignore
+
+The included `.gitignore` excludes generated profile exports:
+
+```text
+elite_profile.json
+*_elite_profile.json
+```

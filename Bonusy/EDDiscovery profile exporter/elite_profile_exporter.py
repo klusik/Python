@@ -383,6 +383,9 @@ def export_profile(
     last_timestamp = ""
 
     current_ship_id: str | None = None
+    current_ship_state: dict[str, Any] | None = None
+    current_ship_selected_at = ""
+    current_ship_source_event: str | None = None
 
     for event in events:
         event_name = str(event.get("event", ""))
@@ -397,6 +400,16 @@ def export_profile(
 
         if event_name in {"LoadGame", "Loadout"} and event.get("ShipID") is not None:
             current_ship_id = str(event["ShipID"])
+            current_ship_selected_at = timestamp
+            current_ship_source_event = event_name
+            current_ship_state = {
+                "ship_id": event.get("ShipID"),
+                "ship_type": event.get("Ship"),
+                "ship_name": event.get("ShipName"),
+                "ship_ident": event.get("ShipIdent"),
+                "timestamp": timestamp or None,
+                "source_event": event_name,
+            }
 
         if event_name == "Loadout":
             ship_id = str(event.get("ShipID", ""))
@@ -413,6 +426,17 @@ def export_profile(
         elif event_name == "ShipyardBuy":
             ship_id = str(event.get("NewShipID", ""))
             if ship_id:
+                current_ship_id = ship_id
+                current_ship_selected_at = timestamp
+                current_ship_source_event = event_name
+                current_ship_state = {
+                    "ship_id": event.get("NewShipID"),
+                    "ship_type": event.get("ShipType"),
+                    "ship_name": None,
+                    "ship_ident": None,
+                    "timestamp": timestamp or None,
+                    "source_event": event_name,
+                }
                 stored_ships.setdefault(
                     ship_id,
                     {
@@ -428,7 +452,19 @@ def export_profile(
             ships.pop(sold_id, None)
 
         elif event_name == "ShipyardSwap":
-            current_ship_id = str(event.get("ShipID", current_ship_id or "")) or current_ship_id
+            swapped_id = str(event.get("ShipID", current_ship_id or ""))
+            if swapped_id:
+                current_ship_id = swapped_id
+                current_ship_selected_at = timestamp
+                current_ship_source_event = event_name
+                current_ship_state = {
+                    "ship_id": event.get("ShipID"),
+                    "ship_type": event.get("ShipType"),
+                    "ship_name": event.get("ShipName"),
+                    "ship_ident": None,
+                    "timestamp": timestamp or None,
+                    "source_event": event_name,
+                }
 
         elif event_name == "Materials":
             set_material_snapshot(materials, event)
@@ -470,17 +506,45 @@ def export_profile(
                 }
 
     merged_fleet: list[dict[str, Any]] = []
+    fleet_ship_ids = set(ships) | set(stored_ships)
+    if current_ship_id:
+        fleet_ship_ids.add(current_ship_id)
+
     all_ship_ids = sorted(
-        set(ships) | set(stored_ships),
+        fleet_ship_ids,
         key=lambda value: int(value) if value.isdigit() else value,
     )
     for ship_id in all_ship_ids:
+        is_current = ship_id == current_ship_id
+        loadout = ships.get(ship_id)
+        loadout_timestamp = str(loadout.get("timestamp", "")) if loadout else ""
+        loadout_matches_current_selection = bool(
+            is_current
+            and loadout
+            and (
+                not current_ship_selected_at
+                or not loadout_timestamp
+                or loadout_timestamp >= current_ship_selected_at
+            )
+        )
+
+        if loadout is None:
+            loadout_status = "missing"
+        elif is_current and loadout_matches_current_selection:
+            loadout_status = "current"
+        elif is_current:
+            loadout_status = "stale_for_current_ship"
+        else:
+            loadout_status = "historical"
+
         merged_fleet.append(
             {
                 "ship_id": int(ship_id) if ship_id.isdigit() else ship_id,
-                "is_current": ship_id == current_ship_id,
+                "is_current": is_current,
+                "current_ship_state": current_ship_state if is_current else None,
                 "stored_ship": stored_ships.get(ship_id),
-                "latest_known_loadout": ships.get(ship_id),
+                "loadout_status": loadout_status,
+                "latest_known_loadout": loadout,
             }
         )
 
@@ -522,6 +586,7 @@ def export_profile(
         "squadron": latest.get("SquadronStartup"),
         "location": location,
         "current_ship_id": int(current_ship_id) if current_ship_id and current_ship_id.isdigit() else current_ship_id,
+        "current_ship": current_ship_state,
         "fleet": merged_fleet,
         "stored_modules": latest.get("StoredModules"),
         "materials": sort_materials(materials),
@@ -542,7 +607,9 @@ def export_profile(
             "known_ship_loadout_count": len(ships),
             "known_stored_ship_count": len(stored_ships),
             "notes": [
+                "The current ship is always included, even when no matching Loadout event is available yet.",
                 "A ship loadout is available only after that ship produced a Loadout event.",
+                "Fleet entries label loadouts as current, historical, stale_for_current_ship, or missing.",
                 "Some snapshots are emitted at game startup or when opening the relevant cockpit panel.",
                 "Historical journals improve fleet coverage but are not required for current materials and commander state.",
             ],
