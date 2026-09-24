@@ -1,16 +1,26 @@
 """Tkinter user interface for the MSFS WASM cache cleaner."""
 
-from __future__ import annotations
-
 import queue
 import threading
 import tkinter as tk
+from datetime import datetime
 from tkinter import messagebox, ttk
 
-from .cleaner import clean_entry, describe_clean_plan
+from .cleaner import build_clean_plan, clean_entry, inspect_entry_details
 from .discovery import scan_wasm_caches
-from .models import CacheEntry, CleanResult, ScanResult
+from .models import CacheEntry, CacheEntryDetails, CleanPlan, CleanResult, ScanResult
 from .path_utils import format_path
+
+
+def format_bytes(byte_count: int) -> str:
+    """Format a byte count using compact binary units."""
+
+    value = float(byte_count)
+    for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
+        if value < 1024 or unit == "TiB":
+            return f"{value:,.0f} {unit}" if unit == "B" else f"{value:,.1f} {unit}"
+        value /= 1024
+    return f"{byte_count:,} B"
 
 
 class ScrollableFrame(ttk.Frame):
@@ -50,6 +60,341 @@ class ScrollableFrame(ttk.Frame):
             self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
 
+class CacheDetailsDialog(tk.Toplevel):
+    """Show a bounded on-demand inspection of files in one cache entry."""
+
+    def __init__(self, master: tk.Misc, entry: CacheEntry) -> None:
+        super().__init__(master)
+        self.owner = master
+        self.entry = entry
+        self.detail_queue: queue.Queue[CacheEntryDetails | Exception] = queue.Queue()
+        self.title(f"Cache details - {entry.product_name}")
+        self.geometry("920x560")
+        self.minsize(720, 420)
+        self.transient(master)
+        self.protocol("WM_DELETE_WINDOW", self._close)
+
+        shell = ttk.Frame(self, padding=18)
+        shell.pack(fill="both", expand=True)
+        shell.columnconfigure(0, weight=1)
+        shell.rowconfigure(3, weight=1)
+        ttk.Label(shell, text=entry.product_name, style="DialogTitle.TLabel").grid(row=0, column=0, sticky="w")
+        ttk.Label(shell, text=entry.display_name, style="Muted.TLabel").grid(row=1, column=0, sticky="w")
+        self.status_var = tk.StringVar(value="Inspecting files...")
+        ttk.Label(shell, textvariable=self.status_var).grid(row=2, column=0, sticky="w", pady=(10, 8))
+
+        table = ttk.Frame(shell)
+        table.grid(row=3, column=0, sticky="nsew")
+        table.columnconfigure(0, weight=1)
+        table.rowconfigure(0, weight=1)
+        columns = ("path", "kind", "status", "size", "modified")
+        self.tree = ttk.Treeview(table, columns=columns, show="headings")
+        for column, heading, width, stretch in (
+            ("path", "Relative path", 360, True),
+            ("kind", "Type", 170, False),
+            ("status", "Cleanup", 85, False),
+            ("size", "Size", 80, False),
+            ("modified", "Modified", 135, False),
+        ):
+            self.tree.heading(column, text=heading)
+            self.tree.column(column, width=width, minwidth=65, stretch=stretch, anchor="w")
+        self.tree.grid(row=0, column=0, sticky="nsew")
+        vertical = ttk.Scrollbar(table, orient="vertical", command=self.tree.yview)
+        vertical.grid(row=0, column=1, sticky="ns")
+        horizontal = ttk.Scrollbar(table, orient="horizontal", command=self.tree.xview)
+        horizontal.grid(row=1, column=0, sticky="ew")
+        self.tree.configure(yscrollcommand=vertical.set, xscrollcommand=horizontal.set)
+
+        footer = ttk.Frame(shell)
+        footer.grid(row=4, column=0, sticky="ew", pady=(12, 0))
+        footer.columnconfigure(0, weight=1)
+        ttk.Label(
+            footer,
+            text="Type information is signature/extension based; compiled module behavior is not inferred.",
+            style="Muted.TLabel",
+        ).grid(row=0, column=0, sticky="w")
+        ttk.Button(footer, text="Close", command=self._close).grid(row=0, column=1, sticky="e")
+
+        self.grab_set()
+        threading.Thread(target=self._inspect_worker, daemon=True).start()
+        self.after(100, self._poll_details)
+
+    def _inspect_worker(self) -> None:
+        try:
+            self.detail_queue.put(inspect_entry_details(self.entry))
+        except Exception as exc:
+            self.detail_queue.put(exc)
+
+    def _poll_details(self) -> None:
+        if not self.winfo_exists():
+            return
+        try:
+            result = self.detail_queue.get_nowait()
+        except queue.Empty:
+            self.after(100, self._poll_details)
+            return
+        if isinstance(result, Exception):
+            self.status_var.set(f"Inspection failed: {result}")
+            return
+        self._populate_details(result)
+
+    def _populate_details(self, details: CacheEntryDetails) -> None:
+        for file_detail in details.files:
+            modified = (
+                datetime.fromtimestamp(file_detail.modified_time).strftime("%Y-%m-%d %H:%M")
+                if file_detail.modified_time is not None
+                else "Unknown"
+            )
+            self.tree.insert(
+                "",
+                "end",
+                values=(
+                    file_detail.relative_path,
+                    file_detail.kind,
+                    file_detail.disposition,
+                    format_bytes(file_detail.byte_count),
+                    modified,
+                ),
+            )
+        status = f"{len(details.files):,} item(s) inspected."
+        if details.truncated:
+            status += " Listing limited to the first 10,000 items."
+        if details.warnings:
+            status += f" {len(details.warnings)} warning(s)."
+        self.status_var.set(status)
+
+    def _close(self) -> None:
+        self.grab_release()
+        self.destroy()
+        if self.owner.winfo_exists():
+            self.owner.grab_set()
+
+
+class CleanupConfirmationDialog(tk.Toplevel):
+    """Compact, detailed confirmation for a prepared cleanup plan."""
+
+    def __init__(self, master: tk.Misc, plan: CleanPlan) -> None:
+        super().__init__(master)
+        self.confirmed = False
+        self.plan = plan
+        self.selected_items = plan.items
+        self.sort_column = "product"
+        self.sort_reverse = False
+        self.title("Review cleanup")
+        self.geometry("860x560")
+        self.minsize(740, 480)
+        self.transient(master)
+        self.protocol("WM_DELETE_WINDOW", self._cancel)
+
+        shell = ttk.Frame(self, padding=18)
+        shell.pack(fill="both", expand=True)
+        shell.columnconfigure(0, weight=1)
+        shell.rowconfigure(4, weight=1)
+
+        ttk.Label(shell, text="Review what will be cleared", style="DialogTitle.TLabel").grid(
+            row=0, column=0, sticky="w"
+        )
+        ttk.Label(
+            shell,
+            text="Only cache data shown below is targeted. Settings and state folders remain untouched.",
+            style="Muted.TLabel",
+        ).grid(row=1, column=0, sticky="w", pady=(4, 14))
+
+        summary = ttk.Frame(shell, style="Card.TFrame", padding=12)
+        summary.grid(row=2, column=0, sticky="ew", pady=(0, 12))
+        for column in range(4):
+            summary.columnconfigure(column, weight=1)
+        self.selected_count_var = tk.StringVar()
+        self.selected_size_var = tk.StringVar()
+        self.selected_files_var = tk.StringVar()
+        self.selected_protected_var = tk.StringVar()
+        self._summary_value(summary, 0, self.selected_count_var, "Selected caches")
+        self._summary_value(summary, 1, self.selected_size_var, "Data to clear")
+        self._summary_value(summary, 2, self.selected_files_var, "Files")
+        self._summary_value(summary, 3, self.selected_protected_var, "Protected items")
+
+        filters = ttk.Frame(shell)
+        filters.grid(row=3, column=0, sticky="ew", pady=(0, 10))
+        filters.columnconfigure(6, weight=1)
+        ttk.Label(filters, text="Clean:").grid(row=0, column=0, sticky="w", padx=(0, 6))
+
+        self.simulator_filter = tk.StringVar(value="All simulators")
+        simulator_values = ("All simulators",) + tuple(sorted({item.entry.simulator for item in plan.items}))
+        simulator_box = ttk.Combobox(
+            filters, textvariable=self.simulator_filter, values=simulator_values, state="readonly", width=17
+        )
+        simulator_box.grid(row=0, column=1, sticky="w", padx=(0, 10))
+
+        self.channel_filter = tk.StringVar(value="All channels")
+        channel_values = ("All channels",) + tuple(sorted({item.entry.channel for item in plan.items}))
+        channel_box = ttk.Combobox(
+            filters, textvariable=self.channel_filter, values=channel_values, state="readonly", width=20
+        )
+        channel_box.grid(row=0, column=2, sticky="w", padx=(0, 10))
+
+        self.data_filter = tk.StringVar(value="All data sizes")
+        data_box = ttk.Combobox(
+            filters,
+            textvariable=self.data_filter,
+            values=("All data sizes", "Non-zero data", "Zero data"),
+            state="readonly",
+            width=16,
+        )
+        data_box.grid(row=0, column=3, sticky="w")
+        ttk.Label(filters, text="Filters define the cleanup selection.", style="Muted.TLabel").grid(
+            row=0, column=6, sticky="e"
+        )
+        for box in (simulator_box, channel_box, data_box):
+            box.bind("<<ComboboxSelected>>", self._apply_filters)
+
+        list_frame = ttk.Frame(shell)
+        list_frame.grid(row=4, column=0, sticky="nsew")
+        list_frame.columnconfigure(0, weight=1)
+        list_frame.rowconfigure(0, weight=1)
+        columns = ("product", "simulator", "size", "files", "folders", "protected")
+        self.tree = ttk.Treeview(list_frame, columns=columns, show="headings", height=9)
+        self.headings = (
+            ("product", "Product", 195, True),
+            ("simulator", "Simulator", 110, False),
+            ("size", "Data", 90, False),
+            ("files", "Files", 65, False),
+            ("folders", "Folders", 70, False),
+            ("protected", "Protected", 80, False),
+        )
+        for column, heading, width, stretch in self.headings:
+            self.tree.heading(column, text=heading, command=lambda key=column: self._sort_by(key))
+            self.tree.column(column, width=width, minwidth=55, anchor="w", stretch=stretch)
+        self.tree.grid(row=0, column=0, sticky="nsew")
+        scrollbar = ttk.Scrollbar(list_frame, orient="vertical", command=self.tree.yview)
+        scrollbar.grid(row=0, column=1, sticky="ns")
+        self.tree.configure(yscrollcommand=scrollbar.set)
+        self.tree.bind("<Double-1>", self._open_details)
+        self.tree.bind("<Return>", self._open_details)
+        self.tree.bind("<<TreeviewSelect>>", self._update_details_button)
+
+        note = "This cannot be undone. MSFS will rebuild cleared cache data when needed."
+        if plan.warnings:
+            note = f"{len(plan.warnings)} item(s) could not be fully inspected and will be revalidated before deletion."
+        ttk.Label(shell, text=note, style="Warning.TLabel", wraplength=760).grid(
+            row=5, column=0, sticky="w", pady=(12, 12)
+        )
+
+        buttons = ttk.Frame(shell)
+        buttons.grid(row=6, column=0, sticky="e")
+        self.details_button = ttk.Button(buttons, text="View file details", command=self._open_details, state="disabled")
+        self.details_button.pack(side="left", padx=(0, 16))
+        ttk.Button(buttons, text="Cancel", command=self._cancel).pack(side="left", padx=(0, 8))
+        self.clear_button = ttk.Button(
+            buttons, text="Clear selected caches", style="Accent.TButton", command=self._confirm
+        )
+        self.clear_button.pack(side="left")
+
+        self.bind("<Escape>", lambda _event: self._cancel())
+        self.bind("<Return>", lambda _event: self._confirm())
+        self.grab_set()
+        self._refresh_table()
+        self.after_idle(self.clear_button.focus_set)
+
+    @staticmethod
+    def _summary_value(parent: ttk.Frame, column: int, value: tk.StringVar, label: str) -> None:
+        block = ttk.Frame(parent, style="Card.TFrame")
+        block.grid(row=0, column=column, sticky="w", padx=(0, 18))
+        ttk.Label(block, textvariable=value, style="SummaryValue.TLabel").pack(anchor="w")
+        ttk.Label(block, text=label, style="CardMuted.TLabel").pack(anchor="w")
+
+    def _apply_filters(self, _event: tk.Event | None = None) -> None:
+        """Make the visible filtered rows the authoritative cleanup selection."""
+
+        simulator = self.simulator_filter.get()
+        channel = self.channel_filter.get()
+        data_scope = self.data_filter.get()
+        self.selected_items = tuple(
+            item
+            for item in self.plan.items
+            if (simulator == "All simulators" or item.entry.simulator == simulator)
+            and (channel == "All channels" or item.entry.channel == channel)
+            and (data_scope == "All data sizes" or (data_scope == "Non-zero data") == (item.byte_count > 0))
+        )
+        self._refresh_table()
+
+    def _sort_by(self, column: str) -> None:
+        """Sort the selected plan rows by a clicked column heading."""
+
+        if self.sort_column == column:
+            self.sort_reverse = not self.sort_reverse
+        else:
+            self.sort_column = column
+            self.sort_reverse = False
+        self._refresh_table()
+
+    def _update_details_button(self, _event: tk.Event | None = None) -> None:
+        self.details_button.configure(state="normal" if self.tree.selection() else "disabled")
+
+    def _open_details(self, event: tk.Event | None = None) -> None:
+        """Open on-demand file details for the selected cleanup row."""
+
+        if event is not None and getattr(event, "num", None) == 1:
+            row_id = self.tree.identify_row(event.y)
+            if row_id:
+                self.tree.selection_set(row_id)
+        selection = self.tree.selection()
+        if not selection:
+            return
+        item = self.row_items.get(selection[0])
+        if item is not None:
+            CacheDetailsDialog(self, item.entry)
+
+    def _refresh_table(self) -> None:
+        """Render the filtered selection, ordering, totals, and heading indicator."""
+
+        key_functions = {
+            "product": lambda item: item.entry.product_name.casefold(),
+            "simulator": lambda item: item.entry.simulator.casefold(),
+            "size": lambda item: item.byte_count,
+            "files": lambda item: item.file_count,
+            "folders": lambda item: item.directory_count,
+            "protected": lambda item: item.preserved_count,
+        }
+        ordered = sorted(self.selected_items, key=key_functions[self.sort_column], reverse=self.sort_reverse)
+        self.row_items = {}
+        for row in self.tree.get_children():
+            self.tree.delete(row)
+        for item in ordered:
+            row_id = self.tree.insert(
+                "",
+                "end",
+                values=(
+                    item.entry.product_name,
+                    item.entry.simulator,
+                    format_bytes(item.byte_count),
+                    f"{item.file_count:,}",
+                    f"{item.directory_count:,}",
+                    f"{item.preserved_count:,}",
+                ),
+            )
+            self.row_items[row_id] = item
+
+        for column, heading, _width, _stretch in self.headings:
+            indicator = " ▲" if column == self.sort_column and not self.sort_reverse else " ▼"
+            self.tree.heading(column, text=heading + indicator if column == self.sort_column else heading)
+
+        self.selected_count_var.set(f"{len(self.selected_items)} / {len(self.plan.items)}")
+        self.selected_size_var.set(format_bytes(sum(item.byte_count for item in self.selected_items)))
+        self.selected_files_var.set(f"{sum(item.file_count for item in self.selected_items):,}")
+        self.selected_protected_var.set(f"{sum(item.preserved_count for item in self.selected_items):,}")
+        self.clear_button.configure(state="normal" if self.selected_items else "disabled")
+        self._update_details_button()
+
+    def _confirm(self) -> None:
+        if not self.selected_items:
+            return
+        self.confirmed = True
+        self.destroy()
+
+    def _cancel(self) -> None:
+        self.destroy()
+
+
 class WasmCleanerApp(tk.Tk):
     """Main Tkinter application."""
 
@@ -59,6 +404,8 @@ class WasmCleanerApp(tk.Tk):
         self.geometry("1100x720")
         self.minsize(900, 560)
 
+        self._configure_styles()
+
         self.result_queue: queue.Queue[tuple[str, object]] = queue.Queue()
         self.entries: tuple[CacheEntry, ...] = ()
         self.entry_vars: dict[CacheEntry, tk.BooleanVar] = {}
@@ -67,6 +414,18 @@ class WasmCleanerApp(tk.Tk):
         self._build_ui()
         self.after(100, self._poll_queue)
         self.after(250, self.start_scan)
+
+    def _configure_styles(self) -> None:
+        """Apply a restrained Windows-friendly visual hierarchy."""
+
+        style = ttk.Style(self)
+        style.configure("DialogTitle.TLabel", font=("Segoe UI", 16, "bold"))
+        style.configure("Muted.TLabel", foreground="#5d6470")
+        style.configure("Warning.TLabel", foreground="#8a4b08")
+        style.configure("Card.TFrame", background="#f2f5f8")
+        style.configure("SummaryValue.TLabel", background="#f2f5f8", font=("Segoe UI", 13, "bold"))
+        style.configure("CardMuted.TLabel", background="#f2f5f8", foreground="#5d6470")
+        style.configure("Accent.TButton", font=("Segoe UI", 9, "bold"))
 
     def _build_ui(self) -> None:
         """Construct the full user interface."""
@@ -194,13 +553,39 @@ class WasmCleanerApp(tk.Tk):
             messagebox.showinfo("No Selection", "Select one or more WASM cache entries first.")
             return
 
-        plan = describe_clean_plan(selected)
-        if not messagebox.askyesno("Confirm WASM Cache Cleanup", plan, icon="warning"):
+        self._set_busy(True, "Calculating cleanup size and contents...")
+        thread = threading.Thread(target=self._plan_worker, args=(selected,), daemon=True)
+        thread.start()
+
+    def _plan_worker(self, selected: tuple[CacheEntry, ...]) -> None:
+        """Build the read-only cleanup preview outside the UI thread."""
+
+        try:
+            self.result_queue.put(("clean_plan", build_clean_plan(selected)))
+        except Exception as exc:
+            self.result_queue.put(("error", f"Could not prepare cleanup preview: {exc}"))
+
+    def _show_clean_plan(self, plan: CleanPlan) -> None:
+        """Show the detailed plan and start cleanup only after confirmation."""
+
+        self._set_busy(False, f"Reviewed {len(plan.items)} selected cache entries.")
+        dialog = CleanupConfirmationDialog(self, plan)
+        self.wait_window(dialog)
+        if not dialog.confirmed:
             self._append_log("Cleanup cancelled by user.")
+            self._update_selected_status()
             return
 
+        selected = tuple(item.entry for item in dialog.selected_items)
+        selected_set = set(selected)
+        for entry, variable in self.entry_vars.items():
+            variable.set(entry in selected_set)
         self._set_busy(True, f"Clearing {len(selected)} selected cache entr{'y' if len(selected) == 1 else 'ies'}...")
-        self._append_log(f"Cleanup started for {len(selected)} selected entr{'y' if len(selected) == 1 else 'ies'}.")
+        self._append_log(
+            f"Cleanup started: {len(selected)} cache entr{'y' if len(selected) == 1 else 'ies'}, "
+            f"{sum(item.file_count for item in dialog.selected_items):,} files, "
+            f"{format_bytes(sum(item.byte_count for item in dialog.selected_items))} estimated."
+        )
         thread = threading.Thread(target=self._clean_worker, args=(selected,), daemon=True)
         thread.start()
 
@@ -226,6 +611,8 @@ class WasmCleanerApp(tk.Tk):
 
             if kind == "scan_result":
                 self._handle_scan_result(payload)  # type: ignore[arg-type]
+            elif kind == "clean_plan":
+                self._show_clean_plan(payload)  # type: ignore[arg-type]
             elif kind == "clean_result":
                 self._handle_clean_result(payload)  # type: ignore[arg-type]
             elif kind == "error":
@@ -334,6 +721,8 @@ class WasmCleanerApp(tk.Tk):
         state = "disabled" if busy else "normal"
         for button in (self.refresh_button, self.select_all_button, self.select_none_button, self.clear_button):
             button.configure(state=state)
+        if not busy and not any(var.get() for var in self.entry_vars.values()):
+            self.clear_button.configure(state="disabled")
 
     def _update_selected_status(self) -> None:
         """Refresh the status bar with the current selection count."""
@@ -343,8 +732,10 @@ class WasmCleanerApp(tk.Tk):
             return
         if self.entries:
             self.status_var.set(f"{selected_count} of {len(self.entries)} entries selected.")
+            self.clear_button.configure(state="normal" if selected_count else "disabled")
         else:
             self.status_var.set("No eligible WASM cache entries found.")
+            self.clear_button.configure(state="disabled")
 
 
 def main() -> None:

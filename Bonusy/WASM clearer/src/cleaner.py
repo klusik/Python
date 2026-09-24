@@ -1,11 +1,9 @@
 """Validated WASM cache deletion logic."""
 
-from __future__ import annotations
-
 import os
 from pathlib import Path
 
-from .models import CacheEntry, CleanResult
+from .models import CacheEntry, CacheEntryDetails, CacheFileDetail, CleanPlan, CleanPlanItem, CleanResult
 from .path_utils import canonical_path, has_reparse_point, is_relative_to, safe_iterdir
 
 PROTECTED_CHILD_NAMES = {
@@ -23,6 +21,7 @@ PROTECTED_CHILD_NAMES = {
     "log",
     "logs",
 }
+MAX_DETAIL_ROWS = 10_000
 
 
 def clean_entry(entry: CacheEntry) -> CleanResult:
@@ -51,20 +50,150 @@ def clean_entry(entry: CacheEntry) -> CleanResult:
     )
 
 
-def describe_clean_plan(entries: tuple[CacheEntry, ...]) -> str:
-    """Return a human-readable cleanup summary for confirmation dialogs."""
+def build_clean_plan(entries: tuple[CacheEntry, ...]) -> CleanPlan:
+    """Inspect selected entries without changing them and return cleanup totals."""
 
-    lines = [
-        "The following selected WASM cache entries will be cleared.",
-        "",
-        "Likely settings/state folders are preserved: "
-        + ", ".join(sorted(PROTECTED_CHILD_NAMES)),
-        "",
-    ]
+    items: list[CleanPlanItem] = []
+    all_warnings: list[str] = []
     for entry in entries:
-        lines.append(f"- {entry.display_name}")
-        lines.append(f"  {entry.cache_path}")
-    return "\n".join(lines)
+        validation_errors = _validate_entry(entry)
+        if validation_errors:
+            all_warnings.extend(validation_errors)
+            items.append(CleanPlanItem(entry, 0, 0, 0, 0, len(validation_errors)))
+            continue
+
+        counters = {"files": 0, "directories": 0, "bytes": 0, "preserved": 0}
+        warnings: list[str] = []
+        target = canonical_path(entry.cache_path, strict=True)
+        for child in tuple(safe_iterdir(target)):
+            _inspect_path(child, target, counters, warnings)
+        all_warnings.extend(warnings)
+        items.append(
+            CleanPlanItem(
+                entry=entry,
+                file_count=counters["files"],
+                directory_count=counters["directories"],
+                byte_count=counters["bytes"],
+                preserved_count=counters["preserved"],
+                warning_count=len(warnings),
+            )
+        )
+    return CleanPlan(items=tuple(items), warnings=tuple(all_warnings))
+
+
+def inspect_entry_details(entry: CacheEntry) -> CacheEntryDetails:
+    """Return a bounded file listing using the cleanup policy without mutation."""
+
+    validation_errors = _validate_entry(entry)
+    if validation_errors:
+        return CacheEntryDetails(entry=entry, files=(), warnings=tuple(validation_errors))
+
+    target = canonical_path(entry.cache_path, strict=True)
+    details: list[CacheFileDetail] = []
+    warnings: list[str] = []
+    truncated = [False]
+    for child in tuple(safe_iterdir(target)):
+        _collect_path_details(child, target, details, warnings, truncated)
+        if truncated[0]:
+            break
+    return CacheEntryDetails(entry, tuple(details), tuple(warnings), truncated[0])
+
+
+def _collect_path_details(
+    path: Path,
+    selected_root: Path,
+    details: list[CacheFileDetail],
+    warnings: list[str],
+    truncated: list[bool],
+) -> None:
+    """Collect safe, display-only metadata up to the detail-row limit."""
+
+    if len(details) >= MAX_DETAIL_ROWS:
+        truncated[0] = True
+        return
+
+    relative_path = str(path.relative_to(selected_root))
+    if _should_preserve_child(path):
+        details.append(CacheFileDetail(relative_path, 0, _modified_time(path), "Protected folder", "Preserved"))
+        return
+    if has_reparse_point(path):
+        details.append(CacheFileDetail(relative_path, 0, _modified_time(path), "Reparse point", "Preserved"))
+        return
+    if not is_relative_to(path, selected_root):
+        warnings.append(f"Rejected path outside selected cache folder: {path}")
+        return
+
+    try:
+        if path.is_dir():
+            for child in tuple(path.iterdir()):
+                _collect_path_details(child, selected_root, details, warnings, truncated)
+                if truncated[0]:
+                    return
+            return
+
+        stat_result = path.stat()
+        details.append(
+            CacheFileDetail(
+                relative_path=relative_path,
+                byte_count=stat_result.st_size,
+                modified_time=stat_result.st_mtime,
+                kind=_describe_file(path),
+                disposition="Will clear",
+            )
+        )
+    except OSError as exc:
+        warnings.append(f"Could not inspect {path}: {exc}")
+
+
+def _modified_time(path: Path) -> float | None:
+    """Return a modification timestamp without allowing metadata failure to abort inspection."""
+
+    try:
+        return path.stat().st_mtime
+    except OSError:
+        return None
+
+
+def _describe_file(path: Path) -> str:
+    """Describe a file using extension and a bounded WebAssembly signature check."""
+
+    try:
+        with path.open("rb") as file_handle:
+            header = file_handle.read(8)
+        if header[:4] == b"\x00asm":
+            version = int.from_bytes(header[4:8], "little") if len(header) == 8 else None
+            return f"WebAssembly module v{version}" if version is not None else "WebAssembly module"
+    except OSError:
+        pass
+
+    extension = path.suffix.lower().lstrip(".")
+    return f"{extension.upper()} file" if extension else "File"
+
+
+def _inspect_path(
+    path: Path,
+    selected_root: Path,
+    counters: dict[str, int],
+    warnings: list[str],
+) -> None:
+    """Collect the same path categories used by deletion, without mutation."""
+
+    if _should_preserve_child(path) or has_reparse_point(path):
+        counters["preserved"] += 1
+        return
+    if not is_relative_to(path, selected_root):
+        warnings.append(f"Rejected path outside selected cache folder: {path}")
+        return
+    try:
+        if path.is_dir():
+            counters["directories"] += 1
+            for child in tuple(path.iterdir()):
+                _inspect_path(child, selected_root, counters, warnings)
+        else:
+            counters["files"] += 1
+            counters["bytes"] += path.stat().st_size
+    except OSError as exc:
+        warnings.append(f"Could not inspect {path}: {exc}")
 
 
 def _validate_entry(entry: CacheEntry) -> list[str]:

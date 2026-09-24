@@ -1,7 +1,5 @@
 """Discover selectable product folders under approved WASM roots."""
 
-from __future__ import annotations
-
 import os
 from pathlib import Path
 

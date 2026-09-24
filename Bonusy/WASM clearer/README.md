@@ -10,9 +10,15 @@ Run with the system Python installation:
 python .\WASM_clear.pyw
 ```
 
+## Start Menu Shortcut
+
+Run [`install.bat`](/C:/GIT/Python/Bonusy/WASM%20clearer/install.bat) once to create a Start Menu folder named `WASM clearer` with a shortcut to the app. After that, Windows search should find it when you type `wasm`.
+
 The app scans known MSFS 2020 and MSFS 2024 user-data locations for Steam and Microsoft Store/Xbox installs. It also reads `UserCfg.opt` when available to show package roots.
 
-No item is selected by default. Select only the aircraft or products whose WASM cache should be cleared, then use **Clear Selected Cache**. A confirmation dialog is shown before anything is deleted.
+No item is selected by default. Select only the aircraft or products whose WASM cache should be cleared, then use **Clear Selected Cache**. Before anything is deleted, the app inspects the selection and shows estimated data size, file and folder counts, protected items, and per-product details.
+
+The project principles and module boundaries are documented in [AGENTS.md](AGENTS.md) and [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Safety Notes
 

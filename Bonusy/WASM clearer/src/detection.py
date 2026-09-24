@@ -1,7 +1,5 @@
 """Detect MSFS user-data roots, package roots, and likely WASM cache roots."""
 
-from __future__ import annotations
-
 import os
 import re
 from pathlib import Path
