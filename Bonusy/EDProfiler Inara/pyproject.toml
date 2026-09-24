@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inara-profile-downloader"
+version = "1.0.0"
+description = "A documented Tkinter client for downloading the profile data exposed by the Inara API."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Rudolf Klusal" }
+]
+dependencies = []
+
+[project.scripts]
+inara-profile-downloader = "inara_profile_downloader.gui:launch_application"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

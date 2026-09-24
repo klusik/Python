@@ -49,3 +49,6 @@ Thumbs.db
 
 *.layout
 /Bonusy/Pyladies/Soubory na procvičení/seznam.txt
+
+# Bak soubory z notepadu
+*.bak

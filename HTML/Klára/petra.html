@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head>
+    <!-- RUDOLF REVIEW
+    Proč je některá meta bez uzavíracího lomítka a některá s? :-D
+    Sjednoť to, panáčku :-D
+    Jinak je fuk, jestli uzavíráš takhle nepárový tagy nebo uzavíráš, ale jen
+    si prosím zvol jednu metodu a tu konzistentně dodržuj :-)
+    -->
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="petra.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Osobní portfolio spisovatelky Petry Kamlachové." />
+    <meta name="keywords" content="portfolio, spisovatelka, knihyPetry Kamlachová" />
+    <meta name="author" content="Petra Kamlachová" />
+    <link rel="shortcut icon" href="obrazky/pc_icon.ico" />
+    <title>Oficiální web spisovatelky Petry Kamlachové</title>
+</head>
+
+<body>
+    <header>
+      <!-- RUDOLF REVEIW
+      Takže k fomu formátování:
+
+      V html budeš mít prakticky jen tuto:
+      <div id="logo">
+          <img src="images2/logo_petra.png" />
+      </div>
+
+
+      A v CSS tam přidáš:
+      #logo img {
+          width: 75%;
+          height: 75%;
+      }
+
+      Princip (resp. význam) css je v tom, že oddělíš data od grafiky, vlastně.
+      Prostě -- v HTML bude všechno, texty a tak. Ale všechno formátování bude v CSS.
+
+      Důvod je ten, že když chceš vyrobit nový vzhled webu, prostě jen vyrobíš
+      jiný CSS a web ti zůstane nezměněnej 🙂 (A to chceš).
+      -->
+        <div><img src="images2/logo_petra.png" width="75% height=75%" />
+            </div>
+
+        <nav>
+            <ul>
+                <li class="aktivni"><a href="petra.html">Domů</a></li>
+                <!-- RUDOLF REVIEW
+                Pojmenování tříd a tak, doporučuju všechno, co není text na web,
+                ať je prostě v angličtině. Je to pro většinu programátorů
+                prostě přehlednější a tak nějak je ten kód pak přenositelnější.
+                -->
+                <li><a href="petra_omne.html">O&nbspmně</a></li>
+                <!-- RUDOLF REVIEW
+                Doporučuju psát &nbsp; takhle, aby bylo jasné, že je to nezávislý
+                unicode znak. Trošku to i zpřehlední, prostě tam vraž jen středník,
+                aby to vypadalo jako O&nbsp;mně :-) -->
+
+                <li><a href="vydaneknihy.html">Vydané&nbspknihy</a></li>
+                <li><a href="petra_novely.html">Novely</a></li>
+                <li><a href="petra-seriegrace.html">Série&nbspGrace</a></li>
+                <li><a href="dovednosti.html">Dovednosti</a></li>
+                <li><a href="reference.html">Reference</a></li>
+                <li><a class="kontakt-tlacitko" href="kontakt.html">Kontakt</a></li>
+
+
+            </ul>
+        </nav>
+
+    </header>
+
+    <article>
+        <header>
+            <h1>Petra Kamlachová</h1>
+
+        </header>
+
+         <section>
+            <h3 class="cojsem" alt="spisovatelka, redaktorka a korektorka">spisovatelka, redaktorka a korektorka</h3>
+
+           <img src="images2/fotopetra3.jpg" class="petraf2" alt="Petra Kamlachová" width="20%" height="20%" />
+           <!-- RUDOLF REVIEW
+           Tady to stejný, jo, jak v logu -- prostě narvi to formátování nějakým obdobným způsobem do CSS souboru -->
+                </p>
+            <p>Knihy jsou můj život. Doslova. Od mala mi maminka četla všemožné příběhy a nejen dětské knížky, ale i <em>Staré řecké báje a pověsti, Tarzana</em> nebo i <em>Conana</em>, co na tom, že jsem byla dítě předškolního věku.</p>
+
+            <p>Ještě než jsem se sama naučila číst, zamilovala jsem si poezii. Hlavně <em>Kytici</em> Karla Jaromíra Erbena, která je mi dodnes obrovskou inspirací v mé vlastní tvorbě. Básničky jsem začala skládat již v sedmi letech a na prvním románu jsem začala pracovat v deseti. Jmenoval se <strong><em>Devět kleteb</em></strong> a pojednával o skupině egyptologů, kteří v Egyptě hledají hrobku královny Hatšepsut. Tato kniha byla, přiznávám, silně inspirována knihou <em>Sedm démonů</em> od Barbary Woodové, již jsem tehdy četla. Samotný příběh byl ale můj, ani v tak útlém věku jsem si nedovolila plagiátorství.</p>
+
+            <p>Následovaly další literární pokusy a snaha něco vydat, což se mi konečně podařilo a mohu se tak už oficiálně považovat za spisovatelku.</p>
+
+            <p>Celý můj život se vlastně točí kolem literatury, protože se profesně věnuji redakcím a korekturám knih pro různá nakladatelství, též článků a studentských prací. Ráda pomáhám začínajícím autorům a do budoucna plánuji vlastní kurz a příručku tvůrčího psaní, protože z pohledu redaktora se často setkávám s těmi samými chybami, jaké autoři dělají a o kterých jim většinou nikdo neřekl. Rovněž nabízím konzultace textů, které zhodnotím po stránce obsahové i jazykové a následně s autorem proberu jeho potenciál, poradím, co vylepšit, a případně mu mohu doporučit i vhodného nakladatele. A také píši recenze pro Knižní klub.</p>
+
+            </p>Tuto stránku věnuji svým knižním projektům, které se doufám časem objeví na pultech knihkupectví. A samozřejmě i svým dalším aktivitám...
+            <!-- RUDOLF REVIEW
+            Korektorské okénko -- výpustky je fajn používat tam, co se něco vypouští a ne, když autor neví, jak ukončit větu :-D -->
+            <div class="cistic"></div> <!-- RUDOLF REVIEW: Prosím fakt o anglický a POPISNÝ názvy, tady nevím, jestli se dozvím, jak vyčistit záchod :-D -->
+
+            <p class="tlacitko-odstavec">
+                <a href="petra_dovednosti.html" class="reference-tlacitko">Co vše dělám</a>
+            </p>
+        </section>
+    </article>
+    <footer>
+        Vytořila &copy;KN 2024 pro <a href="file:///C:/Users/Mamka/OneDrive/druhy_web/petra.html">Petra Kamlachová</a>
+        <!-- RUDOLF REVIEW: Já na svém počítači ale nemám c:/Users/Mamka :-D -->
+    </footer>
+</body>
+</html>

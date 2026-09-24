@@ -1,0 +1,303 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 3001 >>
+stream
+BT /F1 22 Tf 1 0 0 1 50.00 748.00 Tm (Collatz Optimization Benchmark Report) Tj ET
+BT /F1 12 Tf 1 0 0 1 50.00 722.00 Tm (Project: 015 -- Collatz) Tj ET
+BT /F1 12 Tf 1 0 0 1 50.00 706.00 Tm (Benchmark date: 2026-04-20) Tj ET
+BT /F1 16 Tf 1 0 0 1 50.00 682.00 Tm (Methodology) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 660.00 Tm (Compared original legacy implementation against the optimized implementation.) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 644.00 Tm (Validated identical sequence output for n=5, 10, and 25 before measuring.) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 628.00 Tm (Measured with time.perf_counter and tracemalloc using 5 runs per input size.) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 612.00 Tm (Input sizes: 100, 1000, 5000, 10000.) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 596.00 Tm (Scenarios: generation only, and end-to-end generation plus output file writing.) Tj ET
+BT /F1 16 Tf 1 0 0 1 50.00 560.00 Tm (Top-line Findings) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 538.00 Tm (Generation-only average speedup: 4.84x.) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 522.00 Tm (Generation-only average memory reduction factor: 1.37x.) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 506.00 Tm (End-to-end average speedup: 1.75x.) Tj ET
+BT /F1 11 Tf 1 0 0 1 60.00 490.00 Tm (End-to-end average memory reduction factor: 2.33x.) Tj ET
+BT /F1 14 Tf 1 0 0 1 50.00 498.00 Tm (Generation Runtime by Input Size \(seconds\)) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+50.00 250.00 510.00 220.00 re S
+100.00 285.00 m 100.00 450.00 l S
+100.00 285.00 m 540.00 285.00 l S
+BT /F1 9 Tf 1 0 0 1 115.80 262.00 Tm (100) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+119.80 285.00 30.80 0.52 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+158.60 285.00 30.80 0.18 re B
+BT /F1 9 Tf 1 0 0 1 225.80 262.00 Tm (1000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+229.80 285.00 30.80 10.53 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+268.60 285.00 30.80 2.36 re B
+BT /F1 9 Tf 1 0 0 1 335.80 262.00 Tm (5000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+339.80 285.00 30.80 67.14 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+378.60 285.00 30.80 11.55 re B
+BT /F1 9 Tf 1 0 0 1 445.80 262.00 Tm (10000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+449.80 285.00 30.80 155.00 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+488.60 285.00 30.80 25.08 re B
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+415.00 452.00 10.00 10.00 re B
+BT /F1 9 Tf 1 0 0 1 430.00 450.00 Tm (Legacy) Tj ET
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+488.00 452.00 10.00 10.00 re B
+BT /F1 9 Tf 1 0 0 1 503.00 450.00 Tm (Optimized) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+96.00 285.00 m 100.00 285.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 282.00 Tm (0.000) Tj ET
+96.00 326.25 m 100.00 326.25 l S
+BT /F1 8 Tf 1 0 0 1 56.00 323.25 Tm (0.050) Tj ET
+96.00 367.50 m 100.00 367.50 l S
+BT /F1 8 Tf 1 0 0 1 56.00 364.50 Tm (0.101) Tj ET
+96.00 408.75 m 100.00 408.75 l S
+BT /F1 8 Tf 1 0 0 1 56.00 405.75 Tm (0.151) Tj ET
+96.00 450.00 m 100.00 450.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 447.00 Tm (0.202) Tj ET
+
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 2 0 R >>
+endobj
+4 0 obj
+<< /Length 5030 >>
+stream
+BT /F1 14 Tf 1 0 0 1 50.00 738.00 Tm (End-to-End Runtime by Input Size \(seconds\)) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+50.00 500.00 510.00 210.00 re S
+100.00 535.00 m 100.00 690.00 l S
+100.00 535.00 m 540.00 535.00 l S
+BT /F1 9 Tf 1 0 0 1 115.80 512.00 Tm (100) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+119.80 535.00 30.80 0.65 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+158.60 535.00 30.80 0.46 re B
+BT /F1 9 Tf 1 0 0 1 225.80 512.00 Tm (1000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+229.80 535.00 30.80 10.01 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+268.60 535.00 30.80 5.72 re B
+BT /F1 9 Tf 1 0 0 1 335.80 512.00 Tm (5000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+339.80 535.00 30.80 65.58 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+378.60 535.00 30.80 34.66 re B
+BT /F1 9 Tf 1 0 0 1 445.80 512.00 Tm (10000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+449.80 535.00 30.80 145.00 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+488.60 535.00 30.80 74.33 re B
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+415.00 692.00 10.00 10.00 re B
+BT /F1 9 Tf 1 0 0 1 430.00 690.00 Tm (Legacy) Tj ET
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+488.00 692.00 10.00 10.00 re B
+BT /F1 9 Tf 1 0 0 1 503.00 690.00 Tm (Optimized) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+96.00 535.00 m 100.00 535.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 532.00 Tm (0.000) Tj ET
+96.00 573.75 m 100.00 573.75 l S
+BT /F1 8 Tf 1 0 0 1 56.00 570.75 Tm (0.098) Tj ET
+96.00 612.50 m 100.00 612.50 l S
+BT /F1 8 Tf 1 0 0 1 56.00 609.50 Tm (0.195) Tj ET
+96.00 651.25 m 100.00 651.25 l S
+BT /F1 8 Tf 1 0 0 1 56.00 648.25 Tm (0.293) Tj ET
+96.00 690.00 m 100.00 690.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 687.00 Tm (0.391) Tj ET
+BT /F1 14 Tf 1 0 0 1 50.00 458.00 Tm (End-to-End Speedup \(legacy / optimized\)) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+50.00 250.00 510.00 180.00 re S
+100.00 285.00 m 100.00 410.00 l S
+100.00 285.00 m 540.00 285.00 l S
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+153.00 365.07 4.00 4.00 re B
+BT /F1 9 Tf 1 0 0 1 141.00 262.00 Tm (100) Tj ET
+BT /F1 8 Tf 1 0 0 1 145.00 375.07 Tm (1.39x) Tj ET
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+155.00 367.07 m 265.00 388.13 l S
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+263.00 386.13 4.00 4.00 re B
+BT /F1 9 Tf 1 0 0 1 251.00 262.00 Tm (1000) Tj ET
+BT /F1 8 Tf 1 0 0 1 255.00 396.13 Tm (1.75x) Tj ET
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+265.00 388.13 m 375.00 396.54 l S
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+373.00 394.54 4.00 4.00 re B
+BT /F1 9 Tf 1 0 0 1 361.00 262.00 Tm (5000) Tj ET
+BT /F1 8 Tf 1 0 0 1 365.00 404.54 Tm (1.89x) Tj ET
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+375.00 396.54 m 485.00 400.00 l S
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+483.00 398.00 4.00 4.00 re B
+BT /F1 9 Tf 1 0 0 1 471.00 262.00 Tm (10000) Tj ET
+BT /F1 8 Tf 1 0 0 1 475.00 408.00 Tm (1.95x) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+96.00 285.00 m 100.00 285.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 282.00 Tm (0.00x) Tj ET
+96.00 316.25 m 100.00 316.25 l S
+BT /F1 8 Tf 1 0 0 1 56.00 313.25 Tm (0.49x) Tj ET
+96.00 347.50 m 100.00 347.50 l S
+BT /F1 8 Tf 1 0 0 1 56.00 344.50 Tm (0.98x) Tj ET
+96.00 378.75 m 100.00 378.75 l S
+BT /F1 8 Tf 1 0 0 1 56.00 375.75 Tm (1.46x) Tj ET
+96.00 410.00 m 100.00 410.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 407.00 Tm (1.95x) Tj ET
+BT /F1 14 Tf 1 0 0 1 50.00 228.00 Tm (Generation Peak Memory by Input Size \(MiB\)) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+50.00 20.00 510.00 180.00 re S
+100.00 55.00 m 100.00 180.00 l S
+100.00 55.00 m 540.00 55.00 l S
+BT /F1 9 Tf 1 0 0 1 115.80 32.00 Tm (100) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+119.80 55.00 30.80 0.32 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+158.60 55.00 30.80 0.32 re B
+BT /F1 9 Tf 1 0 0 1 225.80 32.00 Tm (1000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+229.80 55.00 30.80 7.17 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+268.60 55.00 30.80 5.32 re B
+BT /F1 9 Tf 1 0 0 1 335.80 32.00 Tm (5000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+339.80 55.00 30.80 51.06 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+378.60 55.00 30.80 32.96 re B
+BT /F1 9 Tf 1 0 0 1 445.80 32.00 Tm (10000) Tj ET
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+449.80 55.00 30.80 115.00 re B
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+488.60 55.00 30.80 71.17 re B
+0.770 0.310 0.240 rg 0.770 0.310 0.240 RG
+415.00 182.00 10.00 10.00 re B
+BT /F1 9 Tf 1 0 0 1 430.00 180.00 Tm (Legacy) Tj ET
+0.160 0.470 0.710 rg 0.160 0.470 0.710 RG
+488.00 182.00 10.00 10.00 re B
+BT /F1 9 Tf 1 0 0 1 503.00 180.00 Tm (Optimized) Tj ET
+0.200 0.200 0.200 rg 0.200 0.200 0.200 RG
+96.00 55.00 m 100.00 55.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 52.00 Tm (0.000) Tj ET
+96.00 86.25 m 100.00 86.25 l S
+BT /F1 8 Tf 1 0 0 1 56.00 83.25 Tm (6.147) Tj ET
+96.00 117.50 m 100.00 117.50 l S
+BT /F1 8 Tf 1 0 0 1 56.00 114.50 Tm (12.293) Tj ET
+96.00 148.75 m 100.00 148.75 l S
+BT /F1 8 Tf 1 0 0 1 56.00 145.75 Tm (18.440) Tj ET
+96.00 180.00 m 100.00 180.00 l S
+BT /F1 8 Tf 1 0 0 1 56.00 177.00 Tm (24.586) Tj ET
+
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 4136 >>
+stream
+BT /F1 18 Tf 1 0 0 1 50.00 748.00 Tm (Detailed Results) Tj ET
+BT /F1 9 Tf 1 0 0 1 50.00 722.00 Tm (Scenario) Tj ET
+BT /F1 9 Tf 1 0 0 1 150.00 722.00 Tm (n) Tj ET
+BT /F1 9 Tf 1 0 0 1 190.00 722.00 Tm (Legacy mean s) Tj ET
+BT /F1 9 Tf 1 0 0 1 290.00 722.00 Tm (Optimized mean s) Tj ET
+BT /F1 9 Tf 1 0 0 1 410.00 722.00 Tm (Speedup) Tj ET
+BT /F1 9 Tf 1 0 0 1 470.00 722.00 Tm (Legacy peak MiB) Tj ET
+BT /F1 9 Tf 1 0 0 1 555.00 722.00 Tm (Optimized peak MiB) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 708.00 Tm (generate) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 708.00 Tm (100) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 708.00 Tm (0.000683) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 708.00 Tm (0.000235) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 708.00 Tm (2.91x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 708.00 Tm (0.068) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 708.00 Tm (0.069) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 696.00 Tm (generate) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 696.00 Tm (1000) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 696.00 Tm (0.013714) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 696.00 Tm (0.003077) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 696.00 Tm (4.46x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 696.00 Tm (1.533) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 696.00 Tm (1.138) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 684.00 Tm (generate) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 684.00 Tm (5000) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 684.00 Tm (0.087446) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 684.00 Tm (0.015040) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 684.00 Tm (5.81x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 684.00 Tm (10.917) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 684.00 Tm (7.046) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 672.00 Tm (generate) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 672.00 Tm (10000) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 672.00 Tm (0.201872) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 672.00 Tm (0.032664) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 672.00 Tm (6.18x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 672.00 Tm (24.586) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 672.00 Tm (15.216) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 660.00 Tm (write) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 660.00 Tm (100) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 660.00 Tm (0.001740) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 660.00 Tm (0.001250) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 660.00 Tm (1.39x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 660.00 Tm (0.217) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 660.00 Tm (0.181) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 648.00 Tm (write) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 648.00 Tm (1000) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 648.00 Tm (0.026971) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 648.00 Tm (0.015418) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 648.00 Tm (1.75x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 648.00 Tm (1.681) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 648.00 Tm (0.761) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 636.00 Tm (write) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 636.00 Tm (5000) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 636.00 Tm (0.176785) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 636.00 Tm (0.093442) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 636.00 Tm (1.89x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 636.00 Tm (11.064) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 636.00 Tm (3.870) Tj ET
+BT /F1 8 Tf 1 0 0 1 50.00 624.00 Tm (write) Tj ET
+BT /F1 8 Tf 1 0 0 1 150.00 624.00 Tm (10000) Tj ET
+BT /F1 8 Tf 1 0 0 1 190.00 624.00 Tm (0.390872) Tj ET
+BT /F1 8 Tf 1 0 0 1 290.00 624.00 Tm (0.200378) Tj ET
+BT /F1 8 Tf 1 0 0 1 410.00 624.00 Tm (1.95x) Tj ET
+BT /F1 8 Tf 1 0 0 1 470.00 624.00 Tm (24.734) Tj ET
+BT /F1 8 Tf 1 0 0 1 555.00 624.00 Tm (8.151) Tj ET
+BT /F1 12 Tf 1 0 0 1 50.00 600.00 Tm (Interpretation) Tj ET
+BT /F1 10 Tf 1 0 0 1 50.00 584.00 Tm (The optimized version wins by removing the giant in-memory results list during normal writing,) Tj ET
+BT /F1 10 Tf 1 0 0 1 50.00 568.00 Tm (by caching previously discovered Collatz suffixes, and by using cheaper parity and division operations.) Tj ET
+BT /F1 10 Tf 1 0 0 1 50.00 552.00 Tm (Memory drops most sharply in the end-to-end path because output is streamed directly to disk.) Tj ET
+BT /F1 10 Tf 1 0 0 1 50.00 536.00 Tm (The original parity helper is misnamed, but its control flow still produces the expected operations.) Tj ET
+BT /F1 10 Tf 1 0 0 1 50.00 520.00 Tm (The optimized version preserves the original special-case output for the starting value 1.) Tj ET
+
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R] /Count 3 >>
+endobj
+9 0 obj
+<< /Type /Catalog /Pages 8 0 R >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000085 00000 n 
+0000003138 00000 n 
+0000003264 00000 n 
+0000008346 00000 n 
+0000008472 00000 n 
+0000012660 00000 n 
+0000012786 00000 n 
+0000012855 00000 n 
+trailer
+<< /Size 10 /Root 9 0 R >>
+startxref
+12904
+%%EOF
